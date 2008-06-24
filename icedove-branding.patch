@@ -26,6 +26,18 @@ diff -urN mozilla.orig/configure.in mozilla/configure.in
    MOZ_XUL_APP=1
    MOZ_THUNDERBIRD=1
    MOZ_MATHML=
+diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/profile/all-thunderbird.js
+--- mozilla.orig/mail/app/profile/all-thunderbird.js	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/app/profile/all-thunderbird.js	2008-06-24 13:09:21.000000000 +0200
+@@ -35,7 +35,7 @@
+  *
+  * ***** END LICENSE BLOCK ***** */
+ 
+-#expand pref("general.useragent.extra.thunderbird", "Thunderbird/__APP_VERSION__");
++#expand pref("general.useragent.extra.thunderbird", "Icedove/__APP_VERSION__");
+ 
+ #expand pref("general.useragent.locale", "__AB_CD__");
+ pref("general.skins.selectedSkin", "classic/1.0");
 diff -urN mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in mozilla/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in
 --- mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-06-23 14:04:11.000000000 +0200
 +++ mozilla/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-06-23 19:38:21.000000000 +0200
