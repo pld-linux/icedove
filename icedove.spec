@@ -93,7 +93,9 @@ URL:		http://enigmail.mozdev.org/
 Requires:	%{name} = %{thunderbird_ver}-%{release}
 
 %description addon-enigmail
-Enigmail is an extension to the Icedove mail client which allows users to access the authentication and encryption features provided by GnuPG.
+Enigmail is an extension to the Icedove mail client which allows users
+to access the authentication and encryption features provided by
+GnuPG.
 
 Main Features:
 - Encrypt/sign mail when sending, decrypt/authenticate received mail
@@ -104,8 +106,8 @@ Main Features:
 - OpenPGP key management interface
 
 %description addon-enigmail -l pl.UTF-8
-Enigmail to rozszerzenie klienta pocztowego Icedove
-pozwalające użytkownikom na dostęp do uwierzytelniania i szyfrowania
+Enigmail to rozszerzenie klienta pocztowego Icedove pozwalające
+użytkownikom na dostęp do uwierzytelniania i szyfrowania
 zapewnianego przez GnuPG.
 
 Główne możliwości:
