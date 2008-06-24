@@ -120,8 +120,7 @@ Główne możliwości:
 - interfejs do zarządzania kluczami OpenPGP
 
 %prep
-%setup -q -c
-tar xvfj %{SOURCE2}
+%setup -q -c -a2
 cd mozilla
 %{?with_enigmail:tar xvfz %{SOURCE1} -C mailnews/extensions}
 /bin/sh %{SOURCE3}
