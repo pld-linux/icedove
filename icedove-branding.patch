@@ -1,0 +1,204 @@
+diff -urN mozilla.orig/configure mozilla/configure
+--- mozilla.orig/configure	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/configure	2008-06-23 20:44:56.000000000 +0200
+@@ -13155,8 +13155,8 @@
+   ;;
+ 
+ mail)
+-  MOZ_APP_NAME=thunderbird
+-  MOZ_APP_DISPLAYNAME=Thunderbird
++  MOZ_APP_NAME=icedove
++  MOZ_APP_DISPLAYNAME=Icedove
+   MOZ_XUL_APP=1
+   MOZ_THUNDERBIRD=1
+   MOZ_MATHML=
+diff -urN mozilla.orig/configure.in mozilla/configure.in
+--- mozilla.orig/configure.in	2008-06-23 14:04:04.000000000 +0200
++++ mozilla/configure.in	2008-06-23 19:50:01.000000000 +0200
+@@ -4378,8 +4378,8 @@
+   ;;
+ 
+ mail)
+-  MOZ_APP_NAME=thunderbird
+-  MOZ_APP_DISPLAYNAME=Thunderbird
++  MOZ_APP_NAME=icedove
++  MOZ_APP_DISPLAYNAME=Icedove
+   MOZ_XUL_APP=1
+   MOZ_THUNDERBIRD=1
+   MOZ_MATHML=
+diff -urN mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in mozilla/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in
+--- mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-06-23 19:38:21.000000000 +0200
+@@ -20,7 +20,7 @@
+     </em:targetApplication>
+     
+     <!-- Front End MetaData -->
+-    <em:name>Thunderbird (default)</em:name>
++    <em:name>Icedove (default)</em:name>
+     <em:description>The default theme</em:description>
+ 
+     <!-- EXTENSION AUTHORS!
+diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content/credits.xhtml
+--- mozilla.orig/mail/base/content/credits.xhtml	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/base/content/credits.xhtml	2008-06-24 11:50:55.000000000 +0200
+@@ -216,7 +216,7 @@
+     </div>
+ 
+     <div id="creditsBox">
+-        <h2 class="title">&brandFullName;&trade;
++        <h2 class="title">&brandFullName;
+           <div class="motto">&brandMotto;</div>
+         </h2>
+ 
+@@ -348,19 +348,13 @@
+         <p id="gecko" class="center">&credit.poweredByGecko;</p>
+ 
+         <p class="footnote">
+-          &brandFullName;&trade; &license.part0; &copy;1998-2008 &license.part1;
++          &brandFullName; &license.part0; &copy;1998-2008 &license.part1;
+           <a href="" link="http://www.mozilla.org/credits/" onclick="visitLink(event); event.preventDefault();">&license.contrib;</a>,
+           &license.part2;
+           <a href="" onclick="openLicense(); event.preventDefault();">license</a>
+           &license.part3;</p>
+ 
+         <p class="footnote">
+-          Mozilla Thunderbird&trade; and the Thunderbird logo are trademarks of the Mozilla
+-          Foundation. You are not granted rights or licenses to the trademarks
+-          of the Mozilla Foundation or any party, including without limitation the
+-          Thunderbird name or logo.</p>
+-
+-        <p class="footnote">
+           U.S. GOVERNMENT END USERS. The Software is a &ldquo;commercial item,&rdquo;
+           as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
+           &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
+diff -urN mozilla.orig/mail/base/content/mailWindowOverlay.xul mozilla/mail/base/content/mailWindowOverlay.xul
+--- mozilla.orig/mail/base/content/mailWindowOverlay.xul	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/base/content/mailWindowOverlay.xul	2008-06-24 12:05:34.000000000 +0200
+@@ -1879,17 +1879,10 @@
+      <menupopup id="menu_HelpPopup" onpopupshowing="buildHelpMenu();">
+ #ifdef XP_MACOSX
+           <menuitem id="hintsAndTips" label="&hintsAndTips.label;" key="key_macHelp" oncommand="openRegionURL('mailnews.hints_and_tips.url');"/>
+-          <menuitem id="releaseNotes" accesskey="&releaseCmd.accesskey;" label="&releaseCmd.label;" oncommand="openFormattedRegionURL('app.releaseNotesURL');"/>
+ #else
+-          <menuitem id="releaseNotes" accesskey="&releaseCmd.accesskey;" label="&releaseCmd.label;" oncommand="openFormattedRegionURL('app.releaseNotesURL');"/>
+           <menuitem id="hintsAndTips" accesskey="&hintsAndTips.accesskey;" label="&hintsAndTips.label;" oncommand="openRegionURL('mailnews.hints_and_tips.url');"/>
+ #endif
+           <menuseparator id="menu_HelpAboutSeparator"/>
+-          <menuitem id="checkForUpdates" accesskey="&updateCmd.accesskey;" class="menuitem-iconic"
+-                    label="&updateCmd.label;" oncommand="checkForUpdates();"/>
+-#ifndef XP_MACOSX
+-          <menuseparator/>
+-#endif
+           <menuitem id="aboutName" accesskey="&aboutCmd.accesskey;"
+                     label="&aboutCmd.label;"
+ #ifdef XP_MACOSX
+diff -urN mozilla.orig/mail/base/content/start.xhtml mozilla/mail/base/content/start.xhtml
+--- mozilla.orig/mail/base/content/start.xhtml	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/base/content/start.xhtml	2008-06-23 19:57:54.000000000 +0200
+@@ -145,7 +145,6 @@
+ 
+ <h2>&startpage.moreInfo;</h2>
+ <p>&startpage.helpInfo; <a href="&startpage.helpURL;">&startpage.help;</a>.</p>
+-<p>&startpage.pageInfo; <a href="&startpage.pageURL;">&startpage.page;</a>.</p>
+ 
+ <!-- Localization-specific information, i.e. how to download a dictionary. -->
+ &startpage.extra;
+diff -urN mozilla.orig/mail/components/compose/content/messengercompose.xul mozilla/mail/components/compose/content/messengercompose.xul
+--- mozilla.orig/mail/components/compose/content/messengercompose.xul	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/components/compose/content/messengercompose.xul	2008-06-24 11:58:00.000000000 +0200
+@@ -542,9 +542,7 @@
+         <menupopup id="menu_HelpPopup">
+ #ifdef XP_MACOSX
+           <menuitem id="hintsAndTips" label="&hintsAndTips.label;" key="key_macHelp" oncommand="openRegionURL('mailnews.hints_and_tips.url');"/>
+-          <menuitem id="releaseNotes" accesskey="&releaseCmd.accesskey;" label="&releaseCmd.label;" oncommand="openFormattedRegionURL('app.releaseNotesURL');"/>
+ #else
+-          <menuitem id="releaseNotes" accesskey="&releaseCmd.accesskey;" label="&releaseCmd.label;" oncommand="openFormattedRegionURL('app.releaseNotesURL');"/>
+           <menuitem id="hintsAndTips" accesskey="&hintsAndTips.accesskey;" label="&hintsAndTips.label;" oncommand="openRegionURL('mailnews.hints_and_tips.url');"/>
+           <menuseparator id="menu_HelpAboutSeparator"/>
+ #endif
+diff -urN mozilla.orig/mail/components/preferences/advanced.xul mozilla/mail/components/preferences/advanced.xul
+--- mozilla.orig/mail/components/preferences/advanced.xul	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/components/preferences/advanced.xul	2008-06-23 19:29:27.000000000 +0200
+@@ -200,11 +200,6 @@
+         <tabpanel orient="vertical" align="start">
+           <label>&autoCheck.label;</label>
+           <vbox class="indent">
+-            <checkbox id="enableAppUpdate"
+-                      label="&enableAppUpdate.label;"
+-                      accesskey="&enableAppUpdate.accesskey;"
+-                      preference="app.update.enabled"
+-                      xhtml2:role="wairole:checkbox" aaa:describedby="updateInfo"/>
+             <checkbox id="enableAddonUpdate"
+                       label="&enableAddonsUpdate.label;"
+                       accesskey="&enableAddonsUpdate.accesskey;"
+diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2008-06-23 19:17:25.000000000 +0200
+@@ -2,6 +2,4 @@
+ <!ENTITY credits                "Credits">
+ <!ENTITY aboutLink              "&lt; About &brandFullName;">
+ <!ENTITY aboutVersion           "version">
+-<!ENTITY copyrightText          "&#169;1998-2008 Contributors. All Rights Reserved. Mozilla Thunderbird and the 
+-                                 Thunderbird logos are trademarks of the Mozilla Foundation.  All rights 
+-                                 reserved.">
++<!ENTITY copyrightText          "&#169;1998-2008 Contributors. All Rights Reserved.">
+diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2008-06-23 19:36:44.000000000 +0200
+@@ -1,5 +1,5 @@
+ <!ENTITY credit.title     "&brandFullName; Credits">
+-<!ENTITY brandMotto       "Thunderbirds Are Go!">
++<!ENTITY brandMotto       "Icedoves Are Free!">
+ <!ENTITY credit.leads     "Engineering Leads">
+ <!ENTITY credit.core      "Core Development Posse">
+ <!ENTITY credit.gecko     "Gecko Layout Engine">
+diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/start.dtd mozilla/mail/locales/en-US/chrome/messenger/start.dtd
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/start.dtd	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger/start.dtd	2008-06-23 19:46:25.000000000 +0200
+@@ -19,11 +19,11 @@
+ 
+ <!ENTITY startpage.moreInfo "More Information">
+ 
+-<!ENTITY startpage.help "Thunderbird Help">
++<!ENTITY startpage.help "Icedove Help">
+ <!ENTITY startpage.helpInfo "For frequently asked questions, tips and general help, visit">
+ <!ENTITY startpage.helpURL "http://www.mozilla.org/support/thunderbird/">
+ 
+-<!ENTITY startpage.page "Thunderbird Product Page">
++<!ENTITY startpage.page "Icedove Product Page">
+ <!ENTITY startpage.pageInfo "For product information, visit the">
+ <!ENTITY startpage.pageURL "http://www.mozilla.org/products/thunderbird/">
+ 
+diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties
+--- mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-06-23 19:52:09.000000000 +0200
+@@ -9,7 +9,7 @@
+ 
+ subscribe-OPMLImportTitle=Select OPML file to import
+ subscribe-OPMLExportTitle=Export feeds as an OPML file
+-subscribe-OPMLExportFileTitle=Thunderbird OPML Export
++subscribe-OPMLExportFileTitle=Icedove OPML Export
+ subscribe-OPMLExportFileName=MyThunderbirdFeeds.opml
+ #LOCALIZATION NOTE: %S is the name of the OPML file the user tried to import.
+ subscribe-errorInvalidOPMLFile=Either %S is not a valid OPML file or there was an error importing the file.
+diff -urN mozilla.orig/mail/locales/en-US/installer/installer.inc mozilla/mail/locales/en-US/installer/installer.inc
+--- mozilla.orig/mail/locales/en-US/installer/installer.inc	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/locales/en-US/installer/installer.inc	2008-06-23 19:47:15.000000000 +0200
+@@ -19,7 +19,7 @@
+ Type_Message0=Choose the type of Setup you prefer, then click Next.
+ 
+ Standard_Short=&Standard
+-Standard_Long=Thunderbird will be installed with the most common options.
++Standard_Long=Icedove will be installed with the most common options.
+ 
+ Custom_Short=&Custom
+ Custom_Long=You may choose individual options to be installed. Recommended for experienced users.
+diff -urN mozilla.orig/mail/locales/en-US/updater/updater.ini mozilla/mail/locales/en-US/updater/updater.ini
+--- mozilla.orig/mail/locales/en-US/updater/updater.ini	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/locales/en-US/updater/updater.ini	2008-06-23 19:47:27.000000000 +0200
+@@ -1,4 +1,4 @@
+ ; This file is in the UTF-8 encoding
+ [Strings]
+ Title=Software Update
+-Info=Thunderbird is installing your updates and will start in a few moments...
++Info=Icedove is installing your updates and will start in a few moments...
