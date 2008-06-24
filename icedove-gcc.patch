@@ -1,0 +1,22 @@
+--- mozilla/mailnews/mime/src/mimeeobj.h.old	2006-07-08 18:15:56.999551250 +0200
++++ mozilla/mailnews/mime/src/mimeeobj.h	2006-07-08 18:01:07.000000000 +0200
+@@ -40,6 +40,10 @@
+ 
+ #include "mimeleaf.h"
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif /* __cplusplus */
++
+ /* The MimeExternalObject class represents MIME parts which contain data
+    which cannot be displayed inline -- application/octet-stream and any
+    other type that is not otherwise specially handled.  (This is not to
+@@ -60,4 +64,8 @@
+   MimeLeaf leaf;
+ };
+ 
++#ifdef __cplusplus
++}
++#endif /* __cplusplus */
++
+ #endif /* _MIMEEOBJ_H_ */

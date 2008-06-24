@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Icedove
+Name[ca]=Client de correu Icedove
+Name[pl]=Icedove
+Comment=Email client based on Mozilla technology
+Comment[ca]=Llegiu i escriviu correu
+Comment[de]=Emails lesen und verfassen
+Comment[fr]=Lire et écrire votre mél
+Comment[pl]=Klient poczty oparty na technologii Mozilli
+Exec=icedove
+Icon=icedove
+Terminal=false
+Type=Application
+Categories=GTK;Network;Email;
+# vi: encoding=utf-8
