@@ -1,0 +1,26 @@
+--- mozilla.orig/mail/app/profile/all-thunderbird.js	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/app/profile/all-thunderbird.js	2008-06-24 13:22:48.000000000 +0200
+@@ -48,12 +48,12 @@
+ // App-specific update preferences
+ 
+ // Whether or not app updates are enabled
+-pref("app.update.enabled", true);               
++pref("app.update.enabled", false);               
+ 
+ // This preference turns on app.update.mode and allows automatic download and
+ // install to take place. We use a separate boolean toggle for this to make     
+ // the UI easier to construct.
+-pref("app.update.auto", true);
++pref("app.update.auto", false);
+ 
+ // Defines how the Application Update Service notifies the user about updates:
+ //
+@@ -376,7 +376,7 @@
+ pref("browser.downloadmanager.behavior", 1);
+ 
+ // analyze urls in mail messages for scams
+-pref("mail.phishing.detection.enabled", true);
++pref("mail.phishing.detection.enabled", false);
+ // If phishing detection is enabled, allow fine grained control
+ // of the local, static tests
+ pref("mail.phishing.detection.ipaddresses", true); 
