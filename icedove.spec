@@ -1,6 +1,7 @@
+#
 # TODO:
-# - CHECK all features of enigmail
-# - separate spec for enigmail
+#   - CHECK all features of enigmail
+#   - separate spec for enigmail
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -14,13 +15,12 @@
 %undefine	with_gnomevfs
 %endif
 %define		enigmail_ver		0.95.6
-%define		thunderbird_ver		2.0.0.14
 
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	%{thunderbird_ver}
-Release:	1
+Version:	2.0.0.14
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}-source.tar.bz2
@@ -91,7 +91,7 @@ Summary(pl.UTF-8):	Rozszerzenie do uwierzytelniania i szyfrowania zapewnianego p
 License:	MPL/LGPL
 Group:		Applications/Networking
 URL:		http://enigmail.mozdev.org/
-Requires:	%{name} = %{thunderbird_ver}-%{release}
+Requires:	%{name} = %{version}-%{release}
 
 %description addon-enigmail
 Enigmail is an extension to the Icedove mail client which allows users
