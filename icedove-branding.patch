@@ -226,3 +226,15 @@ diff -urN mozilla.orig/mail/locales/en-US/updater/updater.ini mozilla/mail/local
  Title=Software Update
 -Info=Thunderbird is installing your updates and will start in a few moments...
 +Info=Icedove is installing your updates and will start in a few moments...
+diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
+--- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2008-06-23 14:04:17.000000000 +0200
++++ mozilla/toolkit/xre/nsAppRunner.cpp	2008-06-26 09:57:12.000000000 +0200
+@@ -1121,7 +1121,7 @@
+ static void
+ DumpVersion()
+ {
+-  printf("%s %s %s, %s\n", gAppData->vendor ? gAppData->vendor : "", gAppData->name, gAppData->version, gAppData->copyright);
++  printf("%s %s, %s\n", gAppData->name, gAppData->version, gAppData->copyright);
+ }
+ 
+ #ifdef MOZ_ENABLE_XREMOTE
