@@ -3,6 +3,15 @@
 
 LIBDIR="@LIBDIR@/icedove"
 
+# copy profile from Thunderbird if its available and if no Icedove
+# profile exists
+if [ ! -d $HOME/.icedove ]; then
+	if [ -d $HOME/.thunderbird ]; then
+		echo "Copying profile from Thunderbird"
+		cp -rf $HOME/.thunderbird $HOME/.icedove
+	fi
+fi
+
 ICEDOVE="$LIBDIR/icedove"
 
 if [ "$1" == "-remote" ]; then
