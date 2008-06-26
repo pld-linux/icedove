@@ -195,16 +195,18 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/start.dtd mozilla/mai
  
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties
 --- mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-06-23 19:52:09.000000000 +0200
-@@ -9,7 +9,7 @@
++++ mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-06-26 11:57:36.000000000 +0200
+@@ -9,8 +9,8 @@
  
  subscribe-OPMLImportTitle=Select OPML file to import
  subscribe-OPMLExportTitle=Export feeds as an OPML file
 -subscribe-OPMLExportFileTitle=Thunderbird OPML Export
+-subscribe-OPMLExportFileName=MyThunderbirdFeeds.opml
 +subscribe-OPMLExportFileTitle=Icedove OPML Export
- subscribe-OPMLExportFileName=MyThunderbirdFeeds.opml
++subscribe-OPMLExportFileName=MyIcedoveFeeds.opml
  #LOCALIZATION NOTE: %S is the name of the OPML file the user tried to import.
  subscribe-errorInvalidOPMLFile=Either %S is not a valid OPML file or there was an error importing the file.
+ 
 diff -urN mozilla.orig/mail/locales/en-US/installer/installer.inc mozilla/mail/locales/en-US/installer/installer.inc
 --- mozilla.orig/mail/locales/en-US/installer/installer.inc	2008-06-23 14:04:11.000000000 +0200
 +++ mozilla/mail/locales/en-US/installer/installer.inc	2008-06-23 19:47:15.000000000 +0200
