@@ -19,12 +19,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	2.0.0.14
-Release:	3
+Version:	2.0.0.16
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}-source.tar.bz2
-# Source0-md5:	e304510d08f7e226bbfff8e7e549232f
+# Source0-md5:	591c9f80a2f6772c5acf8fb6128f40bd
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	cfbe6ff77f80a349b396829757ad952a
 Source2:	%{name}-branding.tar.bz2
