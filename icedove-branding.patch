@@ -98,7 +98,7 @@ diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content
 diff -urN mozilla.orig/mail/base/content/mailWindowOverlay.xul mozilla/mail/base/content/mailWindowOverlay.xul
 --- mozilla.orig/mail/base/content/mailWindowOverlay.xul	2008-06-23 14:04:11.000000000 +0200
 +++ mozilla/mail/base/content/mailWindowOverlay.xul	2008-06-24 12:05:34.000000000 +0200
-@@ -1879,17 +1879,10 @@
+@@ -1893,17 +1893,10 @@
       <menupopup id="menu_HelpPopup" onpopupshowing="buildHelpMenu();">
  #ifdef XP_MACOSX
            <menuitem id="hintsAndTips" label="&hintsAndTips.label;" key="key_macHelp" oncommand="openRegionURL('mailnews.hints_and_tips.url');"/>
@@ -111,7 +111,7 @@ diff -urN mozilla.orig/mail/base/content/mailWindowOverlay.xul mozilla/mail/base
 -          <menuitem id="checkForUpdates" accesskey="&updateCmd.accesskey;" class="menuitem-iconic"
 -                    label="&updateCmd.label;" oncommand="checkForUpdates();"/>
 -#ifndef XP_MACOSX
--          <menuseparator/>
+-          <menuseparator id="menu_HelpAfterUpdatesSeparator"/>
 -#endif
            <menuitem id="aboutName" accesskey="&aboutCmd.accesskey;"
                      label="&aboutCmd.label;"
