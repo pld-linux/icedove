@@ -1,6 +1,6 @@
 diff -urN mozilla.orig/configure mozilla/configure
---- mozilla.orig/configure	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/configure	2008-06-23 20:44:56.000000000 +0200
+--- mozilla.orig/configure	2008-07-29 13:28:47.000000000 +0200
++++ mozilla/configure	2008-07-29 13:34:31.000000000 +0200
 @@ -13155,8 +13155,8 @@
    ;;
  
@@ -13,8 +13,8 @@ diff -urN mozilla.orig/configure mozilla/configure
    MOZ_THUNDERBIRD=1
    MOZ_MATHML=
 diff -urN mozilla.orig/configure.in mozilla/configure.in
---- mozilla.orig/configure.in	2008-06-23 14:04:04.000000000 +0200
-+++ mozilla/configure.in	2008-06-23 19:50:01.000000000 +0200
+--- mozilla.orig/configure.in	2008-07-29 13:28:20.000000000 +0200
++++ mozilla/configure.in	2008-07-29 13:34:31.000000000 +0200
 @@ -4378,8 +4378,8 @@
    ;;
  
@@ -27,8 +27,8 @@ diff -urN mozilla.orig/configure.in mozilla/configure.in
    MOZ_THUNDERBIRD=1
    MOZ_MATHML=
 diff -urN mozilla.orig/mail/app/nsMailApp.cpp mozilla/mail/app/nsMailApp.cpp
---- mozilla.orig/mail/app/nsMailApp.cpp	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/app/nsMailApp.cpp	2008-06-25 23:00:43.000000000 +0200
+--- mozilla.orig/mail/app/nsMailApp.cpp	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/app/nsMailApp.cpp	2008-07-29 13:34:31.000000000 +0200
 @@ -48,7 +48,7 @@
    sizeof(nsXREAppData),
    nsnull,
@@ -39,8 +39,8 @@ diff -urN mozilla.orig/mail/app/nsMailApp.cpp mozilla/mail/app/nsMailApp.cpp
    NS_STRINGIFY(BUILD_ID),
    "{3550f703-e582-4d05-9a08-453d09bdfdc6}",
 diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/profile/all-thunderbird.js
---- mozilla.orig/mail/app/profile/all-thunderbird.js	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/app/profile/all-thunderbird.js	2008-06-25 23:09:51.000000000 +0200
+--- mozilla.orig/mail/app/profile/all-thunderbird.js	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/app/profile/all-thunderbird.js	2008-07-29 14:02:08.000000000 +0200
 @@ -35,7 +35,7 @@
   *
   * ***** END LICENSE BLOCK ***** */
@@ -50,9 +50,42 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
  
  #expand pref("general.useragent.locale", "__AB_CD__");
  pref("general.skins.selectedSkin", "classic/1.0");
+@@ -74,10 +74,10 @@
+ 
+ // URL user can browse to manually if for some reason all update installation
+ // attempts fail.  TODO: Change this URL
+-pref("app.update.url.manual", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/");
++pref("app.update.url.manual", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/");
+ // A default value for the "More information about this update" link
+ // supplied in the "An update is available" page of the update wizard. 
+-pref("app.update.url.details", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/releases/");
++pref("app.update.url.details", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/releases/");
+ // User-settable override to app.update.url for testing purposes.
+ //pref("app.update.url.override", "");
+ 
+@@ -102,7 +102,7 @@
+ pref("app.update.showInstalledUI", false);
+ 
+ // Release notes URL
+-pref("app.releaseNotesURL", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/%VERSION%/releasenotes/");
++pref("app.releaseNotesURL", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/%VERSION%/releasenotes/");
+ 
+ // Blocklist preferences
+ pref("extensions.blocklist.enabled", true);
+@@ -130,8 +130,8 @@
+ pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
+                                             // Themes every week
+ // Non-symmetric (not shared by extensions) extension-specific [update] preferences
+-pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/extensions/");
+-pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/themes/");
++pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/extensions/");
++pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/themes/");
+ pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
+ pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
+ 
 diff -urN mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in mozilla/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in
---- mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-06-23 19:38:21.000000000 +0200
+--- mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf.in	2008-07-29 13:34:31.000000000 +0200
 @@ -20,7 +20,7 @@
      </em:targetApplication>
      
@@ -63,8 +96,8 @@ diff -urN mozilla.orig/mail/app/profile/extensions/{972ce4c6-7e08-4474-a285-3208
  
      <!-- EXTENSION AUTHORS!
 diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content/credits.xhtml
---- mozilla.orig/mail/base/content/credits.xhtml	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/base/content/credits.xhtml	2008-06-24 11:50:55.000000000 +0200
+--- mozilla.orig/mail/base/content/credits.xhtml	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/base/content/credits.xhtml	2008-07-29 13:34:31.000000000 +0200
 @@ -216,7 +216,7 @@
      </div>
  
@@ -96,8 +129,8 @@ diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content
            as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
            &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
 diff -urN mozilla.orig/mail/base/content/mailWindowOverlay.xul mozilla/mail/base/content/mailWindowOverlay.xul
---- mozilla.orig/mail/base/content/mailWindowOverlay.xul	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/base/content/mailWindowOverlay.xul	2008-06-24 12:05:34.000000000 +0200
+--- mozilla.orig/mail/base/content/mailWindowOverlay.xul	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/base/content/mailWindowOverlay.xul	2008-07-29 13:34:31.000000000 +0200
 @@ -1893,17 +1893,10 @@
       <menupopup id="menu_HelpPopup" onpopupshowing="buildHelpMenu();">
  #ifdef XP_MACOSX
@@ -117,8 +150,8 @@ diff -urN mozilla.orig/mail/base/content/mailWindowOverlay.xul mozilla/mail/base
                      label="&aboutCmd.label;"
  #ifdef XP_MACOSX
 diff -urN mozilla.orig/mail/base/content/start.xhtml mozilla/mail/base/content/start.xhtml
---- mozilla.orig/mail/base/content/start.xhtml	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/base/content/start.xhtml	2008-06-23 19:57:54.000000000 +0200
+--- mozilla.orig/mail/base/content/start.xhtml	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/base/content/start.xhtml	2008-07-29 13:34:31.000000000 +0200
 @@ -145,7 +145,6 @@
  
  <h2>&startpage.moreInfo;</h2>
@@ -128,8 +161,8 @@ diff -urN mozilla.orig/mail/base/content/start.xhtml mozilla/mail/base/content/s
  <!-- Localization-specific information, i.e. how to download a dictionary. -->
  &startpage.extra;
 diff -urN mozilla.orig/mail/components/compose/content/messengercompose.xul mozilla/mail/components/compose/content/messengercompose.xul
---- mozilla.orig/mail/components/compose/content/messengercompose.xul	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/components/compose/content/messengercompose.xul	2008-06-24 11:58:00.000000000 +0200
+--- mozilla.orig/mail/components/compose/content/messengercompose.xul	2008-07-29 13:28:47.000000000 +0200
++++ mozilla/mail/components/compose/content/messengercompose.xul	2008-07-29 13:34:31.000000000 +0200
 @@ -542,9 +542,7 @@
          <menupopup id="menu_HelpPopup">
  #ifdef XP_MACOSX
@@ -141,8 +174,8 @@ diff -urN mozilla.orig/mail/components/compose/content/messengercompose.xul mozi
            <menuseparator id="menu_HelpAboutSeparator"/>
  #endif
 diff -urN mozilla.orig/mail/components/preferences/advanced.xul mozilla/mail/components/preferences/advanced.xul
---- mozilla.orig/mail/components/preferences/advanced.xul	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/components/preferences/advanced.xul	2008-06-23 19:29:27.000000000 +0200
+--- mozilla.orig/mail/components/preferences/advanced.xul	2008-07-29 13:28:47.000000000 +0200
++++ mozilla/mail/components/preferences/advanced.xul	2008-07-29 13:34:31.000000000 +0200
 @@ -200,11 +200,6 @@
          <tabpanel orient="vertical" align="start">
            <label>&autoCheck.label;</label>
@@ -156,8 +189,8 @@ diff -urN mozilla.orig/mail/components/preferences/advanced.xul mozilla/mail/com
                        label="&enableAddonsUpdate.label;"
                        accesskey="&enableAddonsUpdate.accesskey;"
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd
---- mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2008-06-23 19:17:25.000000000 +0200
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2008-07-29 13:34:31.000000000 +0200
 @@ -2,6 +2,4 @@
  <!ENTITY credits                "Credits">
  <!ENTITY aboutLink              "&lt; About &brandFullName;">
@@ -167,8 +200,8 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozil
 -                                 reserved.">
 +<!ENTITY copyrightText          "&#169;1998-2008 Contributors. All Rights Reserved.">
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
---- mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2008-06-23 19:36:44.000000000 +0200
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2008-07-29 13:34:31.000000000 +0200
 @@ -1,5 +1,5 @@
  <!ENTITY credit.title     "&brandFullName; Credits">
 -<!ENTITY brandMotto       "Thunderbirds Are Go!">
@@ -177,8 +210,8 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/m
  <!ENTITY credit.core      "Core Development Posse">
  <!ENTITY credit.gecko     "Gecko Layout Engine">
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/start.dtd mozilla/mail/locales/en-US/chrome/messenger/start.dtd
---- mozilla.orig/mail/locales/en-US/chrome/messenger/start.dtd	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/locales/en-US/chrome/messenger/start.dtd	2008-06-23 19:46:25.000000000 +0200
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/start.dtd	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger/start.dtd	2008-07-29 13:34:31.000000000 +0200
 @@ -19,11 +19,11 @@
  
  <!ENTITY startpage.moreInfo "More Information">
@@ -194,8 +227,8 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/start.dtd mozilla/mai
  <!ENTITY startpage.pageURL "http://www.mozilla.org/products/thunderbird/">
  
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties
---- mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-06-26 11:57:36.000000000 +0200
+--- mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger-newsblog/newsblog.properties	2008-07-29 13:34:31.000000000 +0200
 @@ -9,8 +9,8 @@
  
  subscribe-OPMLImportTitle=Select OPML file to import
@@ -208,8 +241,8 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger-newsblog/newsblog.pro
  subscribe-errorInvalidOPMLFile=Either %S is not a valid OPML file or there was an error importing the file.
  
 diff -urN mozilla.orig/mail/locales/en-US/installer/installer.inc mozilla/mail/locales/en-US/installer/installer.inc
---- mozilla.orig/mail/locales/en-US/installer/installer.inc	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/locales/en-US/installer/installer.inc	2008-06-23 19:47:15.000000000 +0200
+--- mozilla.orig/mail/locales/en-US/installer/installer.inc	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/locales/en-US/installer/installer.inc	2008-07-29 13:34:31.000000000 +0200
 @@ -19,7 +19,7 @@
  Type_Message0=Choose the type of Setup you prefer, then click Next.
  
@@ -220,17 +253,46 @@ diff -urN mozilla.orig/mail/locales/en-US/installer/installer.inc mozilla/mail/l
  Custom_Short=&Custom
  Custom_Long=You may choose individual options to be installed. Recommended for experienced users.
 diff -urN mozilla.orig/mail/locales/en-US/updater/updater.ini mozilla/mail/locales/en-US/updater/updater.ini
---- mozilla.orig/mail/locales/en-US/updater/updater.ini	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/locales/en-US/updater/updater.ini	2008-06-23 19:47:27.000000000 +0200
+--- mozilla.orig/mail/locales/en-US/updater/updater.ini	2008-07-29 13:28:46.000000000 +0200
++++ mozilla/mail/locales/en-US/updater/updater.ini	2008-07-29 13:34:32.000000000 +0200
 @@ -1,4 +1,4 @@
  ; This file is in the UTF-8 encoding
  [Strings]
  Title=Software Update
 -Info=Thunderbird is installing your updates and will start in a few moments...
 +Info=Icedove is installing your updates and will start in a few moments...
+diff -urN mozilla.orig/other-licenses/branding/thunderbird/thunderbird-branding.js mozilla/other-licenses/branding/thunderbird/thunderbird-branding.js
+--- mozilla.orig/other-licenses/branding/thunderbird/thunderbird-branding.js	2008-07-29 13:28:22.000000000 +0200
++++ mozilla/other-licenses/branding/thunderbird/thunderbird-branding.js	2008-07-29 14:02:15.000000000 +0200
+@@ -1,8 +1,8 @@
+ // Default start page
+-pref("mailnews.start_page.url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/%VERSION%/start/");
++pref("mailnews.start_page.url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/%VERSION%/start/");
+ 
+ // first launch welcome page
+-pref("mailnews.start_page.welcome_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/%VERSION%/start/");
++pref("mailnews.start_page.welcome_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/%VERSION%/start/");
+ 
+ // start page override to load after an update
+-pref("mailnews.start_page.override_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/%VERSION%/start/");
++pref("mailnews.start_page.override_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/%VERSION%/start/");
+diff -urN mozilla.orig/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties mozilla/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties
+--- mozilla.orig/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties	2008-07-29 13:29:02.000000000 +0200
++++ mozilla/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties	2008-07-29 14:01:58.000000000 +0200
+@@ -32,8 +32,8 @@
+ disableQueryMessage=Do you want to disable %S?
+ 
+ extensions.update.url=https://addons.mozilla.org/update/VersionCheck.php?reqVersion=%REQ_VERSION%&id=%ITEM_ID%&version=%ITEM_VERSION%&maxAppVersion=%ITEM_MAXAPPVERSION%&status=%ITEM_STATUS%&appID=%APP_ID%&appVersion=%APP_VERSION%&appOS=%APP_OS%&appABI=%APP_ABI%
+-extensions.getMoreExtensionsURL=http://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/extensions/
+-extensions.getMoreThemesURL=http://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/themes/
++extensions.getMoreExtensionsURL=http://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/extensions/
++extensions.getMoreThemesURL=http://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/themes/
+ 
+ themesTitle=Themes
+ extensionsTitle=Extensions
 diff -urN mozilla.orig/toolkit/xre/nsAppRunner.cpp mozilla/toolkit/xre/nsAppRunner.cpp
---- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2008-06-23 14:04:17.000000000 +0200
-+++ mozilla/toolkit/xre/nsAppRunner.cpp	2008-06-26 09:57:12.000000000 +0200
+--- mozilla.orig/toolkit/xre/nsAppRunner.cpp	2008-07-29 13:29:02.000000000 +0200
++++ mozilla/toolkit/xre/nsAppRunner.cpp	2008-07-29 13:34:32.000000000 +0200
 @@ -1121,7 +1121,7 @@
  static void
  DumpVersion()
