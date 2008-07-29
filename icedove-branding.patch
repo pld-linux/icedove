@@ -261,21 +261,6 @@ diff -urN mozilla.orig/mail/locales/en-US/updater/updater.ini mozilla/mail/local
  Title=Software Update
 -Info=Thunderbird is installing your updates and will start in a few moments...
 +Info=Icedove is installing your updates and will start in a few moments...
-diff -urN mozilla.orig/other-licenses/branding/thunderbird/thunderbird-branding.js mozilla/other-licenses/branding/thunderbird/thunderbird-branding.js
---- mozilla.orig/other-licenses/branding/thunderbird/thunderbird-branding.js	2008-07-29 13:28:22.000000000 +0200
-+++ mozilla/other-licenses/branding/thunderbird/thunderbird-branding.js	2008-07-29 14:02:15.000000000 +0200
-@@ -1,8 +1,8 @@
- // Default start page
--pref("mailnews.start_page.url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/%VERSION%/start/");
-+pref("mailnews.start_page.url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/%VERSION%/start/");
- 
- // first launch welcome page
--pref("mailnews.start_page.welcome_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/%VERSION%/start/");
-+pref("mailnews.start_page.welcome_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/%VERSION%/start/");
- 
- // start page override to load after an update
--pref("mailnews.start_page.override_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/%APP%/%VERSION%/start/");
-+pref("mailnews.start_page.override_url", "http://%LOCALE%.www.mozilla.com/%LOCALE%/thunderbird/%VERSION%/start/");
 diff -urN mozilla.orig/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties mozilla/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties
 --- mozilla.orig/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties	2008-07-29 13:29:02.000000000 +0200
 +++ mozilla/toolkit/locales/en-US/chrome/mozapps/extensions/extensions.properties	2008-07-29 14:01:58.000000000 +0200
