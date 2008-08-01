@@ -71,6 +71,8 @@ Obsoletes:	mozilla-thunderbird
 Obsoletes:	mozilla-thunderbird-dictionary-en-US
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		filterout_cpp		-D_FORTIFY_SOURCE=[0-9]+
+
 # iceweasel/icedove/iceape provide their own versions
 %define		_noautoreqdep		libgfxpsshar.so libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpcom_core.so libxpistub.so
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
