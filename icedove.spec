@@ -32,8 +32,7 @@ Source2:	%{name}-branding.tar.bz2
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
-Source6:	%{name}-ti.sh
-Source7:	%{name}-enigmail.manifest
+Source6:	%{name}-enigmail.manifest
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-lib_path.patch
 Patch2:		%{name}-enigmail-shared.patch
@@ -263,11 +262,7 @@ ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 
-%if "%{pld_release}" == "ti"
-%{__sed} -e 's,@LIBDIR@,%{_libdir},' %{SOURCE6} > $RPM_BUILD_ROOT%{_bindir}/icedove
-%else
 %{__sed} -e 's,@LIBDIR@,%{_libdir},' %{SOURCE5} > $RPM_BUILD_ROOT%{_bindir}/icedove
-%endif
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 
@@ -292,7 +287,7 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmime.jar
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig*
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt
-cp -f %{SOURCE7} $_enig_dir/chrome.manifest
+cp -f %{SOURCE6} $_enig_dir/chrome.manifest
 cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 %endif
 
