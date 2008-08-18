@@ -12,7 +12,38 @@ if [ ! -d $HOME/.icedove ]; then
 	fi
 fi
 
-ICEDOVE="$LIBDIR/icedove"
+MOZARGS=
+MOZLOCALE="$(/usr/bin/locale | grep "^LC_MESSAGES=" | \
+		sed -e "s|LC_MESSAGES=||g" -e "s|\"||g" )"
+for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
+	eval MOZLANG="$(echo $MOZLANG | sed -e "s|_\([^.]*\).*|-\1|g")"
+
+	if [ -f $LIBDIR/chrome/$MOZLANG.jar ]; then
+		MOZARGS="-UILocale $MOZLANG"
+		break
+	fi
+done
+
+if [ -z "$MOZARGS" ]; then
+	# try harder
+	for MOZLANG in $(echo $LANGUAGE | tr ":" " ") $MOZLOCALE; do
+		eval MOZLANG="$(echo $MOZLANG | sed -e "s|_.*||g")"
+
+		LANGFILE=$(echo ${MOZILLA_FIVE_HOME}/chrome/${MOZLANG}*.jar \
+				| sed 's/\s.*//g' )
+		if [ -f "$LANGFILE" ]; then
+			MOZLANG=$(basename "$LANGFILE" | sed 's/\.jar//')
+			MOZARGS="-UILocale $MOZLANG"
+			break
+		fi
+	done
+fi
+
+if [ -n "$MOZARGS" ]; then
+	ICEDOVE="$LIBDIR/icedove $MOZARGS"
+else
+	ICEDOVE="$LIBDIR/icedove"
+fi
 
 if [ "$1" == "-remote" ]; then
 	$ICEDOVE "$@"
