@@ -42,7 +42,7 @@ Patch5:		%{name}-install.patch
 Patch6:		%{name}-myspell.patch
 Patch7:		%{name}-regionNames.patch
 Patch8:		%{name}-prefs.patch
-URL:		http://www.mozilla.org/projects/thunderbird/
+URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 1:2.1.8
