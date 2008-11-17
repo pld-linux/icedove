@@ -43,6 +43,18 @@ Patch6:		%{name}-myspell.patch
 Patch7:		%{name}-regionNames.patch
 Patch8:		%{name}-prefs.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
+# Upgrade to 2.0.0.18:
+BuildRequires:	security(CVE-2008-4582)
+BuildRequires:	security(CVE-2008-5012)
+BuildRequires:	security(CVE-2008-5014)
+BuildRequires:	security(CVE-2008-5016)
+BuildRequires:	security(CVE-2008-5017)
+BuildRequires:	security(CVE-2008-5018)
+BuildRequires:	security(CVE-2008-5021)
+BuildRequires:	security(CVE-2008-5022)
+BuildRequires:	security(CVE-2008-5023)
+BuildRequires:	security(CVE-2008-5024)
+######
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 1:2.1.8
