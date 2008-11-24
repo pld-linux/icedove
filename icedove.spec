@@ -54,6 +54,7 @@ BuildRequires:	security(CVE-2008-5021)
 BuildRequires:	security(CVE-2008-5022)
 BuildRequires:	security(CVE-2008-5023)
 BuildRequires:	security(CVE-2008-5024)
+BuildRequires:	security(mfsa2008-59)
 ######
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
