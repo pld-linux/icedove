@@ -19,12 +19,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	2.0.0.17
+Version:	2.0.0.18
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}-source.tar.bz2
-# Source0-md5:	3adb8fabdc26a5859c55b9ce241edb3f
+# Source0-md5:	1d131408b2338132a154700cc92a1d58
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	bbee59bab58b97e33e85015a5ae5de7b
 Source2:	%{name}-branding.tar.bz2
@@ -43,19 +43,6 @@ Patch6:		%{name}-myspell.patch
 Patch7:		%{name}-regionNames.patch
 Patch8:		%{name}-prefs.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
-# Upgrade to 2.0.0.18:
-BuildRequires:	security(CVE-2008-4582)
-BuildRequires:	security(CVE-2008-5012)
-BuildRequires:	security(CVE-2008-5014)
-BuildRequires:	security(CVE-2008-5016)
-BuildRequires:	security(CVE-2008-5017)
-BuildRequires:	security(CVE-2008-5018)
-BuildRequires:	security(CVE-2008-5021)
-BuildRequires:	security(CVE-2008-5022)
-BuildRequires:	security(CVE-2008-5023)
-BuildRequires:	security(CVE-2008-5024)
-BuildRequires:	security(mfsa2008-59)
-######
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 1:2.1.8
