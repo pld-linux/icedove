@@ -1,0 +1,6 @@
+- up to 2.0.0.21
+- branding.patch updated
+- fixes: CVE-2009-0352, CVE-2009-0353, CVE-2009-0771, CVE-2009-0772,
+  CVE-2009-0773, CVE-2009-0774, CVE-2009-0775, CVE-2009-0776,
+  CVE-2009-0777
+- %files
