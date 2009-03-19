@@ -111,8 +111,8 @@ diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content
          <p id="gecko" class="center">&credit.poweredByGecko;</p>
  
          <p class="footnote">
--          &brandFullName;&trade; &license.part0; &copy;1998-2008 &license.part1;
-+          &brandFullName; &license.part0; &copy;1998-2008 &license.part1;
+-          &brandFullName;&trade; &license.part0; &copy;1998-2009 &license.part1;
++          &brandFullName; &license.part0; &copy;1998-2009 &license.part1;
            <a href="" link="http://www.mozilla.org/credits/" onclick="visitLink(event); event.preventDefault();">&license.contrib;</a>,
            &license.part2;
            <a href="" onclick="openLicense(); event.preventDefault();">license</a>
@@ -195,10 +195,10 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozil
  <!ENTITY credits                "Credits">
  <!ENTITY aboutLink              "&lt; About &brandFullName;">
  <!ENTITY aboutVersion           "version">
--<!ENTITY copyrightText          "&#169;1998-2008 Contributors. All Rights Reserved. Mozilla Thunderbird and the 
+-<!ENTITY copyrightText          "&#169;1998-2009 Contributors. All Rights Reserved. Mozilla Thunderbird and the 
 -                                 Thunderbird logos are trademarks of the Mozilla Foundation.  All rights 
 -                                 reserved.">
-+<!ENTITY copyrightText          "&#169;1998-2008 Contributors. All Rights Reserved.">
++<!ENTITY copyrightText          "&#169;1998-2009 Contributors. All Rights Reserved.">
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
 --- mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd	2008-07-29 13:28:46.000000000 +0200
 +++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2008-07-29 13:34:31.000000000 +0200
