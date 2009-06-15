@@ -1,8 +1,4 @@
 #
-# TODO:
-#   - CHECK all features of enigmail
-#   - separate spec for enigmail
-#
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
 %bcond_without	gnomeui		# disable gnomeui support
@@ -43,6 +39,20 @@ Patch6:		%{name}-myspell.patch
 Patch7:		%{name}-regionNames.patch
 Patch8:		%{name}-prefs.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
+# http://www.mozilla.org/security/announce/2009/mfsa2009-24.html
+# http://www.mozilla.org/security/announce/2009/mfsa2009-29.html
+# http://www.mozilla.org/security/announce/2009/mfsa2009-32.html
+# Solution: update to 2.0.0.22:
+BuildRequires:	security(CVE-2009-1392)
+BuildRequires:	security(CVE-2009-1832)
+BuildRequires:	security(CVE-2009-1833)
+BuildRequires:	security(CVE-2009-1838)
+BuildRequires:	security(CVE-2009-1841)
+#
+# http://www.mozilla.org/security/announce/2009/mfsa2009-27.html
+# Solution: update to 2.0.0.22:
+BuildRequires:	security(CVE-2009-1836)
+#
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 1:2.1.8
