@@ -15,12 +15,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	2.0.0.21
-Release:	2
+Version:	2.0.0.22
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}-source.tar.bz2
-# Source0-md5:	55e24753a7ccf2fbf0272987dd4bb086
+# Source0-md5:	080c26dcb0ed563519a6061139a0bf92
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	bbee59bab58b97e33e85015a5ae5de7b
 Source2:	%{name}-branding.tar.bz2
@@ -38,21 +38,8 @@ Patch5:		%{name}-install.patch
 Patch6:		%{name}-myspell.patch
 Patch7:		%{name}-regionNames.patch
 Patch8:		%{name}-prefs.patch
+Patch9:		%{name}-gcc44.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
-# http://www.mozilla.org/security/announce/2009/mfsa2009-24.html
-# http://www.mozilla.org/security/announce/2009/mfsa2009-29.html
-# http://www.mozilla.org/security/announce/2009/mfsa2009-32.html
-# Solution: update to 2.0.0.22:
-BuildRequires:	security(CVE-2009-1392)
-BuildRequires:	security(CVE-2009-1832)
-BuildRequires:	security(CVE-2009-1833)
-BuildRequires:	security(CVE-2009-1838)
-BuildRequires:	security(CVE-2009-1841)
-#
-# http://www.mozilla.org/security/announce/2009/mfsa2009-27.html
-# Solution: update to 2.0.0.22:
-BuildRequires:	security(CVE-2009-1836)
-#
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
 BuildRequires:	freetype-devel >= 1:2.1.8
@@ -147,6 +134,7 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 :> config/gcc_hidden.h
 
