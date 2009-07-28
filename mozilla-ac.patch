@@ -1,6 +1,6 @@
---- mozilla/configure.in	2008-03-31 15:00:07.275311356 +0300
-+++ mozilla/configure.in	2008-03-31 15:25:03.241264725 +0300
-@@ -61,6 +61,9 @@
+--- mozilla/configure.in~	2009-03-26 22:42:26.000000000 +0200
++++ mozilla/configure.in	2009-07-29 01:44:16.749993376 +0300
+@@ -62,6 +62,9 @@
  
  AC_PREREQ(2.13)
  AC_INIT(config/config.mk)
@@ -10,7 +10,7 @@
  AC_CONFIG_AUX_DIR(${srcdir}/build/autoconf)
  AC_CANONICAL_SYSTEM
  TARGET_CPU="${target_cpu}"
-@@ -270,7 +273,8 @@
+@@ -283,7 +286,8 @@
  
      AC_MSG_CHECKING([whether the host c compiler ($HOST_CC $HOST_CFLAGS $HOST_LDFLAGS) works])
      AC_TRY_COMPILE([], [return(0);], 
@@ -20,7 +20,7 @@
  	AC_MSG_ERROR([installation or configuration problem: host compiler $HOST_CC cannot create executables.]) )
  
      CC="$HOST_CXX"
-@@ -278,7 +282,8 @@
+@@ -291,7 +295,8 @@
  
      AC_MSG_CHECKING([whether the host c++ compiler ($HOST_CXX $HOST_CXXFLAGS $HOST_LDFLAGS) works])
      AC_TRY_COMPILE([], [return(0);], 
@@ -30,7 +30,7 @@
  	AC_MSG_ERROR([installation or configuration problem: host compiler $HOST_CXX cannot create executables.]) )
      
      CC=$_SAVE_CC
-@@ -388,17 +393,17 @@
+@@ -451,17 +456,17 @@
          # Make sure compilers are valid
          CFLAGS="$CFLAGS -TC -nologo"
          CXXFLAGS="$CXXFLAGS -TP -nologo"
@@ -50,11 +50,13 @@
 -        AC_LANG_RESTORE
 +        AC_LANG_POP
          
-         _MSVC_VER_FILTER='s|.* \([[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\).*|\1|p'
-         
-@@ -705,12 +710,12 @@
+         changequote(,)
+         _MSVC_VER_FILTER='s|.* ([0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?).*|\1|p'
+@@ -863,14 +868,13 @@
+     fi
    fi
  
+-  AC_LANG_SAVE
    AC_MSG_CHECKING([for valid compiler/Mac OS X SDK combination])
 -  AC_LANG_CPLUSPLUS
 +  AC_LANG_PUSH([C++])
@@ -67,7 +69,7 @@
    AC_MSG_RESULT($result)
  
    if test "$result" = "no" ; then
-@@ -770,6 +775,9 @@
+@@ -930,6 +934,9 @@
  dnl ========================================================
  dnl set the defaults first
  dnl ========================================================
@@ -77,47 +79,47 @@
  AS_BIN=$AS
  AR_FLAGS='cr $@'
  AR_LIST='$(AR) t'
-@@ -1217,8 +1225,7 @@
- dnl Checking for 64-bit OS
- dnl ========================================================
- if test "$COMPILE_ENVIRONMENT"; then
--AC_LANG_SAVE
--AC_LANG_C
-+AC_LANG_PUSH([C])
- AC_MSG_CHECKING(for 64-bit OS)
- AC_TRY_RUN([ int main () {
-     if (sizeof(long) == 8) { return 0; } return 1; } ],
-@@ -1235,7 +1242,7 @@
-        solaris*) TARGET_NSPR_MDCPUCFG='\"md/_solaris64.cfg\"' ;;
-        esac
- fi
--AC_LANG_RESTORE
-+AC_LANG_POP
- fi # COMPILE_ENVIRONMENT
- 
- dnl ========================================================
-@@ -1281,8 +1288,7 @@
+@@ -1371,8 +1378,7 @@
+     AC_CACHE_CHECK(whether the compiler supports -Wno-invalid-offsetof,
+                    ac_has_wno_invalid_offsetof,
+         [
+-            AC_LANG_SAVE
+-            AC_LANG_CPLUSPLUS
++            AC_LANG_PUSH([C++])
+             _SAVE_CXXFLAGS="$CXXFLAGS"
+             CXXFLAGS="$CXXFLAGS ${_COMPILER_PREFIX}-Wno-invalid-offsetof"
+             AC_TRY_COMPILE([],
+@@ -1380,7 +1386,7 @@
+                            ac_has_wno_invalid_offsetof="yes",
+                            ac_has_wno_invalid_offsetof="no")
+             CXXFLAGS="$_SAVE_CXXFLAGS"
+-            AC_LANG_RESTORE
++            AC_LANG_POP
+         ])
+     if test "$ac_has_wno_invalid_offsetof" = "yes"; then
+         _WARNINGS_CXXFLAGS="${_WARNINGS_CXXFLAGS} ${_COMPILER_PREFIX}-Wno-invalid-offsetof"
+@@ -1443,8 +1449,8 @@
  dnl test that the macros actually work:
  AC_MSG_CHECKING(that static assertion macros used in autoconf tests work)
  AC_CACHE_VAL(ac_cv_static_assertion_macros_work,
 - [AC_LANG_SAVE
 -  AC_LANG_C
-+ [AC_LANG_PUSH([C])
++ [
++  AC_LANG_PUSH([C])
    ac_cv_static_assertion_macros_work="yes"
    AC_TRY_COMPILE([$configure_static_assert_macros],
                   [CONFIGURE_STATIC_ASSERT(1)],
-@@ -1292,7 +1298,9 @@
+@@ -1454,7 +1460,8 @@
                   [CONFIGURE_STATIC_ASSERT(0)],
                   ac_cv_static_assertion_macros_work="no",
                   )
 -  AC_LANG_CPLUSPLUS
 +  AC_LANG_POP
-+
 +  AC_LANG_PUSH([C++])
    AC_TRY_COMPILE([$configure_static_assert_macros],
                   [CONFIGURE_STATIC_ASSERT(1)],
                   ,
-@@ -1301,7 +1309,7 @@
+@@ -1463,7 +1470,7 @@
                   [CONFIGURE_STATIC_ASSERT(0)],
                   ac_cv_static_assertion_macros_work="no",
                   )
@@ -126,17 +128,36 @@
   ])
  AC_MSG_RESULT("$ac_cv_static_assertion_macros_work")
  if test "$ac_cv_static_assertion_macros_work" = "no"; then
-@@ -1353,8 +1361,7 @@
+@@ -1475,8 +1482,7 @@
+ dnl Checking for 64-bit OS
+ dnl ========================================================
+ if test "$COMPILE_ENVIRONMENT"; then
+-AC_LANG_SAVE
+-AC_LANG_C
++AC_LANG_PUSH([C])
+ AC_MSG_CHECKING(for 64-bit OS)
+ AC_TRY_COMPILE([$configure_static_assert_macros],
+                [CONFIGURE_STATIC_ASSERT(sizeof(long) == 8)],
+@@ -1487,7 +1493,7 @@
+     HAVE_64BIT_OS=1
+ fi
+ AC_SUBST(HAVE_64BIT_OS)
+-AC_LANG_RESTORE
++AC_LANG_POP
+ fi # COMPILE_ENVIRONMENT
+ 
+ dnl ========================================================
+@@ -1618,8 +1624,7 @@
          MKSHLIB='$(CXX) $(DSO_LDOPTS) -o $@'
          MKCSHLIB='$(CC) $(DSO_LDOPTS) -o $@'
          if test "$COMPILE_ENVIRONMENT"; then
 -            AC_LANG_SAVE
 -            AC_LANG_CPLUSPLUS
 +            AC_LANG_PUSH([C++])
-             AC_MSG_CHECKING([for VisualAge C++ compiler version >= 5.0.2.0])
+             AC_MSG_CHECKING([for VisualAge C++ compiler version >= 6.0.0.3])
              AC_TRY_COMPILE([],
-                 [#if (__IBMCPP__ < 502)
-@@ -1367,7 +1374,7 @@
+                 [#if (__IBMCPP__ < 600)
+@@ -1632,7 +1637,7 @@
              else
                  AC_MSG_RESULT([yes])    
              fi
@@ -145,7 +166,20 @@
              TARGET_COMPILER_ABI="ibmc"
              CC_VERSION=`lslpp -Lcq vac.C 2>/dev/null | awk -F: '{ print $3 }'`
              CXX_VERSION=`lslpp -Lcq vacpp.cmp.core 2>/dev/null | awk -F: '{ print $3 }'`
-@@ -2149,8 +2156,7 @@
+@@ -2184,10 +2189,9 @@
+     *)
+         AC_CHECK_HEADERS(mmintrin.h oleacc.idl)
+ 
+-        AC_LANG_SAVE
+-        AC_LANG_CPLUSPLUS
++        AC_LANG_PUSH([C++])
+         AC_CHECK_HEADERS(atlbase.h wpcapi.h)
+-        AC_LANG_RESTORE
++        AC_LANG_POP
+         ;;
+     esac
+ 
+@@ -2459,8 +2463,7 @@
          CC_VERSION=`$CC -V 2>&1 | grep '^cc:' 2>/dev/null | $AWK -F\: '{ print $2 }'`
          CXX_VERSION=`$CXX -V 2>&1 | grep '^CC:' 2>/dev/null | $AWK -F\: '{ print $2 }'`
         AC_MSG_CHECKING([for Forte compiler version >= WS6U2])
@@ -155,7 +189,7 @@
         AC_TRY_COMPILE([],
             [#if (__SUNPRO_CC < 0x530)
             #error "Denied"
-@@ -2163,7 +2169,7 @@
+@@ -2473,7 +2476,7 @@
              _res="yes"
          fi
          AC_MSG_RESULT([$_res])
@@ -164,17 +198,7 @@
      else
         ASFLAGS="$ASFLAGS -fPIC"
         DSO_LDOPTS='-G'
-@@ -2247,8 +2253,7 @@
-         CC_VERSION=`$CC -V 2>&1 | grep '^cc:' 2>/dev/null | $AWK -F\: '{ print $2 }'`
-         CXX_VERSION=`$CXX -V 2>&1 | grep '^CC:' 2>/dev/null | $AWK -F\: '{ print $2 }'`
-        AC_MSG_CHECKING([for Forte compiler version >= WS6U2])
--       AC_LANG_PUSH([C++])
--       AC_TRY_COMPILE([],
-+       AC_LANG_PUSH([C++]) AC_TRY_COMPILE([],
-            [#if (__SUNPRO_CC < 0x530)
-            #error "Denied"
-            #endif],
-@@ -2382,7 +2387,7 @@
+@@ -2596,7 +2599,7 @@
  if test -z "$SKIP_COMPILER_CHECKS"; then
  dnl Checks for typedefs, structures, and compiler characteristics.
  dnl ========================================================
@@ -183,23 +207,11 @@
  AC_HEADER_STDC
  AC_C_CONST
  AC_TYPE_MODE_T
-@@ -2483,8 +2488,7 @@
- dnl only have short-wchar support for c++.
- dnl Note that we assume that mac & win32 have short wchar (see nscore.h)
- 
--    AC_LANG_SAVE
--    AC_LANG_CPLUSPLUS
-+    AC_LANG_PUSH([C++])
-     _SAVE_CXXFLAGS=$CXXFLAGS
-     CXXFLAGS="$CXXFLAGS -fshort-wchar"
- 
-@@ -2504,13 +2508,13 @@
-     else    
-         CXXFLAGS=$_SAVE_CXXFLAGS
-     fi
--    AC_LANG_RESTORE
-+    AC_LANG_POP
+@@ -2711,11 +2714,12 @@
+ else
+   AC_MSG_RESULT(no)
  fi
++AC_LANG_POP
  
  dnl On the gcc trunk (as of 2001-02-09) _GNU_SOURCE, and thus __USE_GNU,
  dnl are defined when compiling C++ but not C.  Since the result of this
@@ -209,30 +221,36 @@
  
  AC_MSG_CHECKING(for uname.domainname)
  AC_CACHE_VAL(ac_cv_have_uname_domainname_field,
-@@ -2542,7 +2546,7 @@
+@@ -2746,8 +2750,7 @@
+ else
      AC_MSG_RESULT(no)
  fi
- 
+-
 -AC_LANG_C
 +AC_LANG_POP
  
  dnl Check for usable wchar_t (2 bytes, unsigned)
  dnl (we really don't need the unsignedness check anymore)
-@@ -2652,10 +2656,10 @@
- *-darwin*)
- 	;;
- *)
--	AC_CHECK_LIB(dl, dlopen,
--        AC_CHECK_HEADER(dlfcn.h, 
-+	AC_CHECK_LIB(dl, dlopen,[
-+        AC_CHECK_HEADER(dlfcn.h,[
-             LIBS="-ldl $LIBS"
--            AC_DEFINE(HAVE_LIBDL)))
-+            AC_DEFINE(HAVE_LIBDL)])])
- 	;;
- esac
- if test ! "$GNU_CXX"; then
-@@ -2728,11 +2732,11 @@
+@@ -2771,8 +2774,7 @@
+ dnl only have short-wchar support for c++.
+ dnl Note that we assume that mac & win32 have short wchar (see nscore.h)
+ 
+-    AC_LANG_SAVE
+-    AC_LANG_CPLUSPLUS
++    AC_LANG_PUSH([C++])
+     _SAVE_CXXFLAGS=$CXXFLAGS
+     CXXFLAGS="$CXXFLAGS -fshort-wchar"
+ 
+@@ -2792,7 +2794,7 @@
+     else    
+         CXXFLAGS=$_SAVE_CXXFLAGS
+     fi
+-    AC_LANG_RESTORE
++    AC_LANG_POP
+ fi
+ 
+ dnl Check for .hidden assembler directive and visibility attribute.
+@@ -2951,11 +2953,11 @@
  
  dnl Check whether the compiler supports the new-style C++ standard
  dnl library headers (i.e. <new>) or needs the old "new.h"
@@ -244,9 +262,9 @@
 -AC_LANG_C
 +AC_LANG_POP
  
- case $target in
- *-aix4.3*|*-aix5*)
-@@ -2984,8 +2988,7 @@
+ AC_ARG_ENABLE(dtrace,
+               [  --enable-dtrace         build with dtrace support if available (default=no)],
+@@ -3338,8 +3340,7 @@
  dnl check for wcrtomb/mbrtowc
  dnl =======================================================================
  if test -z "$MACOS_DEPLOYMENT_TARGET" || test "$MACOS_DEPLOYMENT_TARGET" -ge "100300"; then
@@ -256,7 +274,7 @@
  AC_CACHE_CHECK(for wcrtomb,
      ac_cv_have_wcrtomb,
      [AC_TRY_LINK([#include <wchar.h>],
-@@ -3004,7 +3007,7 @@
+@@ -3358,7 +3359,7 @@
  if test "$ac_cv_have_mbrtowc" = "yes"; then
      AC_DEFINE(HAVE_MBRTOWC)
  fi
@@ -265,7 +283,7 @@
  fi
  
  AC_CACHE_CHECK(
-@@ -3103,7 +3106,7 @@
+@@ -3383,7 +3384,7 @@
  dnl        AC_CHECK_LIB(resolv, res_ninit, AC_DEFINE(HAVE_RES_NINIT)))
  fi
  
@@ -274,16 +292,16 @@
  AC_CACHE_CHECK(
      [for gnu_get_libc_version()],
      ac_cv_func_gnu_get_libc_version,
-@@ -3181,8 +3184,6 @@
+@@ -3461,7 +3462,7 @@
  
  AM_LANGINFO_CODESET
  
 -AC_LANG_C
--
++AC_LANG_POP
+ 
  dnl **********************
  dnl *** va_copy checks ***
- dnl **********************
-@@ -3344,7 +3345,7 @@
+@@ -3624,7 +3625,7 @@
  dnl ========================================================
  dnl Put your C++ language/feature checks below
  dnl ========================================================
@@ -292,7 +310,7 @@
  
  HAVE_GCC3_ABI=
  if test "$GNU_CC"; then
-@@ -3659,7 +3660,7 @@
+@@ -3939,7 +3940,7 @@
  
  
  dnl End of C++ language/feature checks
@@ -301,42 +319,7 @@
  
  dnl ========================================================
  dnl =  Internationalization checks
-@@ -4050,8 +4051,7 @@
-     _SAVE_LDFLAGS=$LDFLAGS
-     QT_LDFLAGS=-L${QTDIR}/lib
-     LDFLAGS="$LDFLAGS $QT_LDFLAGS"
--    AC_LANG_SAVE
--    AC_LANG_CPLUSPLUS
-+    AC_LANG_PUSH([C++])
-     AC_CHECK_LIB(qt, main, QT_LIB=-lqt,
-         AC_CHECK_LIB(qt-mt, main, QT_LIB=-lqt-mt,
-             AC_MSG_ERROR([Cannot find QT libraries.])))
-@@ -4082,7 +4082,7 @@
-     CXXFLAGS=$_SAVE_CXXFLAGS
-     LIBS=$_SAVE_LIBS
- 
--    AC_LANG_RESTORE
-+    AC_LANG_POP
- fi
- fi # COMPILE_ENVIRONMENT
- 
-@@ -5275,13 +5275,12 @@
-     dnl                   AC_MSG_ERROR([Gdiplus.h not found!]))
-     dnl So do this instead:
-     AC_MSG_CHECKING(for Gdiplus.h)
--    AC_LANG_SAVE
--    AC_LANG_CPLUSPLUS
-+    AC_LANG_PUSH([C++])
-     AC_TRY_COMPILE([#include <windows.h>
-                     #include <unknwn.h>
-                     #include <Gdiplus.h>],,AC_MSG_RESULT(yes),
-                    AC_MSG_ERROR([Building the SVG GDI+ renderer requires an appropriate Microsoft SDK.]))
--    AC_LANG_RESTORE
-+    AC_LANG_POP
-     AC_DEFINE(MOZ_SVG_RENDERER_GDIPLUS)
-     ;;
- 
-@@ -5868,10 +5867,9 @@
+@@ -6561,10 +6562,9 @@
      MOZ_ENABLE_OLD_ABI_COMPAT_WRAPPERS= )
  if test "$COMPILE_ENVIRONMENT"; then
  if test "$MOZ_ENABLE_OLD_ABI_COMPAT_WRAPPERS"; then
@@ -349,7 +332,7 @@
      AC_DEFINE(MOZ_ENABLE_OLD_ABI_COMPAT_WRAPPERS)
  fi
  fi # COMPILE_ENVIRONMENT
-@@ -6012,10 +6010,9 @@
+@@ -6681,10 +6681,9 @@
  dnl = Support for demangling undefined symbols
  dnl ========================================================
  if test -z "$SKIP_LIBRARY_CHECKS"; then
@@ -362,16 +345,16 @@
  fi
  
  # Demangle only for debug or trace-malloc builds
-@@ -6279,7 +6276,7 @@
- AC_SUBST(PROFILE_GEN_CFLAGS)
+@@ -6919,7 +6918,7 @@
  AC_SUBST(PROFILE_USE_CFLAGS)
+ AC_SUBST(PROFILE_USE_LDFLAGS)
  
 -AC_LANG_CPLUSPLUS
 +AC_LANG_PUSH([C++])
  
  dnl ========================================================
  dnl Test for -pedantic bustage
-@@ -6418,7 +6415,7 @@
+@@ -7060,7 +7059,7 @@
  else
      AC_DEFINE(CPP_THROW_NEW, [throw()])
  fi
@@ -380,47 +363,23 @@
  
  dnl ========================================================
  dnl =
-@@ -6966,12 +6963,11 @@
-     dnl older versions of glib do not seem to have gmodule which ctl needs
-     _SAVE_CFLAGS=$CFLAGS
-     CFLAGS="$CFLAGS $GLIB_CFLAGS"
--    AC_LANG_SAVE
--    AC_LANG_C
-+    AC_LANG_PUSH([C])
-     AC_TRY_COMPILE([#include <gmodule.h>],
-         [ int x = 1; x++; ],,
-         [AC_MSG_ERROR([Cannot build ctl without gmodule support in glib.])])
--    AC_LANG_RESTORE
-+    AC_LANG_POP
-     CFLAGS=$_SAVE_CFLAGS
-     AC_DEFINE(SUNCTL)
- fi
-@@ -7523,7 +7519,7 @@
-     if test -n "$HAVE_64BIT_OS"; then
-         ac_configure_args="$ac_configure_args --enable-64bit"
+@@ -8307,7 +8306,7 @@
+     if test -n "$USE_ARM_KUSER"; then
+         ac_configure_args="$ac_configure_args --with-arm-kuser"
      fi
 -    AC_OUTPUT_SUBDIRS(nsprpub)
 +    AC_CONFIG_SUBDIRS(nsprpub)
      ac_configure_args="$_SUBDIR_CONFIG_ARGS"
  fi
  
-@@ -7569,7 +7565,7 @@
-     if test -n "$HAVE_64BIT_OS"; then
-         ac_configure_args="$ac_configure_args --enable-64bit"
-     fi
--    AC_OUTPUT_SUBDIRS(directory/c-sdk)
-+    AC_CONFIG_SUBDIRS(directory/c-sdk)
-     ac_configure_args="$_SUBDIR_CONFIG_ARGS"
- fi
- fi # COMPILE_ENVIRONMENT
---- mozilla/build/autoconf/altoptions.m4.orig	2006-11-02 15:09:27.229505000 +0100
-+++ mozilla/build/autoconf/altoptions.m4	2006-11-02 15:13:14.929505000 +0100
-@@ -145,12 +145,13 @@
+--- mozilla/build/autoconf/altoptions.m4~	2009-03-26 22:38:57.000000000 +0200
++++ mozilla/build/autoconf/altoptions.m4	2009-07-29 01:34:11.680668351 +0300
+@@ -146,9 +146,10 @@
  ])
  
  dnl MOZ_READ_MYCONFIG() - Read in 'myconfig.sh' file
--AC_DEFUN(MOZ_READ_MOZCONFIG,
-+AC_DEFUN([MOZ_READ_MOZCONFIG],
+-AC_DEFUN([MOZ_READ_MOZCONFIG],
++AC_DEFUN([[MOZ_READ_MOZCONFIG]],
  [AC_REQUIRE([AC_INIT_BINSH])dnl
  # Read in '.mozconfig' script to set the initial options.
  # See the mozconfig2configure script for more details.
@@ -428,7 +387,3 @@
 -. $_AUTOCONF_TOOLS_DIR/mozconfig2configure])
 +. $_AUTOCONF_TOOLS_DIR/mozconfig2configure
 +])
- 
- dnl This gets inserted at the top of the configure script
--MOZ_READ_MOZCONFIG(MOZ_TOPSRCDIR)
-+dnl MOZ_READ_MOZCONFIG(MOZ_TOPSRCDIR)
