@@ -387,3 +387,14 @@
 -. $_AUTOCONF_TOOLS_DIR/mozconfig2configure])
 +. $_AUTOCONF_TOOLS_DIR/mozconfig2configure
 +])
+--- mozilla/build/autoconf/nss.m4~	2009-03-26 22:38:57.000000000 +0200
++++ mozilla/build/autoconf/nss.m4	2009-07-29 01:57:50.473936834 +0300
+@@ -5,7 +5,7 @@
+ 
+ dnl AM_PATH_NSS([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+ dnl Test for NSS, and define NSS_CFLAGS and NSS_LIBS
+-AC_DEFUN(AM_PATH_NSS,
++AC_DEFUN([AM_PATH_NSS],
+ [dnl
+ 
+ AC_ARG_WITH(nss-prefix,
