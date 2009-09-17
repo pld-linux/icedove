@@ -10,7 +10,7 @@
  CPPSRCS		=		    \
 --- mozilla/mailnews/extensions/enigmail/build/Makefile.in.orig	2005-10-04 20:12:03.000000000 +0200
 +++ mozilla/mailnews/extensions/enigmail/build/Makefile.in	2005-10-04 20:12:35.000000000 +0200
-@@ -51,9 +51,10 @@
+@@ -51,7 +51,7 @@
  LIBRARY_NAME	= enigmime
  SHORT_LIBNAME	= enigmime
  
@@ -18,10 +18,7 @@
 +#MODULE_NAME	= EnigModule
  
  IS_COMPONENT	= 1
-+FORCE_SHARED_LIB = 1
- 
- ifdef USE_XPCOM_GLUE
- # Ensure that the xpcom classes that we build
+ FORCE_SHARED_LIB = 1
 --- mozilla/mailnews/extensions/enigmail/src/Makefile.in.orig	2006-01-11 20:54:23.000000000 +0100
 +++ mozilla/mailnews/extensions/enigmail/src/Makefile.in	2006-01-11 20:54:43.000000000 +0100
 @@ -94,6 +94,7 @@
