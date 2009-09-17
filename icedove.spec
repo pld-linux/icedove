@@ -16,7 +16,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	2.0.0.23
-Release:	2
+Release:	3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}-source.tar.bz2
@@ -272,9 +272,10 @@ install -d $_enig_dir/chrome
 install -d $_enig_dir/components
 install -d $_enig_dir/defaults/preferences
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail.jar $_enig_dir/chrome
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-skin-tbird.jar $_enig_dir/chrome
+mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-skin-seamonkey.jar $_enig_dir/chrome
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig* $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so $_enig_dir/components
+mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libipc.so $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences/enigmail.js $_enig_dir/defaults/preferences
 cp -f mailnews/extensions/enigmail/package/install.rdf $_enig_dir
