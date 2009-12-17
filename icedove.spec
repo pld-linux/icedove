@@ -133,7 +133,7 @@ cd comm-1.9.1
 #%patch5 -p1
 #%patch6 -p1
 #%patch7 -p1
-#%patch8 -p1
+%patch8 -p1
 #%patch9 -p1
 
 ##:> config/gcc_hidden.h
@@ -149,6 +149,8 @@ cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
 
 cat << 'EOF' > .mozconfig
 #. $topsrcdir/mail/config/mozconfig
+
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
 
 ac_add_options --prefix=%{_prefix}
 ac_add_options --exec-prefix=%{_exec_prefix}
@@ -190,6 +192,7 @@ ac_add_options --enable-ldap
 %else
 ac_add_options --disable-ldap
 %endif
+ac_add_options --enable-calendar
 ac_add_options --disable-installer
 ac_add_options --disable-jsd
 ac_add_options --disable-xprint
@@ -219,11 +222,12 @@ ac_add_options --with-system-zlib
 ac_add_options --with-pthreads
 ac_add_options --enable-single-profile
 ac_add_options --disable-profilesharing
+ac_add_options --with-distribution-id=org.pld-linux
 #ac_add_options --with-branding=icedove/branding
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
-%{__make} -j1 -f client.mk build_all \
+%{__make} -j1 -f client.mk build \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
 
@@ -239,7 +243,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} 
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
 cd comm-1.9.1
-%{__make} -C mozilla/xpinstall/packager stage-package \
+%{__make} -C obj-%{_target_cpu}/mail/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
