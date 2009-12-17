@@ -1,6 +1,6 @@
---- mozilla.orig/mail/app/profile/all-thunderbird.js	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/app/profile/all-thunderbird.js	2008-06-24 13:22:48.000000000 +0200
-@@ -48,12 +48,12 @@
+--- icedove-3.0/comm-1.9.1/mail/app/profile/all-thunderbird.js	2009-12-05 02:53:47.000000000 +0100
++++ icedove-3.0.new/comm-1.9.1/mail/app/profile/all-thunderbird.js	2009-12-17 11:11:15.450649343 +0100
+@@ -73,12 +73,12 @@
  // App-specific update preferences
  
  // Whether or not app updates are enabled
@@ -15,16 +15,8 @@
  
  // Defines how the Application Update Service notifies the user about updates:
  //
-@@ -211,6 +211,7 @@
- /////////////////////////////////////////////////////////////////
- 
- // l12n and i18n
-+pref("intl.locale.matchOS", true);
- pref("intl.charsetmenu.mailedit", "chrome://global/locale/intl.properties");
- pref("intl.accept_languages", "chrome://global/locale/intl.properties");
- // collationOption is only set on linux for japanese. see bug 18338 and 62015
-@@ -376,7 +376,7 @@
- pref("browser.downloadmanager.behavior", 1);
+@@ -373,7 +373,7 @@
+ pref("alerts.totalOpenTime", 3000);
  
  // analyze urls in mail messages for scams
 -pref("mail.phishing.detection.enabled", true);
