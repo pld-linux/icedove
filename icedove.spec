@@ -10,19 +10,19 @@
 %undefine	with_gnomeui
 %undefine	with_gnomevfs
 %endif
-%define		enigmail_ver		0.96.0
+%define		enigmail_ver		1.0.0
 
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	2.0.0.23
-Release:	4
+Version:	3.0
+Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
-Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}-source.tar.bz2
-# Source0-md5:	2e118fcf752ee60ce994f1471f9632d1
+Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
+# Source0-md5:	9a564ac2489b1b0f9348dc298b913f6c
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	cf8c38e8d33965706df383ab33b3923c
+# Source1-md5:	e3a6d379f1a72ac023751bdde2de750a
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	e775b8cb658de32f30b403bc9b7950bf
 Source3:	%{name}-rm_nonfree.sh
@@ -52,8 +52,8 @@ BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libpng-devel >= 1.2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	myspell-devel
-BuildRequires:	nspr-devel >= 1:4.6.1
-BuildRequires:	nss-devel >= 1:3.11.3
+BuildRequires:	nspr-devel >= 1:4.8
+BuildRequires:	nss-devel >= 1:3.12.0
 BuildRequires:	pango-devel >= 1:1.1.0
 BuildRequires:	sed >= 4.0
 BuildRequires:	xorg-lib-libXext-devel
@@ -122,33 +122,33 @@ Główne możliwości:
 
 %prep
 %setup -q -c -a2
-cd mozilla
+cd comm-1.9.1
 %{?with_enigmail:tar xvfz %{SOURCE1} -C mailnews/extensions}
 /bin/sh %{SOURCE3}
-%patch0 -p1
-%patch1 -p1
+##%patch0 -p1
+##%patch1 -p1
 %{?with_enigmail:%patch2 -p1}
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
+##%patch3 -p1
+#%patch4 -p1
+#%patch5 -p1
+#%patch6 -p1
+#%patch7 -p1
+#%patch8 -p1
+#%patch9 -p1
 
-:> config/gcc_hidden.h
+##:> config/gcc_hidden.h
 
 %build
-cd mozilla
+cd comm-1.9.1
 export CFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
 export CXXFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
 
-cp -f %{_datadir}/automake/config.* build/autoconf
-cp -f %{_datadir}/automake/config.* nsprpub/build/autoconf
+cp -f %{_datadir}/automake/config.* mozilla/build/autoconf
+cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
 cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
 
 cat << 'EOF' > .mozconfig
-. $topsrcdir/mail/config/mozconfig
+#. $topsrcdir/mail/config/mozconfig
 
 ac_add_options --prefix=%{_prefix}
 ac_add_options --exec-prefix=%{_exec_prefix}
@@ -193,10 +193,11 @@ ac_add_options --disable-ldap
 ac_add_options --disable-installer
 ac_add_options --disable-jsd
 ac_add_options --disable-xprint
+ac_add_options --disable-permissions
+ac_add_options --disable-pref-extensions
 ac_add_options --enable-canvas
 ac_add_options --enable-crypto
 ac_add_options --enable-default-toolkit="gtk2"
-ac_add_options --enable-extensions="pref,cookie,wallet,spellcheck"
 ac_add_options --enable-mathml
 ac_add_options --enable-optimize="%{rpmcflags}"
 ac_add_options --enable-pango
@@ -207,6 +208,8 @@ ac_add_options --enable-system-cairo
 ac_add_options --enable-system-myspell
 ac_add_options --enable-svg
 ac_add_options --enable-xft
+ac_add_options --enable-application=mail
+ac_add_options --enable-default-toolkit=cairo-gtk2
 ac_add_options --enable-xinerama
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-nspr
