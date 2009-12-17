@@ -133,7 +133,7 @@ cd comm-1.9.1
 #%patch5 -p1
 #%patch6 -p1
 #%patch7 -p1
-%patch8 -p1
+#%patch8 -p0
 #%patch9 -p1
 
 ##:> config/gcc_hidden.h
