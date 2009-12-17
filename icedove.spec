@@ -234,7 +234,7 @@ EOF
 %if %{with enigmail}
 	cd mailnews/extensions/enigmail
 	./makemake -r
-	%{__make} -C obj-%{_target_cpu}/mailnews/extensions/enigmail
+	%{__make} -C ../../../obj-%{_target_cpu}/mailnews/extensions/enigmail
 %endif
 
 %install
