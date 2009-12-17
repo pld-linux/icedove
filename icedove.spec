@@ -219,7 +219,7 @@ ac_add_options --with-system-zlib
 ac_add_options --with-pthreads
 ac_add_options --enable-single-profile
 ac_add_options --disable-profilesharing
-ac_add_options --with-branding=icedove/branding
+#ac_add_options --with-branding=icedove/branding
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
@@ -238,8 +238,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
-cd mozilla
-%{__make} -C xpinstall/packager stage-package \
+cd comm-1.9.1
+%{__make} -C mozilla/xpinstall/packager stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
