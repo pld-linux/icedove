@@ -205,6 +205,7 @@ ac_add_options --enable-mathml
 ac_add_options --enable-optimize="%{rpmcflags}"
 ac_add_options --enable-pango
 ac_add_options --enable-reorder
+ac_add_options --enable-static
 ac_add_options --disable-strip
 ac_add_options --disable-strip-libs
 ac_add_options --enable-system-cairo
