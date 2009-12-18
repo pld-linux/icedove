@@ -125,12 +125,12 @@ Główne możliwości:
 cd comm-1.9.1
 %{?with_enigmail:tar xvfz %{SOURCE1} -C mailnews/extensions}
 /bin/sh %{SOURCE3}
-##%patch0 -p1
+%patch0 -p1
 ##%patch1 -p1
 %{?with_enigmail:%patch2 -p1}
 ##%patch3 -p1
 #%patch4 -p1
-#%patch5 -p1
+%patch5 -p1
 #%patch6 -p1
 #%patch7 -p1
 #%patch8 -p0
