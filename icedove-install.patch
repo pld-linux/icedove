@@ -1,47 +1,47 @@
---- mozilla/toolkit/mozapps/installer/packager.mk~	2006-12-28 22:23:47.000000000 +0200
-+++ mozilla/toolkit/mozapps/installer/packager.mk	2007-02-26 15:31:13.000000000 +0200
-@@ -307,7 +307,7 @@
+--- comm-1.9.1/mozilla/toolkit/mozapps/installer/packager.mk.orig	2009-12-18 14:28:59.997141166 +0100
++++ comm-1.9.1/mozilla/toolkit/mozapps/installer/packager.mk	2009-12-18 14:32:54.201542762 +0100
+@@ -365,7 +365,7 @@
  # NOTE: this must be a tar now that dist links into the tree so that we
  # do not strip the binaries actually in the tree.
  	@echo "Creating package directory..."
--	@mkdir $(DIST)/$(MOZ_PKG_APPNAME)
-+	@mkdir $(DESTDIR)$(MOZ_PKG_APPDIR)
+-	@mkdir $(DIST)/$(MOZ_PKG_DIR)
++	@mkdir $(DESTDIR)/$(MOZ_PKG_DIR)
  ifdef MOZ_PKG_MANIFEST
  	$(RM) -rf $(DIST)/xpt
  	$(call PACKAGER_COPY, "$(DIST)",\
-@@ -322,7 +322,7 @@
- 	@cd $(DIST) && rsync -auv --copy-unsafe-links $(_APPNAME) $(MOZ_PKG_APPNAME)
+@@ -384,7 +384,7 @@
+ endif
  endif
  else
--	@cd $(DIST)/bin && tar $(TAR_CREATE_FLAGS) - * | (cd ../$(MOZ_PKG_APPNAME); tar -xf -)
+-	@cd $(DIST)/bin && tar $(TAR_CREATE_FLAGS) - * | (cd ../$(MOZ_PKG_DIR); tar -xf -)
 +	cp -rfLp $(DIST)/bin/* $(DESTDIR)$(MOZ_PKG_APPDIR)
  endif # DMG
  endif # MOZ_PKG_MANIFEST
  ifndef PKG_SKIP_STRIP
-@@ -354,7 +354,7 @@
+@@ -416,7 +416,7 @@
  endif
  	@echo "Removing unpackaged files..."
  ifdef NO_PKG_FILES
--	cd $(DIST)/$(STAGEPATH)$(MOZ_PKG_APPNAME)$(_BINPATH); rm -rf $(NO_PKG_FILES)
+-	cd $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH); rm -rf $(NO_PKG_FILES)
 +	cd $(DESTDIR)$(MOZ_PKG_APPDIR)$(_BINPATH); rm -rf $(NO_PKG_FILES)
  endif
  ifdef MOZ_PKG_REMOVALS
- 	$(SYSINSTALL) $(MOZ_PKG_REMOVALS_GEN) $(DIST)/$(STAGEPATH)$(MOZ_PKG_APPNAME)$(_BINPATH)
---- mozilla/mail/app/Makefile.in	2008-06-23 14:04:11.000000000 +0200
-+++ mozilla/mail/app/Makefile.in	2008-06-23 18:42:40.000000000 +0200
-@@ -46,7 +46,7 @@
+ 	$(SYSINSTALL) $(IFLAGS1) $(MOZ_PKG_REMOVALS_GEN) $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)
+--- comm-1.9.1/mail/app/Makefile.in.orig	2009-12-18 14:49:43.990647725 +0100
++++ comm-1.9.1/mail/app/Makefile.in	2009-12-18 14:49:53.830739781 +0100
+@@ -48,7 +48,7 @@
+ GRE_BUILDID = $(shell $(PYTHON) $(MOZILLA_SRCDIR)/config/printconfigsetting.py $(LIBXUL_DIST)/bin/platform.ini Build BuildID)
  
- AB_CD = $(MOZ_UI_LOCALE) 
+ DEFINES += \
+-  -DTHUNDERBIRD_ICO=\"$(DIST)/branding/thunderbird.ico\" \
++  -DTHUNDERBIRD_ICO=\"$(DIST)/branding/$(MOZ_APP_NAME).ico\" -DAB_CD=$(AB_CD) \
+   -DAB_CD=$(AB_CD) \
+   -DGRE_MILESTONE=$(GRE_MILESTONE) \
+   -DGRE_BUILDID=$(GRE_BUILDID) \
+@@ -80,9 +80,9 @@
+     $(NULL)
  
--DEFINES += -DTHUNDERBIRD_ICO=\"$(DIST)/branding/thunderbird.ico\" -DAB_CD=$(AB_CD)
-+DEFINES += -DTHUNDERBIRD_ICO=\"$(DIST)/branding/$(MOZ_APP_NAME).ico\" -DAB_CD=$(AB_CD)
- 
- DIRS		= profile
- 
-@@ -60,9 +60,9 @@
- endif
- 
- ifeq ($(USE_SHORT_LIBNAME), 1)
+ ifneq (,$(filter OS2 WINCE WINNT,$(OS_ARCH)))
 -PROGRAM = thunderbird$(BIN_SUFFIX)
 +PROGRAM = $(MOZ_APP_NAME)$(BIN_SUFFIX)
  else
@@ -50,31 +50,14 @@
  endif
  
  REQUIRES = \
-@@ -243,11 +243,11 @@
- ifndef MOZ_BRANDING_DIRECTORY
- 	$(NSINSTALL) -D $(DIST)/branding
- ifeq ($(OS_ARCH),WINNT)
--	cp $(srcdir)/thunderbird.ico   $(DIST)/branding/thunderbird.ico
-+	cp $(srcdir)/thunderbird.ico   $(DIST)/branding/$(MOZ_APP_NAME).ico
- 	cp $(srcdir)/thunderbird.ico   $(DIST)/branding/app.ico
- endif
- ifneq (,$(filter mac cocoa,$(MOZ_WIDGET_TOOLKIT)))
--	cp $(srcdir)/macbuild/thunderbird.icns  $(DIST)/branding/thunderbird.icns
-+	cp $(srcdir)/macbuild/thunderbird.icns  $(DIST)/branding/$(MOZ_APP_NAME).icns
- 	cp $(srcdir)/macbuild/dsstore $(DIST)/branding/dsstore
- 	cp $(srcdir)/macbuild/background.png $(DIST)/branding/background.png
- 	cp $(srcdir)/macbuild/disk.icns $(DIST)/branding/disk.icns
-@@ -263,20 +263,20 @@
+@@ -311,18 +311,18 @@
  endif
  
  ifneq (,$(filter-out OS2 WINNT Darwin,$(OS_ARCH)))
--thunderbird:: mozilla.in Makefile.in Makefile $(DEPTH)/config/autoconf.mk
-+$(MOZ_APP_NAME):: mozilla.in Makefile.in Makefile $(DEPTH)/config/autoconf.mk
- 	cat $< | sed -e "s|%MOZAPPDIR%|$(mozappdir)|" \
--                -e "s|%MOZ_USER_DIR%|.thunderbird|" \
-+                -e "s|%MOZ_USER_DIR%|.$(MOZ_APP_NAME)|" \
- 		-e "s|%MREDIR%|$(mredir)|" \
-  		-e "s|%MOZ_APP_DISPLAYNAME%|$(MOZ_APP_DISPLAYNAME)|" > $@
+-thunderbird:: $(topsrcdir)/mozilla/build/unix/mozilla.in $(GLOBAL_DEPS) $(DEPTH)/config/autoconf.mk
++$(MOZ_APP_NAME):: $(topsrcdir)/mozilla/build/unix/mozilla.in $(GLOBAL_DEPS) $(DEPTH)/config/autoconf.mk
+ 	cat $< | sed -e "s|%MOZAPPDIR%|$(installdir)|" \
+ 		-e "s|%MOZ_APP_DISPLAYNAME%|$(MOZ_APP_DISPLAYNAME)|" > $@
  	chmod +x $@
  
 -libs:: thunderbird
@@ -90,12 +73,12 @@
  GARBAGE += $(addprefix $(DIST)/bin/defaults/pref/, all.js all-thunderbird.js channel-prefs.js mailnews.js)
  endif
  
-@@ -322,7 +322,7 @@
- # go away once that bug has been closed for a while.
- 	rm -rf $(DIST)/$(APP_NAME).app/Contents/Plug-Ins/PrintPDE.plugin
- 	rsync -a --copy-unsafe-links $(DIST)/package/PrintPDE.plugin $(DIST)/$(APP_NAME).app/Contents/Plug-Ins
+@@ -359,7 +359,7 @@
+ endif
+ 	mkdir -p $(DIST)/$(APP_NAME).app/Contents/Library/Spotlight
+ 	rsync -a --copy-unsafe-links $(DIST)/package/Thunderbird.mdimporter $(DIST)/$(APP_NAME).app/Contents/Library/Spotlight
 -	cp -RL $(DIST)/branding/thunderbird.icns $(DIST)/$(APP_NAME).app/Contents/Resources/thunderbird.icns
-+	cp -RL $(DIST)/branding/thunderbird.icns $(DIST)/$(APP_NAME).app/Contents/Resources/$(MOZ_APP_NAME).icns
- 	cp -RL $(srcdir)/macbuild/mail-biff-badge.png 	$(DIST)/$(APP_NAME).app/Contents/Resources/mail-biff-badge.png
- 	echo -n APPLMOZM > $(DIST)/$(APP_NAME).app/Contents/PkgInfo
++	cp -RL $(DIST)/branding/thunderbird.icns $(DIST)/branding/$(MOZ_APP_NAME).icns
+ 	printf APPLMOZM > $(DIST)/$(APP_NAME).app/Contents/PkgInfo
  #       remove CVS dirs from packaged app
+ 	find $(DIST)/$(APP_NAME).app -type d -name "CVS" -prune -exec rm -rf {} \;
