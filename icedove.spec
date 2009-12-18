@@ -241,7 +241,8 @@ EOF
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} \
-	$RPM_BUILD_ROOT%{_datadir}/%{name}
+	       $RPM_BUILD_ROOT%{_datadir}/%{name}
+install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
 
 cd comm-1.9.1
 %{__make} -C obj-%{_target_cpu}/mail/installer stage-package \
@@ -254,7 +255,7 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/c
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/init.d $RPM_BUILD_ROOT%{_datadir}/%{name}/init.d
+#mv $RPM_BUILD_ROOT%{_libdir}/%{name}/init.d $RPM_BUILD_ROOT%{_datadir}/%{name}/init.d
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
@@ -280,10 +281,10 @@ install -d $_enig_dir/chrome
 install -d $_enig_dir/components
 install -d $_enig_dir/defaults/preferences
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail.jar $_enig_dir/chrome
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-skin-seamonkey.jar $_enig_dir/chrome
+#mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-skin-seamonkey.jar $_enig_dir/chrome
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig* $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so $_enig_dir/components
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libipc.so $_enig_dir/components
+#mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libipc.so $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences/enigmail.js $_enig_dir/defaults/preferences
 cp -f mailnews/extensions/enigmail/package/install.rdf $_enig_dir
@@ -295,7 +296,7 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig*
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt
 cp -f %{SOURCE6} $_enig_dir/chrome.manifest
-cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
+#cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 %endif
 
 # win32 stuff
@@ -322,6 +323,7 @@ exit 0
 %attr(755,root,root) %{_bindir}/mozilla-thunderbird
 %attr(755,root,root) %{_bindir}/thunderbird
 %dir %{_libdir}/%{name}
+%{_libdir}/%{name}/*.ini
 %dir %{_libdir}/%{name}/components
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %{_libdir}/%{name}/components/*.js
@@ -330,10 +332,10 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/*.sh
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
-%attr(755,root,root) %{_libdir}/%{name}/reg*
-%attr(755,root,root) %{_libdir}/%{name}/icedove
+#%attr(755,root,root) %{_libdir}/%{name}/reg*
+#%attr(755,root,root) %{_libdir}/%{name}/icedove
 %{_libdir}/%{name}/*.txt
-%attr(755,root,root) %{_libdir}/%{name}/x*
+#%attr(755,root,root) %{_libdir}/%{name}/x*
 
 # symlinks
 %{_libdir}/%{name}/chrome
@@ -347,8 +349,7 @@ exit 0
 
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/updater
-%{_libdir}/%{name}/updater.ini
-%{_pixmapsdir}/*.png
+#%{_pixmapsdir}/*.png
 %{_desktopdir}/*.desktop
 
 %dir %{_datadir}/%{name}
@@ -356,9 +357,16 @@ exit 0
 %{_datadir}/%{name}/defaults
 %{_datadir}/%{name}/greprefs
 %{_datadir}/%{name}/icons
-%{_datadir}/%{name}/init.d
+#%{_datadir}/%{name}/init.d
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/res
+
+%dir %{_libdir}/%{name}/modules
+%{_libdir}/%{name}/modules/*.js*
+%dir %{_libdir}/%{name}/modules/activity
+%{_libdir}/%{name}/modules/activity/*.js
+%dir %{_libdir}/%{name}/modules/gloda
+%{_libdir}/%{name}/modules/gloda/*.js
 
 %dir %{_libdir}/%{name}/extensions
 %{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
