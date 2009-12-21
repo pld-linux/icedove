@@ -1,4 +1,11 @@
 #
+# TODO:
+# - CHECK all features of enigmail
+# - separate spec for enigmail
+# - update or remove -myspell.patch
+# - package unpackaged files
+# - update branding patch!!!
+#
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
 %bcond_without	gnomeui		# disable gnomeui support
