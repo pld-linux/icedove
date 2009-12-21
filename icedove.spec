@@ -128,12 +128,12 @@ cd comm-1.9.1
 %patch0 -p1
 ##%patch1 -p1
 %{?with_enigmail:%patch2 -p1}
-##%patch3 -p1
+%patch3 -p1
 #%patch4 -p1
 %patch5 -p1
 #%patch6 -p1
 #%patch7 -p1
-#%patch8 -p0
+%patch8 -p0
 #%patch9 -p1
 
 ##:> config/gcc_hidden.h
