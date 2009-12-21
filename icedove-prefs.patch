@@ -1,5 +1,5 @@
---- icedove-3.0/comm-1.9.1/mail/app/profile/all-thunderbird.js	2009-12-05 02:53:47.000000000 +0100
-+++ icedove-3.0.new/comm-1.9.1/mail/app/profile/all-thunderbird.js	2009-12-17 11:11:15.450649343 +0100
+--- mail/app/profile/all-thunderbird.js	2009-12-05 02:53:47.000000000 +0100
++++ mail/app/profile/all-thunderbird.js	2009-12-17 11:11:15.450649343 +0100
 @@ -73,12 +73,12 @@
  // App-specific update preferences
  
