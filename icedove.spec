@@ -30,15 +30,12 @@ Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Source6:	%{name}-enigmail.manifest
 Patch0:		%{name}-branding.patch
-Patch1:		%{name}-lib_path.patch
-Patch2:		%{name}-enigmail-shared.patch
-Patch3:		%{name}-gcc.patch
-Patch4:		%{name}-fonts.patch
-Patch5:		%{name}-install.patch
-Patch6:		%{name}-myspell.patch
-Patch7:		%{name}-regionNames.patch
-Patch8:		%{name}-prefs.patch
-Patch9:		%{name}-gcc44.patch
+Patch1:		%{name}-enigmail-shared.patch
+Patch2:		%{name}-gcc.patch
+Patch3:		%{name}-fonts.patch
+Patch4:		%{name}-install.patch
+Patch5:		%{name}-myspell.patch
+Patch6:		%{name}-prefs.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -108,8 +105,8 @@ Main Features:
 
 %description addon-enigmail -l pl.UTF-8
 Enigmail to rozszerzenie klienta pocztowego Icedove pozwalające
-użytkownikom na dostęp do uwierzytelniania i szyfrowania
-zapewnianego przez GnuPG.
+użytkownikom na dostęp do uwierzytelniania i szyfrowania zapewnianego
+przez GnuPG.
 
 Główne możliwości:
 - szyfrowanie/podpisywanie poczty przy wysyłaniu,
@@ -126,17 +123,12 @@ cd comm-1.9.1
 %{?with_enigmail:tar xvfz %{SOURCE1} -C mailnews/extensions}
 /bin/sh %{SOURCE3}
 %patch0 -p1
-##%patch1 -p1
-%{?with_enigmail:%patch2 -p1}
+%{?with_enigmail:%patch1 -p1}
+%patch2 -p1
 %patch3 -p1
-#%patch4 -p1
-%patch5 -p1
-#%patch6 -p1
-#%patch7 -p1
-%patch8 -p0
-#%patch9 -p1
-
-##:> config/gcc_hidden.h
+%patch4 -p1
+#%patch5 -p1
+%patch6 -p0
 
 %build
 cd comm-1.9.1
@@ -148,7 +140,6 @@ cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
 cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
 
 cat << 'EOF' > .mozconfig
-#. $topsrcdir/mail/config/mozconfig
 
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
 
