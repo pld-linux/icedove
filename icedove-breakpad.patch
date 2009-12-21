@@ -1,0 +1,35 @@
+Bug 485019: #include <cstdio> where needed.
+
+diff --git a/mozilla/toolkit/crashreporter/google-breakpad/src/client/linux/handler/exception_handler.cc b/toolkit/crashreporter/google-breakpad/src/client/linux/handler/exception_handler.cc
+--- a/mozilla/toolkit/crashreporter/google-breakpad/src/client/linux/handler/exception_handler.cc
++++ b/mozilla/toolkit/crashreporter/google-breakpad/src/client/linux/handler/exception_handler.cc
+@@ -36,6 +36,7 @@
+ 
+ #include <cassert>
+ #include <cstdlib>
++#include <cstdio>
+ #include <ctime>
+ #include <linux/limits.h>
+ 
+diff --git a/mozilla/toolkit/crashreporter/google-breakpad/src/client/linux/handler/minidump_generator.cc b/toolkit/crashreporter/google-breakpad/src/client/linux/handler/minidump_generator.cc
+--- a/mozilla/toolkit/crashreporter/google-breakpad/src/client/linux/handler/minidump_generator.cc
++++ b/mozilla/toolkit/crashreporter/google-breakpad/src/client/linux/handler/minidump_generator.cc
+@@ -39,6 +39,7 @@
+ #include <sys/wait.h>
+ 
+ #include <cstdlib>
++#include <cstdio>
+ #include <ctime>
+ #include <string.h>
+ 
+diff --git a/mozilla/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc b/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc
+--- a/mozilla/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc
++++ b/mozilla/toolkit/crashreporter/google-breakpad/src/common/linux/dump_symbols.cc
+@@ -30,6 +30,7 @@
+ #include <a.out.h>
+ #include <cstdarg>
+ #include <cstdlib>
++#include <cstdio>
+ #include <cxxabi.h>
+ #include <elf.h>
+ #include <errno.h>
