@@ -36,6 +36,7 @@ Patch3:		%{name}-fonts.patch
 Patch4:		%{name}-install.patch
 Patch5:		%{name}-myspell.patch
 Patch6:		%{name}-prefs.patch
+Patch7:		%{name}-breakpad.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -129,6 +130,7 @@ cd comm-1.9.1
 %patch4 -p1
 #%patch5 -p1
 %patch6 -p0
+%patch7 -p1
 
 %build
 cd comm-1.9.1
@@ -340,6 +342,7 @@ exit 0
 
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/updater
+%{_libdir}/%{name}/update.locale
 #%{_pixmapsdir}/*.png
 %{_desktopdir}/*.desktop
 
