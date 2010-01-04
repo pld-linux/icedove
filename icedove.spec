@@ -149,9 +149,9 @@ cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
 cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
 
 cat << 'EOF' > .mozconfig
-
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
 
+# Options for 'configure' (same as command-line options).
 ac_add_options --prefix=%{_prefix}
 ac_add_options --exec-prefix=%{_exec_prefix}
 ac_add_options --bindir=%{_bindir}
@@ -166,11 +166,16 @@ ac_add_options --sharedstatedir=%{_sharedstatedir}
 ac_add_options --mandir=%{_mandir}
 ac_add_options --infodir=%{_infodir}
 %if %{?debug:1}0
+ac_add_options --disable-optimize
 ac_add_options --enable-debug
 ac_add_options --enable-debug-modules
+ac_add_options --enable-debugger-info-modules
+ac_add_options --enable-crash-on-assert
 %else
 ac_add_options --disable-debug
 ac_add_options --disable-debug-modules
+ac_add_options --disable-logging
+ac_add_options --enable-optimize="%{rpmcflags} -Os"
 %endif
 %if %{with tests}
 ac_add_options --enable-tests
@@ -192,6 +197,15 @@ ac_add_options --enable-ldap
 %else
 ac_add_options --disable-ldap
 %endif
+ac_add_options --disable-elf-dynstr-gc
+ac_add_options --disable-crashreporter
+ac_add_options --disable-pedantic
+ac_add_options --disable-updater
+ac_add_options --disable-xterm-updates
+ac_add_options --enable-ldap
+ac_add_options --enable-postscript
+ac_add_options --enable-old-abi-compat-wrappers
+ac_add_options --enable-startup-notification
 ac_add_options --enable-calendar
 ac_add_options --disable-installer
 ac_add_options --disable-jsd
@@ -229,13 +243,17 @@ ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
 %{__make} -j1 -f client.mk build \
-	CC="%{__cc}" \
+    STRIP="/bin/true" \
+    CC="%{__cc}" \
 	CXX="%{__cxx}"
 
 %if %{with enigmail}
-	cd mailnews/extensions/enigmail
-	./makemake -r
-	%{__make} -C ../../../obj-%{_target_cpu}/mailnews/extensions/enigmail
+cd mailnews/extensions/enigmail
+./makemake -r 
+%{__make} -C ../../../obj-%{_target_cpu}/mailnews/extensions/enigmail \
+    STRIP="/bin/true" \
+    CC="%{__cc}" \
+    CXX="%{__cxx}"
 %endif
 
 %install
@@ -254,13 +272,13 @@ cd comm-1.9.1
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
+#mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
 ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
-ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
+#ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
 ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 
@@ -340,13 +358,13 @@ exit 0
 %{_libdir}/%{name}/defaults
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/greprefs
-%{_libdir}/%{name}/icons
+#%{_libdir}/%{name}/icons
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/res
 
 %{_libdir}/%{name}/dependentlibs.list
-%{_libdir}/%{name}/updater
-%{_libdir}/%{name}/update.locale
+#%{_libdir}/%{name}/updater
+#%{_libdir}/%{name}/update.locale
 #%{_pixmapsdir}/*.png
 %{_desktopdir}/*.desktop
 
@@ -354,7 +372,7 @@ exit 0
 %{_datadir}/%{name}/chrome
 %{_datadir}/%{name}/defaults
 %{_datadir}/%{name}/greprefs
-%{_datadir}/%{name}/icons
+#%{_datadir}/%{name}/icons
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/res
 
