@@ -197,14 +197,11 @@ ac_add_options --enable-ldap
 %else
 ac_add_options --disable-ldap
 %endif
-ac_add_options --disable-elf-dynstr-gc
 ac_add_options --disable-crashreporter
-ac_add_options --disable-pedantic
 ac_add_options --disable-updater
 ac_add_options --disable-xterm-updates
 ac_add_options --enable-ldap
 ac_add_options --enable-postscript
-ac_add_options --enable-old-abi-compat-wrappers
 ac_add_options --enable-startup-notification
 ac_add_options --enable-calendar
 ac_add_options --disable-installer
@@ -297,10 +294,8 @@ install -d $_enig_dir/chrome
 install -d $_enig_dir/components
 install -d $_enig_dir/defaults/preferences
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail.jar $_enig_dir/chrome
-#mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-skin-seamonkey.jar $_enig_dir/chrome
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig* $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so $_enig_dir/components
-#mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libipc.so $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt $_enig_dir/components
 mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences/enigmail.js $_enig_dir/defaults/preferences
 cp -f mailnews/extensions/enigmail/package/install.rdf $_enig_dir
