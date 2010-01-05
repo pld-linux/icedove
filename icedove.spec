@@ -12,6 +12,7 @@
 %bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
+%bcond_without  lightning   # disable sunbird calendar
 #
 %if %{without gnome}
 %undefine	with_gnomeui
@@ -96,7 +97,7 @@ License:	MPL/LGPL
 Group:		Applications/Networking
 URL:		http://enigmail.mozdev.org/
 Requires:	%{name} = %{version}-%{release}
-Requires:   gnupg
+Requires:	gnupg
 Obsoletes:	mozilla-thunderbird-addon-enigmail
 
 %description addon-enigmail
@@ -204,7 +205,11 @@ ac_add_options --disable-xterm-updates
 ac_add_options --enable-ldap
 ac_add_options --enable-postscript
 ac_add_options --enable-startup-notification
+%if %{with lightning}
 ac_add_options --enable-calendar
+%else
+ac_add_options --disable-calendar
+%endif
 ac_add_options --disable-installer
 ac_add_options --disable-jsd
 ac_add_options --disable-xprint
@@ -241,17 +246,17 @@ ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
 %{__make} -j1 -f client.mk build \
-    STRIP="/bin/true" \
-    CC="%{__cc}" \
+	STRIP="/bin/true" \
+	CC="%{__cc}" \
 	CXX="%{__cxx}"
 
 %if %{with enigmail}
 cd mailnews/extensions/enigmail
-./makemake -r 
+./makemake -r
 %{__make} -C ../../../obj-%{_target_cpu}/mailnews/extensions/enigmail \
-    STRIP="/bin/true" \
-    CC="%{__cc}" \
-    CXX="%{__cxx}"
+	STRIP="/bin/true" \
+	CC="%{__cc}" \
+	CXX="%{__cxx}"
 %endif
 
 %install
