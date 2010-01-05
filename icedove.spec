@@ -96,6 +96,7 @@ License:	MPL/LGPL
 Group:		Applications/Networking
 URL:		http://enigmail.mozdev.org/
 Requires:	%{name} = %{version}-%{release}
+Requires:   gnupg
 Obsoletes:	mozilla-thunderbird-addon-enigmail
 
 %description addon-enigmail
