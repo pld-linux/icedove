@@ -261,14 +261,9 @@ cd mailnews/extensions/enigmail
 
 %install
 rm -rf $RPM_BUILD_ROOT
-<<<<<<< icedove.spec
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_libdir}/icedove,%{_pixmapsdir},%{_desktopdir}} \
-	$RPM_BUILD_ROOT%{_datadir}/%{name}
-=======
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} \
 	       $RPM_BUILD_ROOT%{_datadir}/%{name}
 install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
->>>>>>> 1.49
 
 cd comm-1.9.1
 %{__make} -C obj-%{_target_cpu}/mail/installer stage-package \
