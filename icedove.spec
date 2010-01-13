@@ -24,7 +24,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0
-Release:	0.2
+Release:	0.3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -132,7 +132,7 @@ Główne możliwości:
 cd comm-1.9.1
 %{?with_enigmail:tar xvfz %{SOURCE1} -C mailnews/extensions}
 /bin/sh %{SOURCE3}
-%patch0 -p1
+%patch0 -p2
 %{?with_enigmail:%patch1 -p1}
 %patch2 -p1
 %patch3 -p1
@@ -261,9 +261,14 @@ cd mailnews/extensions/enigmail
 
 %install
 rm -rf $RPM_BUILD_ROOT
+<<<<<<< icedove.spec
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_libdir}/icedove,%{_pixmapsdir},%{_desktopdir}} \
+	$RPM_BUILD_ROOT%{_datadir}/%{name}
+=======
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} \
 	       $RPM_BUILD_ROOT%{_datadir}/%{name}
 install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
+>>>>>>> 1.49
 
 cd comm-1.9.1
 %{__make} -C obj-%{_target_cpu}/mail/installer stage-package \
