@@ -245,7 +245,7 @@ ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
-%{__make} -f client.mk build \
+%{__make} -j1 -f client.mk build \
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
