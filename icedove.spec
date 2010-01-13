@@ -245,7 +245,7 @@ ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
-%{__make} -j1 -f client.mk build \
+%{__make} -f client.mk build \
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
@@ -386,6 +386,7 @@ exit 0
 
 %dir %{_libdir}/%{name}/extensions
 %{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
+%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}
 
 %if %{with enigmail}
 %files addon-enigmail
