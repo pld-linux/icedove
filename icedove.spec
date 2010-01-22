@@ -61,12 +61,15 @@ BuildRequires:	myspell-devel
 BuildRequires:	nspr-devel >= 1:4.8
 BuildRequires:	nss-devel >= 1:3.12.0
 BuildRequires:	pango-devel >= 1:1.1.0
+BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
+BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel >= 2.1
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
+BuildRequires:	zip
 Requires:	myspell-common
 Requires:	nspr >= 1:4.6.1
 Requires:	nss >= 1:3.11.3
