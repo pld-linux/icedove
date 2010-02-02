@@ -24,7 +24,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.1
-Release:	0.1
+Release:	0.2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -45,6 +45,7 @@ Patch4:		%{name}-install.patch
 Patch5:		%{name}-myspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		%{name}-breakpad.patch
+Patch8:		%{name}-libpng.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -143,6 +144,7 @@ cd comm-1.9.1
 #%patch5 -p1
 %patch6 -p0
 %patch7 -p1
+%patch8 -p1
 
 %build
 cd comm-1.9.1
