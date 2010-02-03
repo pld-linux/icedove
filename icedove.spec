@@ -2,9 +2,10 @@
 # TODO:
 # - CHECK all features of enigmail
 # - separate spec for enigmail
-# - update or remove -myspell.patch
+# - remove -myspell.patch
 # - package unpackaged files
 # - update branding patch!!!
+# - fix hunspell and enable
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -52,13 +53,13 @@ BuildRequires:	automake
 BuildRequires:	freetype-devel >= 1:2.1.8
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 1:2.0.0
+#BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 %{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libpng-devel >= 1.2.0
 BuildRequires:	libstdc++-devel
-BuildRequires:	myspell-devel
 BuildRequires:	nspr-devel >= 1:4.8
 BuildRequires:	nss-devel >= 1:3.12.0
 BuildRequires:	pango-devel >= 1:1.1.0
@@ -66,9 +67,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
-BuildRequires:	xorg-lib-libXft-devel >= 2.1
 BuildRequires:	xorg-lib-libXinerama-devel
-BuildRequires:	xorg-lib-libXp-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zip
 Requires:	myspell-common
@@ -231,7 +230,7 @@ ac_add_options --enable-static
 ac_add_options --disable-strip
 ac_add_options --disable-strip-libs
 ac_add_options --enable-system-cairo
-ac_add_options --enable-system-myspell
+#ac_add_options --enable-system-hunspell
 ac_add_options --enable-svg
 ac_add_options --enable-xft
 ac_add_options --enable-application=mail
