@@ -47,6 +47,7 @@ Patch5:		%{name}-myspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		%{name}-breakpad.patch
 Patch8:		%{name}-libpng.patch
+Patch9:		%{name}-condstore.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -144,6 +145,7 @@ cd comm-1.9.1
 %patch6 -p0
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 cd comm-1.9.1
