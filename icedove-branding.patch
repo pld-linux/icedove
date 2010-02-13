@@ -1,6 +1,30 @@
+diff -urN mozilla.orig/calendar/lightning/install.rdf mozilla/calendar/lightning/install.rdf
+--- mozilla.orig/calendar/lightning/install.rdf	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/calendar/lightning/install.rdf	2010-02-13 01:56:44.000000000 +0100
+@@ -42,7 +42,7 @@
+     <em:id>{e2fda1a4-762b-4020-b5ad-a41df1933103}</em:id>
+     <em:name>Lightning</em:name>
+     <em:version>@LIGHTNING_VERSION@</em:version> <!-- BuildID=@GRE_BUILDID@ -->
+-    <em:description>An integrated calendar for Thunderbird</em:description>
++    <em:description>An integrated calendar for Icedove</em:description>
+ #ifdef LIGHTNING_PRERELEASE_VERSION
+     <em:developer>Build ID: @GRE_BUILDID@</em:developer>
+ #endif
+diff -urN mozilla.orig/calendar/locales/en-US/chrome/lightning/lightning.properties mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties
+--- mozilla.orig/calendar/locales/en-US/chrome/lightning/lightning.properties	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties	2010-02-13 01:56:30.000000000 +0100
+@@ -39,7 +39,7 @@
+ 
+ # addon description:
+ extensions.{e2fda1a4-762b-4020-b5ad-a41df1933103}.name=Lightning
+-extensions.{e2fda1a4-762b-4020-b5ad-a41df1933103}.description=An integrated calendar for Thunderbird
++extensions.{e2fda1a4-762b-4020-b5ad-a41df1933103}.description=An integrated calendar for Icedove
+ extensions.{e2fda1a4-762b-4020-b5ad-a41df1933103}.creator=Mozilla Calendar Project
+ 
+ # Lightning branding
 diff -urN mozilla.orig/mail/app/application.ini mozilla/mail/app/application.ini
 --- mozilla.orig/mail/app/application.ini	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/app/application.ini	2010-02-12 19:52:36.000000000 +0100
++++ mozilla/mail/app/application.ini	2010-02-13 01:55:35.000000000 +0100
 @@ -37,7 +37,7 @@
  
  #filter substitution
@@ -12,7 +36,7 @@ diff -urN mozilla.orig/mail/app/application.ini mozilla/mail/app/application.ini
  #ifdef MOZ_SOURCE_REPO
 diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/profile/all-thunderbird.js
 --- mozilla.orig/mail/app/profile/all-thunderbird.js	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/app/profile/all-thunderbird.js	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mail/app/profile/all-thunderbird.js	2010-02-13 01:55:35.000000000 +0100
 @@ -73,7 +73,7 @@
  // App-specific update preferences
  
@@ -99,7 +123,7 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
  pref("mail.wizard.logging.console", "None");
 diff -urN mozilla.orig/mail/base/content/baseMenuOverlay.xul mozilla/mail/base/content/baseMenuOverlay.xul
 --- mozilla.orig/mail/base/content/baseMenuOverlay.xul	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/base/content/baseMenuOverlay.xul	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mail/base/content/baseMenuOverlay.xul	2010-02-13 01:55:35.000000000 +0100
 @@ -70,9 +70,6 @@
                  oncommand="openSupportURL();"
                  key="key_openHelp"/>
@@ -112,7 +136,7 @@ diff -urN mozilla.orig/mail/base/content/baseMenuOverlay.xul mozilla/mail/base/c
                  oncommand="openWhatsNew();"/>
 diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content/credits.xhtml
 --- mozilla.orig/mail/base/content/credits.xhtml	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/base/content/credits.xhtml	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mail/base/content/credits.xhtml	2010-02-13 01:55:35.000000000 +0100
 @@ -216,7 +216,7 @@
      </div>
  
@@ -145,7 +169,7 @@ diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content
            &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
 diff -urN mozilla.orig/mail/build.mk mozilla/mail/build.mk
 --- mozilla.orig/mail/build.mk	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/build.mk	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mail/build.mk	2010-02-13 01:55:35.000000000 +0100
 @@ -112,11 +112,11 @@
  APP_NAME := $(APP_NAME)Debug
  endif
@@ -162,7 +186,7 @@ diff -urN mozilla.orig/mail/build.mk mozilla/mail/build.mk
  mozmill::
 diff -urN mozilla.orig/mail/components/shell/nsMailGNOMEIntegration.cpp mozilla/mail/components/shell/nsMailGNOMEIntegration.cpp
 --- mozilla.orig/mail/components/shell/nsMailGNOMEIntegration.cpp	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/components/shell/nsMailGNOMEIntegration.cpp	2010-02-12 19:56:28.000000000 +0100
++++ mozilla/mail/components/shell/nsMailGNOMEIntegration.cpp	2010-02-13 01:55:35.000000000 +0100
 @@ -94,7 +94,7 @@
                                getter_AddRefs(appPath));
    NS_ENSURE_SUCCESS(rv, rv);
@@ -174,7 +198,7 @@ diff -urN mozilla.orig/mail/components/shell/nsMailGNOMEIntegration.cpp mozilla/
    rv = appPath->GetNativePath(mAppPath);
 diff -urN mozilla.orig/mail/confvars.sh mozilla/mail/confvars.sh
 --- mozilla.orig/mail/confvars.sh	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/confvars.sh	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mail/confvars.sh	2010-02-13 01:55:35.000000000 +0100
 @@ -36,7 +36,7 @@
  #
  # ***** END LICENSE BLOCK *****
@@ -186,7 +210,7 @@ diff -urN mozilla.orig/mail/confvars.sh mozilla/mail/confvars.sh
  MOZ_NO_ACTIVEX_SUPPORT=1
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd
 --- mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2010-02-13 01:55:35.000000000 +0100
 @@ -2,9 +2,7 @@
  <!ENTITY aboutButton.label      "&lt; Back">
  <!ENTITY aboutButton.accesskey  "B">
@@ -200,7 +224,7 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozil
  <!ENTITY aboutCredits.label     "Credits">
 diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
 --- mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2010-02-13 01:55:35.000000000 +0100
 @@ -1,5 +1,5 @@
  <!ENTITY credit.title     "&brandFullName; Credits">
 -<!ENTITY brandMotto       "Thunderbirds Are Go!">
@@ -210,7 +234,7 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/m
  <!-- localization credits look like this: -->
 diff -urN mozilla.orig/mozilla/toolkit/xre/nsAppRunner.cpp mozilla/mozilla/toolkit/xre/nsAppRunner.cpp
 --- mozilla.orig/mozilla/toolkit/xre/nsAppRunner.cpp	2010-01-11 18:43:15.000000000 +0100
-+++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2010-02-11 22:05:58.000000000 +0100
++++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2010-02-13 01:55:35.000000000 +0100
 @@ -1236,8 +1236,7 @@
  static inline void
  DumpVersion()
