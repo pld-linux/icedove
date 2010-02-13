@@ -1,6 +1,5 @@
 #
 # TODO:
-# - CHECK all features of enigmail
 # - separate spec for enigmail
 # - remove -myspell.patch
 # - package unpackaged files
@@ -12,27 +11,27 @@
 %bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
-%bcond_without  lightning   # disable sunbird calendar
+%bcond_without  lightning	# disable sunbird calendar
 #
 %if %{without gnome}
 %undefine	with_gnomeui
 %undefine	with_gnomevfs
 %endif
-%define		enigmail_ver		1.0.0
+%define		enigmail_ver		1.0.1
 
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.1
-Release:	0.3
+Release:	0.4
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
 # Source0-md5:	f004aa5ddf2a30b5df96e06df416b0c9
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	e3a6d379f1a72ac023751bdde2de750a
+# Source1-md5:	508ca9ab0396afb49e82eda88014924b
 Source2:	%{name}-branding.tar.bz2
-# Source2-md5:	ef52c044e026ee65762893e97f421b1b
+# Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
@@ -92,6 +91,20 @@ Icedove is an open-source,fast and portable email client.
 
 %description -l pl.UTF-8
 Icedove jest open sourcowym, szybkim i przenośnym klientem poczty.
+
+%package addon-lightning
+Summary:	An integrated calendar for Icedove
+Summary(pl.UTF-8):	Zintegrowany kalendarz dla Icedove
+License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
+Group:		Applications/Networking
+Requires:	%{name} = %{version}-%{release}
+
+%description addon-lightning
+Lightning is an calendar extension to Icedove email client.
+
+%description addon-lightning -l pl.UTF-8
+Lightning to rozszerzenie do klienta poczty Icedove dodające
+funkcjonalność kalendarza.
 
 %package addon-enigmail
 Summary:	Extension for the authentication and encryption features provided by GnuPG
@@ -358,7 +371,7 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 #%attr(755,root,root) %{_libdir}/%{name}/reg*
 %attr(755,root,root) %{_libdir}/%{name}/icedove
-%{_libdir}/%{name}/*.txt
+#%{_libdir}/%{name}/*.txt
 #%attr(755,root,root) %{_libdir}/%{name}/x*
 
 # symlinks
@@ -393,7 +406,13 @@ exit 0
 
 %dir %{_libdir}/%{name}/extensions
 %{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
+
+%if %{with lightning}
+%files addon-lightning
+%defattr(644,root,root,755)
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}
+%{_libdir}/%{name}/extensions/calendar-timezones@mozilla.org
+%endif
 
 %if %{with enigmail}
 %files addon-enigmail
