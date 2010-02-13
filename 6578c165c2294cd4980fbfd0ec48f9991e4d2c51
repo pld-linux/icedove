@@ -1,0 +1,4 @@
+- enigmail updated to 1.0.1, encrypting, decrypting and signing works ok
+- moved lightning extension to separate package, package calendar
+  timezones extension as well
+- updated branding
