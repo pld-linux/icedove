@@ -1,31 +1,180 @@
---- icedove-3.0.old/comm-1.9.1/mozilla/configure.orig	2009-12-18 15:06:50.144206912 +0100
-+++ icedove-3.0.old/comm-1.9.1/mozilla/configure	2009-12-18 15:07:35.791285838 +0100
-@@ -13390,8 +13390,8 @@
-   ;;
+diff -urN mozilla.orig/mail/app/application.ini mozilla/mail/app/application.ini
+--- mozilla.orig/mail/app/application.ini	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/app/application.ini	2010-02-12 19:52:36.000000000 +0100
+@@ -37,7 +37,7 @@
  
- standalone) 
--  MOZ_APP_NAME=mozilla
--  MOZ_APP_DISPLAYNAME=Mozilla
-+  MOZ_APP_NAME=icedove
-+  MOZ_APP_DISPLAYNAME=Icedove
-   MOZ_APP_VERSION=$MOZILLA_VERSION
-   ;;
+ #filter substitution
+ [App]
+-Name=Thunderbird
++Name=Icedove
+ Version=@APP_VERSION@
+ BuildID=@GRE_BUILDID@
+ #ifdef MOZ_SOURCE_REPO
+diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/profile/all-thunderbird.js
+--- mozilla.orig/mail/app/profile/all-thunderbird.js	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/app/profile/all-thunderbird.js	2010-02-11 22:05:58.000000000 +0100
+@@ -73,7 +73,7 @@
+ // App-specific update preferences
  
---- icedove-3.0.old/comm-1.9.1/mozilla/configure.in.orig	2009-12-18 15:07:49.984408790 +0100
-+++ icedove-3.0.old/comm-1.9.1/mozilla/configure.in	2009-12-18 15:08:12.906912163 +0100
-@@ -4664,8 +4664,8 @@
-   ;;
+ // Whether or not app updates are enabled
+-pref("app.update.enabled", true);               
++pref("app.update.enabled", false);
  
- standalone) 
--  MOZ_APP_NAME=mozilla
--  MOZ_APP_DISPLAYNAME=Mozilla
-+  MOZ_APP_NAME=icedove
-+  MOZ_APP_DISPLAYNAME=Icedove
-   MOZ_APP_VERSION=$MOZILLA_VERSION
-   ;;
+ // This preference turns on app.update.mode and allows automatic download and
+ // install to take place. We use a separate boolean toggle for this to make     
+@@ -98,10 +98,10 @@
  
---- icedove-3.0.old/comm-1.9.1/mail/confvars.sh	2009-12-05 02:53:48.000000000 +0100
-+++ icedove-3.0/comm-1.9.1.new/mail/confvars.sh	2009-12-21 09:55:06.346526172 +0100
+ // URL user can browse to manually if for some reason all update installation
+ // attempts fail.  TODO: Change this URL
+-pref("app.update.url.manual", "http://www.mozillamessaging.com/%LOCALE%/%APP%/");
++pref("app.update.url.manual", "http://www.mozillamessaging.com/%LOCALE%/thunderbird/");
+ // A default value for the "More information about this update" link
+ // supplied in the "An update is available" page of the update wizard. 
+-pref("app.update.url.details", "http://www.mozillamessaging.com/%LOCALE%/%APP%/releases/");
++pref("app.update.url.details", "http://www.mozillamessaging.com/%LOCALE%/thunderbird/releases/");
+ // User-settable override to app.update.url for testing purposes.
+ //pref("app.update.url.override", "");
+ 
+@@ -127,10 +127,10 @@
+ pref("app.update.showInstalledUI", false);
+ 
+ // Release notes URL
+-pref("app.releaseNotesURL", "http://live.mozillamessaging.com/%APP%/releasenotes?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
++pref("app.releaseNotesURL", "http://live.mozillamessaging.com/thunderbird/releasenotes?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
+ 
+ // Base URL for web-based support pages.
+-pref("app.support.baseURL", "http://support.live.mozillamessaging.com/%LOCALE%/%APP%/%APPBUILDID%/");
++pref("app.support.baseURL", "http://support.live.mozillamessaging.com/%LOCALE%/thunderbird/%APPBUILDID%/");
+ 
+ // Blocklist preferences
+ pref("extensions.blocklist.enabled", true);
+@@ -158,9 +158,9 @@
+ pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
+                                             // Themes every day
+ // Non-symmetric (not shared by extensions) extension-specific [update] preferences
+-pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/extensions/");
+-pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/themes/");
+-pref("extensions.getMorePluginsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/plugins/");
++pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/extensions/");
++pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/themes/");
++pref("extensions.getMorePluginsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/plugins/");
+ pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
+ pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
+ 
+@@ -169,12 +169,12 @@
+ 
+ // Preferences for the Get Add-ons pane
+ pref("extensions.getAddons.showPane", true);
+-pref("extensions.getAddons.browseAddons", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%");
++pref("extensions.getAddons.browseAddons", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird");
+ pref("extensions.getAddons.maxResults", 5);
+-pref("extensions.getAddons.recommended.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/recommended");
+-pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
+-pref("extensions.getAddons.search.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/search?q=%TERMS%");
+-pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
++pref("extensions.getAddons.recommended.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/recommended");
++pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
++pref("extensions.getAddons.search.browseURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/search?q=%TERMS%");
++pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
+ 
+ pref("xpinstall.whitelist.add", "update.mozilla.org");
+ pref("xpinstall.whitelist.add.103", "addons.mozilla.org");
+@@ -361,7 +361,7 @@
+ pref("news.directory",                  "");
+ pref("spellchecker.dictionary", "");
+ // Dictionary download preference
+-pref("spellchecker.dictionaries.download.url", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/dictionaries/");
++pref("spellchecker.dictionaries.download.url", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/dictionaries/");
+ 
+ // profile.force.migration can be used to bypass the migration wizard, forcing migration from a particular
+ // mail application without any user intervention. Possible values are: 
+@@ -491,7 +491,7 @@
+ pref("mailnews.database.global.logging.console", true);
+ 
+ // page to load to find good header add-ons
+-pref("mailnews.migration.header_addons_url","http://live.mozillamessaging.com/%APP%/addons/search?q=header&locale=%LOCALE%&lver=%VERSION%&hver=%VERSION%&os=%OS%");
++pref("mailnews.migration.header_addons_url","http://live.mozillamessaging.com/thunderbird/addons/search?q=header&locale=%LOCALE%&lver=%VERSION%&hver=%VERSION%&os=%OS%");
+ 
+ // What level of warning should we send to the error console?
+ pref("mail.wizard.logging.console", "None");
+diff -urN mozilla.orig/mail/base/content/baseMenuOverlay.xul mozilla/mail/base/content/baseMenuOverlay.xul
+--- mozilla.orig/mail/base/content/baseMenuOverlay.xul	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/base/content/baseMenuOverlay.xul	2010-02-11 22:05:58.000000000 +0100
+@@ -70,9 +70,6 @@
+                 oncommand="openSupportURL();"
+                 key="key_openHelp"/>
+ #endif
+-      <menuitem id="releaseNotes"
+-                label="&releaseCmd.label;" accesskey="&releaseCmd.accesskey;"
+-                oncommand="openFormattedURL('app.releaseNotesURL');"/>
+       <menuitem id="whatsNew"
+                 label="&whatsNewCmd.label;" accesskey="&whatsNewCmd.accesskey;"
+                 oncommand="openWhatsNew();"/>
+diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content/credits.xhtml
+--- mozilla.orig/mail/base/content/credits.xhtml	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/base/content/credits.xhtml	2010-02-11 22:05:58.000000000 +0100
+@@ -216,7 +216,7 @@
+     </div>
+ 
+     <div id="creditsBox">
+-        <h2 class="title">&brandFullName;&trade;
++        <h2 class="title">&brandFullName;
+           <div class="motto">&brandMotto;</div>
+         </h2>
+ 
+@@ -329,19 +329,13 @@
+         <p id="gecko" class="center">&credit.poweredByGecko;</p>
+ 
+         <p class="footnote">
+-          &brandFullName;&trade; &license.part0; &copy;1998-2010 &license.part1;
++          &brandFullName; &license.part0; &copy;1998-2010 &license.part1;
+           <a href="" link="http://www.mozilla.org/credits/" onclick="visitLink(event); event.preventDefault();">&license.contrib;</a>,
+           &license.part2;
+           <a href="" onclick="openLicense(); event.preventDefault();">license</a>
+           &license.part3;</p>
+ 
+         <p class="footnote">
+-          Mozilla Thunderbird&trade; and the Thunderbird logo are trademarks of the Mozilla
+-          Foundation. You are not granted rights or licenses to the trademarks
+-          of the Mozilla Foundation or any party, including without limitation the
+-          Thunderbird name or logo.</p>
+-
+-        <p class="footnote">
+           U.S. GOVERNMENT END USERS. The Software is a &ldquo;commercial item,&rdquo;
+           as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
+           &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
+diff -urN mozilla.orig/mail/build.mk mozilla/mail/build.mk
+--- mozilla.orig/mail/build.mk	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/build.mk	2010-02-11 22:05:58.000000000 +0100
+@@ -112,11 +112,11 @@
+ APP_NAME := $(APP_NAME)Debug
+ endif
+ PROGRAM_LOCATION = ../../../$(DIST)/$(APP_NAME).app/Contents/MacOS/
+-PROGRAM = $(PROGRAM_LOCATION)thunderbird-bin$(BIN_SUFFIX)
++PROGRAM = $(PROGRAM_LOCATION)$(MOZ_APP_NAME)-bin$(BIN_SUFFIX)
+ else
+ # Non-mac options
+ PROGRAM_LOCATION = ../../../$(DIST)/bin/
+-PROGRAM = $(PROGRAM_LOCATION)thunderbird$(BIN_SUFFIX)
++PROGRAM = $(PROGRAM_LOCATION)$(MOZ_APP_NAME)$(BIN_SUFFIX)
+ endif
+ 
+ mozmill::
+diff -urN mozilla.orig/mail/components/shell/nsMailGNOMEIntegration.cpp mozilla/mail/components/shell/nsMailGNOMEIntegration.cpp
+--- mozilla.orig/mail/components/shell/nsMailGNOMEIntegration.cpp	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/components/shell/nsMailGNOMEIntegration.cpp	2010-02-12 19:56:28.000000000 +0100
+@@ -94,7 +94,7 @@
+                               getter_AddRefs(appPath));
+   NS_ENSURE_SUCCESS(rv, rv);
+ 
+-  rv = appPath->AppendNative(NS_LITERAL_CSTRING("thunderbird"));
++  rv = appPath->AppendNative(NS_LITERAL_CSTRING("icedove"));
+   NS_ENSURE_SUCCESS(rv, rv);
+ 
+   rv = appPath->GetNativePath(mAppPath);
+diff -urN mozilla.orig/mail/confvars.sh mozilla/mail/confvars.sh
+--- mozilla.orig/mail/confvars.sh	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/confvars.sh	2010-02-11 22:05:58.000000000 +0100
 @@ -36,7 +36,7 @@
  #
  # ***** END LICENSE BLOCK *****
@@ -35,68 +184,40 @@
  MOZ_UPDATER=1
  MOZ_THUNDERBIRD=1
  MOZ_NO_ACTIVEX_SUPPORT=1
-diff -ru icedove-3.0.old/comm-1.9.1/mail/branding/nightly/branding.nsi icedove-3.0/comm-1.9.1/mail/branding/nightly/branding.nsi
---- icedove-3.0.old/comm-1.9.1/mail/branding/nightly/branding.nsi	2010-01-13 12:50:52.355011705 +0100
-+++ icedove-3.0/comm-1.9.1/mail/branding/nightly/branding.nsi	2010-01-13 12:52:49.625208158 +0100
-@@ -39,7 +39,7 @@
+diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2010-02-11 22:05:58.000000000 +0100
+@@ -2,9 +2,7 @@
+ <!ENTITY aboutButton.label      "&lt; Back">
+ <!ENTITY aboutButton.accesskey  "B">
+ <!ENTITY aboutVersion           "version">
+-<!ENTITY copyrightText          "&#169;1998-2010 Contributors. All Rights Reserved. Mozilla Thunderbird and the 
+-                                 Thunderbird logos are trademarks of the Mozilla Foundation.  All rights 
+-                                 reserved.">
++<!ENTITY copyrightText          "&#169;1998-2010 Contributors. All Rights Reserved.">
+ <!ENTITY aboutMenu.label        "About">
+ <!ENTITY aboutMenu.accesskey    "A">
+ <!ENTITY aboutCredits.label     "Credits">
+diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
+--- mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd	2010-01-11 18:40:34.000000000 +0100
++++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2010-02-11 22:05:58.000000000 +0100
+@@ -1,5 +1,5 @@
+ <!ENTITY credit.title     "&brandFullName; Credits">
+-<!ENTITY brandMotto       "Thunderbirds Are Go!">
++<!ENTITY brandMotto       "Icedoves Are Free!">
+ <!ENTITY credit.thanks    "Special Thanks To">
  
- # BrandFullNameInternal is used for some registry and file system values
- # instead of BrandFullName and typically should not be modified.
--!define BrandFullNameInternal "Shredder"
-+!define BrandFullNameInternal "Icedove"
- !define CompanyName           "mozilla.org"
- !define URLInfoAbout          "http://www.mozilla.org/"
- !define URLUpdateInfo         "http://www.mozilla.org/products/thunderbird/"
-diff -ru icedove-3.0.old/comm-1.9.1/mail/branding/nightly/configure.sh icedove-3.0/comm-1.9.1/mail/branding/nightly/configure.sh
---- icedove-3.0.old/comm-1.9.1/mail/branding/nightly/configure.sh	2010-01-13 12:50:52.355011705 +0100
-+++ icedove-3.0/comm-1.9.1/mail/branding/nightly/configure.sh	2010-01-13 12:52:49.625208158 +0100
-@@ -1 +1 @@
--MOZ_APP_DISPLAYNAME=Shredder
-+MOZ_APP_DISPLAYNAME=Icedove
-diff -ru icedove-3.0.old/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.dtd icedove-3.0/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.dtd
---- icedove-3.0.old/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.dtd	2010-01-13 12:50:52.358344857 +0100
-+++ icedove-3.0/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.dtd	2010-01-13 12:53:00.268553944 +0100
-@@ -1,3 +1,3 @@
--<!ENTITY  brandShortName        "Shredder">
--<!ENTITY  brandFullName         "Shredder">
-+<!ENTITY  brandShortName        "Icedove">
-+<!ENTITY  brandFullName         "Icedove">
- <!ENTITY  vendorShortName       "mozilla.org">
-diff -ru icedove-3.0.old/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.properties icedove-3.0/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.properties
---- icedove-3.0.old/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.properties	2010-01-13 12:50:52.358344857 +0100
-+++ icedove-3.0/comm-1.9.1/mail/branding/nightly/locales/en-US/brand.properties	2010-01-13 12:53:00.268553944 +0100
-@@ -1,4 +1,4 @@
--brandShortName=Shredder
--brandFullName=Shredder
-+brandShortName=Icedove
-+brandFullName=Icedove
- vendorShortName=mozilla.org
- 
-diff -ru icedove-3.0.old/comm-1.9.1/mail/installer/windows/nsis/shared.nsh icedove-3.0/comm-1.9.1/mail/installer/windows/nsis/shared.nsh
---- icedove-3.0.old/comm-1.9.1/mail/installer/windows/nsis/shared.nsh	2010-01-13 12:50:52.375011483 +0100
-+++ icedove-3.0/comm-1.9.1/mail/installer/windows/nsis/shared.nsh	2010-01-13 12:53:13.349789738 +0100
-@@ -518,19 +518,19 @@
-     DeleteRegKey HKCU "$0\.eml\DefaultIcon"
-   ${EndUnless}
- 
--  ; Remove the Shredder clients key if its default icon contains thunderbird.exe
-+  ; Remove the Icedove clients key if its default icon contains thunderbird.exe
-   ClearErrors
--  ReadRegStr $1 HKLM "SOFTWARE\clients\mail\Shredder\DefaultIcon" ""
-+  ReadRegStr $1 HKLM "SOFTWARE\clients\mail\Icedove\DefaultIcon" ""
-   ${WordFind} "$1" "${FileMainEXE}" "E+1{" $R1
-   ${Unless} ${Errors}
--    DeleteRegKey HKLM "SOFTWARE\clients\mail\Shredder"
-+    DeleteRegKey HKLM "SOFTWARE\clients\mail\Icedove"
-   ${EndUnless}
- 
-   ClearErrors
--  ReadRegStr $1 HKLM "SOFTWARE\clients\news\Shredder\DefaultIcon" ""
-+  ReadRegStr $1 HKLM "SOFTWARE\clients\news\Icedove\DefaultIcon" ""
-   ${WordFind} "$1" "${FileMainEXE}" "E+1{" $R1
-   ${Unless} ${Errors}
--    DeleteRegKey HKLM "SOFTWARE\clients\news\Shredder"
-+    DeleteRegKey HKLM "SOFTWARE\clients\news\Icedove"
-   ${EndUnless}
- 
-   ; The Vista shim for 1.5.0.10 writes out a set of bogus keys which we need to
+ <!-- localization credits look like this: -->
+diff -urN mozilla.orig/mozilla/toolkit/xre/nsAppRunner.cpp mozilla/mozilla/toolkit/xre/nsAppRunner.cpp
+--- mozilla.orig/mozilla/toolkit/xre/nsAppRunner.cpp	2010-01-11 18:43:15.000000000 +0100
++++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2010-02-11 22:05:58.000000000 +0100
+@@ -1236,8 +1236,7 @@
+ static inline void
+ DumpVersion()
+ {
+-  printf("%s %s %s", 
+-         gAppData->vendor ? gAppData->vendor : "", gAppData->name, gAppData->version);
++  printf("%s %s", gAppData->name, gAppData->version);
+   if (gAppData->copyright)
+       printf(", %s", gAppData->copyright);
+   printf("\n");

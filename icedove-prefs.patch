@@ -1,12 +1,6 @@
---- mail/app/profile/all-thunderbird.js	2009-12-05 02:53:47.000000000 +0100
-+++ mail/app/profile/all-thunderbird.js	2009-12-17 11:11:15.450649343 +0100
-@@ -73,12 +73,12 @@
- // App-specific update preferences
- 
- // Whether or not app updates are enabled
--pref("app.update.enabled", true);               
-+pref("app.update.enabled", false);               
- 
+--- mozilla.orig/mail/app/profile/all-thunderbird.js	2008-06-23 14:04:11.000000000 +0200
++++ mozilla/mail/app/profile/all-thunderbird.js	2008-06-24 13:22:48.000000000 +0200
+@@ -78,7 +78,7 @@
  // This preference turns on app.update.mode and allows automatic download and
  // install to take place. We use a separate boolean toggle for this to make     
  // the UI easier to construct.
