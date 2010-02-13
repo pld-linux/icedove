@@ -4,7 +4,6 @@
 # - separate spec for enigmail
 # - remove -myspell.patch
 # - package unpackaged files
-# - update branding patch!!!
 # - fix hunspell and enable
 #
 # Conditional builds
@@ -25,7 +24,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.1
-Release:	0.2
+Release:	0.3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -33,7 +32,7 @@ Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{vers
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	e3a6d379f1a72ac023751bdde2de750a
 Source2:	%{name}-branding.tar.bz2
-# Source2-md5:	e775b8cb658de32f30b403bc9b7950bf
+# Source2-md5:	ef52c044e026ee65762893e97f421b1b
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
@@ -132,23 +131,25 @@ Główne możliwości:
 - interfejs do zarządzania kluczami OpenPGP
 
 %prep
-%setup -q -c -a2
-cd comm-1.9.1
+%setup -qc
+mv -f comm-1.9.1 mozilla
+%setup -q -T -D -a2
+cd mozilla
 %{?with_enigmail:tar xvfz %{SOURCE1} -C mailnews/extensions}
 /bin/sh %{SOURCE3}
-%patch0 -p2
+%patch0 -p1
 %{?with_enigmail:%patch1 -p1}
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 #%patch5 -p1
-%patch6 -p0
+%patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
 
 %build
-cd comm-1.9.1
+cd mozilla
 export CFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
 export CXXFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
 
@@ -247,7 +248,7 @@ ac_add_options --with-pthreads
 ac_add_options --enable-single-profile
 ac_add_options --disable-profilesharing
 ac_add_options --with-distribution-id=org.pld-linux
-#ac_add_options --with-branding=icedove/branding
+ac_add_options --with-branding=icedove/branding
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
@@ -271,7 +272,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} 
 	       $RPM_BUILD_ROOT%{_datadir}/%{name}
 install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
 
-cd comm-1.9.1
+cd mozilla
 %{__make} -C obj-%{_target_cpu}/mail/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
@@ -319,7 +320,7 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig*
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt
 cp -f %{SOURCE6} $_enig_dir/chrome.manifest
-#cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
+cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 %endif
 
 # win32 stuff
