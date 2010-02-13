@@ -1,5 +1,5 @@
---- comm-1.9.1/mailnews/extensions/enigmail/ipc/src/Makefile.in.orig	2005-06-14 09:19:56.000000000 +0200
-+++ comm-1.9.1/mailnews/extensions/enigmail/ipc/src/Makefile.in	2005-06-14 09:20:09.000000000 +0200
+--- mozilla/mailnews/extensions/enigmail/ipc/src/Makefile.in.orig	2005-06-14 09:19:56.000000000 +0200
++++ mozilla/mailnews/extensions/enigmail/ipc/src/Makefile.in	2005-06-14 09:20:09.000000000 +0200
 @@ -74,6 +74,7 @@ EXPORTS		=		    \
  
  LOCAL_INCLUDES	= \
@@ -8,8 +8,8 @@
  		$(NULL)
  
  CPPSRCS		=		    \
---- comm-1.9.1/mailnews/extensions/enigmail/build/Makefile.in.orig	2005-10-04 20:12:03.000000000 +0200
-+++ comm-1.9.1/mailnews/extensions/enigmail/build/Makefile.in	2005-10-04 20:12:35.000000000 +0200
+--- mozilla/mailnews/extensions/enigmail/build/Makefile.in.orig	2005-10-04 20:12:03.000000000 +0200
++++ mozilla/mailnews/extensions/enigmail/build/Makefile.in	2005-10-04 20:12:35.000000000 +0200
 @@ -51,7 +51,7 @@
  LIBRARY_NAME	= enigmime
  SHORT_LIBNAME	= enigmime
@@ -19,8 +19,8 @@
  
  IS_COMPONENT	= 1
  FORCE_SHARED_LIB = 1
---- comm-1.9.1/mailnews/extensions/enigmail/src/Makefile.in.orig	2006-01-11 20:54:23.000000000 +0100
-+++ comm-1.9.1/mailnews/extensions/enigmail/src/Makefile.in	2006-01-11 20:54:43.000000000 +0100
+--- mozilla/mailnews/extensions/enigmail/src/Makefile.in.orig	2006-01-11 20:54:23.000000000 +0100
++++ mozilla/mailnews/extensions/enigmail/src/Makefile.in	2006-01-11 20:54:43.000000000 +0100
 @@ -94,6 +94,7 @@
  LOCAL_INCLUDES	= \
  		-I$(srcdir)/../build \
