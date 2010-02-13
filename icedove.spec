@@ -1,9 +1,6 @@
 #
 # TODO:
 # - separate spec for enigmail
-# - remove -myspell.patch
-# - package unpackaged files
-# - fix hunspell and enable
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -23,7 +20,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.1
-Release:	0.4
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -41,7 +38,7 @@ Patch1:		%{name}-enigmail-shared.patch
 Patch2:		%{name}-gcc.patch
 Patch3:		%{name}-fonts.patch
 Patch4:		%{name}-install.patch
-Patch5:		%{name}-myspell.patch
+Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		%{name}-breakpad.patch
 Patch8:		%{name}-libpng.patch
@@ -52,7 +49,7 @@ BuildRequires:	automake
 BuildRequires:	freetype-devel >= 1:2.1.8
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 1:2.0.0
-#BuildRequires:	hunspell-devel
+BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 %{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
@@ -155,7 +152,7 @@ cd mozilla
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-#%patch5 -p1
+%patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
@@ -246,7 +243,7 @@ ac_add_options --enable-static
 ac_add_options --disable-strip
 ac_add_options --disable-strip-libs
 ac_add_options --enable-system-cairo
-#ac_add_options --enable-system-hunspell
+ac_add_options --enable-system-hunspell
 ac_add_options --enable-svg
 ac_add_options --enable-xft
 ac_add_options --enable-application=mail
@@ -295,13 +292,11 @@ cd mozilla
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
-#mv $RPM_BUILD_ROOT%{_libdir}/%{name}/icons $RPM_BUILD_ROOT%{_datadir}/%{name}/icons
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
 ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
-#ln -s ../../share/%{name}/icons $RPM_BUILD_ROOT%{_libdir}/%{name}/icons
 ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 
@@ -369,31 +364,24 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/*.sh
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
-#%attr(755,root,root) %{_libdir}/%{name}/reg*
 %attr(755,root,root) %{_libdir}/%{name}/icedove
-#%{_libdir}/%{name}/*.txt
-#%attr(755,root,root) %{_libdir}/%{name}/x*
 
 # symlinks
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/defaults
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/greprefs
-#%{_libdir}/%{name}/icons
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/res
 
 %{_libdir}/%{name}/dependentlibs.list
-#%{_libdir}/%{name}/updater
-#%{_libdir}/%{name}/update.locale
-#%{_pixmapsdir}/*.png
+%{_pixmapsdir}/*.png
 %{_desktopdir}/*.desktop
 
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/chrome
 %{_datadir}/%{name}/defaults
 %{_datadir}/%{name}/greprefs
-#%{_datadir}/%{name}/icons
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/res
 
