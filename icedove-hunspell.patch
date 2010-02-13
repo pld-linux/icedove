@@ -1,0 +1,10 @@
+--- a/mail/app/Makefile.in
++++ b/mail/app/Makefile.in
+@@ -133,6 +133,7 @@ LIBS += \
+ 	$(APP_XPCOM_LIBS) \
+ 	$(NSPR_LIBS) \
+ 	$(TK_LIBS) \
++	$(MOZ_HUNSPELL_LIBS) \
+ 	$(NULL)
+ 
+ # Add explicit X11 dependency when building against X11 toolkits
