@@ -19,12 +19,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	3.0.1
+Version:	3.0.2
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	f004aa5ddf2a30b5df96e06df416b0c9
+# Source0-md5:	db7e52c41ba5fec9428e170833e6a63f
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	508ca9ab0396afb49e82eda88014924b
 Source2:	%{name}-branding.tar.bz2
@@ -40,9 +40,7 @@ Patch3:		%{name}-fonts.patch
 Patch4:		%{name}-install.patch
 Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
-Patch7:		%{name}-breakpad.patch
-Patch8:		%{name}-libpng.patch
-Patch9:		%{name}-condstore.patch
+Patch7:		%{name}-libpng.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -155,8 +153,6 @@ cd mozilla
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %build
 cd mozilla
