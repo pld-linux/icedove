@@ -9,11 +9,13 @@
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without  lightning	# disable sunbird calendar
-#
+%bcond_with		xulrunner	# build with system xulrunner
+
 %if %{without gnome}
 %undefine	with_gnomeui
 %undefine	with_gnomevfs
 %endif
+
 %define		enigmail_ver		1.0.1
 
 Summary:	Icedove - email client
@@ -192,6 +194,8 @@ ac_add_options --disable-debug-modules
 ac_add_options --disable-logging
 ac_add_options --enable-optimize="%{rpmcflags} -Os"
 %endif
+ac_add_options --disable-strip
+ac_add_options --disable-strip-libs
 %if %{with tests}
 ac_add_options --enable-tests
 %else
@@ -213,11 +217,8 @@ ac_add_options --enable-ldap
 ac_add_options --disable-ldap
 %endif
 ac_add_options --disable-crashreporter
-ac_add_options --disable-updater
 ac_add_options --disable-xterm-updates
-ac_add_options --enable-ldap
 ac_add_options --enable-postscript
-ac_add_options --enable-startup-notification
 %if %{with lightning}
 ac_add_options --enable-calendar
 %else
@@ -225,36 +226,38 @@ ac_add_options --disable-calendar
 %endif
 ac_add_options --disable-installer
 ac_add_options --disable-jsd
+ac_add_options --disable-updater
 ac_add_options --disable-xprint
 ac_add_options --disable-permissions
 ac_add_options --disable-pref-extensions
 ac_add_options --enable-canvas
 ac_add_options --enable-crypto
-ac_add_options --enable-default-toolkit="gtk2"
 ac_add_options --enable-mathml
-ac_add_options --enable-optimize="%{rpmcflags}"
 ac_add_options --enable-pango
 ac_add_options --enable-reorder
 ac_add_options --enable-static
-ac_add_options --disable-strip
-ac_add_options --disable-strip-libs
+ac_add_options --enable-startup-notification
+ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
 ac_add_options --enable-system-hunspell
-ac_add_options --enable-svg
 ac_add_options --enable-xft
 ac_add_options --enable-application=mail
 ac_add_options --enable-default-toolkit=cairo-gtk2
 ac_add_options --enable-xinerama
+ac_add_options --with-distribution-id=org.pld-linux
+ac_add_options --with-branding=icedove/branding
+%if %{with xulrunner}
+ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
+%endif
+ac_add_options --with-pthreads
+ac_add_options --with-system-bz2
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
-ac_add_options --with-pthreads
 ac_add_options --enable-single-profile
 ac_add_options --disable-profilesharing
-ac_add_options --with-distribution-id=org.pld-linux
-ac_add_options --with-branding=icedove/branding
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
