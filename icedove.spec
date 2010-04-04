@@ -1,6 +1,8 @@
-#
 # TODO:
 # - separate spec for enigmail
+# - fix icedove (building) and installing nss/nspr libs!
+# - build and use system sqlite3 library!
+# - build with system mozldap
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -22,7 +24,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.4
-Release:	1
+Release:	1.2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -307,16 +309,14 @@ ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 %if %{with enigmail}
-_enig_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
-install -d $_enig_dir/chrome
-install -d $_enig_dir/components
-install -d $_enig_dir/defaults/preferences
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail.jar $_enig_dir/chrome
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig* $_enig_dir/components
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so $_enig_dir/components
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt $_enig_dir/components
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences/enigmail.js $_enig_dir/defaults/preferences
-cp -f mailnews/extensions/enigmail/package/install.rdf $_enig_dir
+ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
+install -d $ext_dir/{chrome,components,defaults/preferences}
+mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail.jar $ext_dir/chrome
+mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig* $ext_dir/components
+mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so $ext_dir/components
+mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt $ext_dir/components
+mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences/enigmail.js $ext_dir/defaults/preferences
+cp -f mailnews/extensions/enigmail/package/install.rdf $ext_dir
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-en-US.jar
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-skin.jar
@@ -324,12 +324,21 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmime.jar
 rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig*
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt
-cp -f %{SOURCE6} $_enig_dir/chrome.manifest
+cp -f %{SOURCE6} $ext_dir/chrome.manifest
 cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 %endif
 
 # win32 stuff
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/dirver
+
+# nss
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{freebl3,nss3,nssckbi,nssdbm3,nssutil3,smime3,softokn3,ssl3}.*
+# nspr
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{nspr4,plc4,plds4}.so
+# sqlite3
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/libsqlite3.so
+# mozldap
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap,ssldap}60.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -357,7 +366,9 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %{_libdir}/%{name}/components/*.js
 %{_libdir}/%{name}/components/*.xpt
-%attr(755,root,root) %{_libdir}/%{name}/*.so
+%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
+%attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
+%attr(755,root,root) %{_libdir}/%{name}/libxpcom_core.so
 %attr(755,root,root) %{_libdir}/%{name}/*.sh
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
