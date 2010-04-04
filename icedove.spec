@@ -1,7 +1,6 @@
 # TODO:
 # - separate spec for enigmail
 # - fix icedove (building) and installing nss/nspr libs!
-# - build and use system sqlite3 library!
 # - build with system mozldap
 #
 # Conditional builds
@@ -20,11 +19,16 @@
 
 %define		enigmail_ver		1.0.1
 
+%if %{without xulrunner}
+# The actual sqlite version (see RHBZ#480989):
+%define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
+%endif
+
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.4
-Release:	1.2
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -59,6 +63,7 @@ BuildRequires:	libpng-devel >= 1.2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	nspr-devel >= 1:4.8
 BuildRequires:	nss-devel >= 1:3.12.0
+BuildRequires:	sqlite3-devel
 BuildRequires:	pango-devel >= 1:1.1.0
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
@@ -67,9 +72,13 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zip
+%if %{with xulrunner}
+%else
 Requires:	myspell-common
+Requires:	sqlite3 >= %{sqlite_build_version}
 Requires:	nspr >= 1:4.6.1
 Requires:	nss >= 1:3.11.3
+%endif
 Obsoletes:	mozilla-thunderbird
 Obsoletes:	mozilla-thunderbird-dictionary-en-US
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -240,6 +249,7 @@ ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
 ac_add_options --enable-system-hunspell
+ac_add_options --enable-system-sqlite
 ac_add_options --enable-xft
 ac_add_options --enable-application=mail
 ac_add_options --enable-default-toolkit=cairo-gtk2
@@ -335,8 +345,6 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/dirver
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{freebl3,nss3,nssckbi,nssdbm3,nssutil3,smime3,softokn3,ssl3}.*
 # nspr
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{nspr4,plc4,plds4}.so
-# sqlite3
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/libsqlite3.so
 # mozldap
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap,ssldap}60.so
 
