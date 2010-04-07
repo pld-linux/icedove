@@ -28,7 +28,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.4
-Release:	2
+Release:	3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -89,9 +89,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep		libgfxpsshar.so libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpcom_core.so libxpistub.so
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
 # we don't want these to satisfy xulrunner-devel
-%define		_noautoprov		libgtkembedmoz.so libldap50.so libmozjs.so libprldap50.so libssldap50.so libxpcom.so libxul.so
+%define		_noautoprov		libgtkembedmoz.so libldap60.so libmozjs.so libprldap60.so libssldap60.so libxpcom.so libxul.so
 # and as we don't provide them, don't require either
-%define		_noautoreq		libgtkembedmoz.so libldap50.so libmozjs.so libprldap50.so libssldap50.so libxpcom.so libxul.so
+%define		_noautoreq		libgtkembedmoz.so libldap60.so libmozjs.so libprldap60.so libssldap60.so libxpcom.so libxul.so
 
 %description
 Icedove is an open-source,fast and portable email client.
