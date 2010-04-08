@@ -63,7 +63,7 @@ BuildRequires:	libpng-devel >= 1.2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	nspr-devel >= 1:4.8
 BuildRequires:	nss-devel >= 1:3.12.0
-BuildRequires:	sqlite3-devel >= 3.6.22
+BuildRequires:	sqlite3-devel
 BuildRequires:	pango-devel >= 1:1.1.0
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
