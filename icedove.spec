@@ -89,9 +89,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreqdep		libgfxpsshar.so libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpcom_core.so libxpistub.so
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
 # we don't want these to satisfy xulrunner-devel
-%define		_noautoprov		libgtkembedmoz.so libldap60.so libmozjs.so libprldap60.so libssldap60.so libxpcom.so libxul.so
+%define		_noautoprov		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
 # and as we don't provide them, don't require either
-%define		_noautoreq		libgtkembedmoz.so libldap60.so libmozjs.so libprldap60.so libssldap60.so libxpcom.so libxul.so
+%define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
 
 %description
 Icedove is an open-source,fast and portable email client.
