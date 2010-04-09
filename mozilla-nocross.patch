@@ -1,6 +1,6 @@
---- mozilla/configure.in~	2009-07-29 22:40:48.000000000 +0300
-+++ mozilla/configure.in	2009-07-29 22:41:17.255773820 +0300
-@@ -250,98 +250,8 @@
+--- mozilla/configure.in~	2010-04-09 16:29:26.353057952 +0300
++++ mozilla/configure.in	2010-04-09 16:46:29.789148843 +0300
+@@ -324,105 +324,8 @@
  esac
  
  if test -n "$CROSS_COMPILE" && test "$target" != "$host"; then
@@ -67,8 +67,15 @@
 -        dnl checks will fail.  Fake a working SDK in that case.
 -        _SAVE_CFLAGS=$CFLAGS
 -        _SAVE_CXXFLAGS=$CXXLAGS
+-        dnl 1.9.1 and 1.9.2 support 10.4, 1.9.3 and later don't.
+-        if test "$MOZILLA_1_9_1_BRANCH" = "1" -o "$MOZILLA_1_9_2_BRANCH" = "1";
+-        then
 -        CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk $CFLAGS"
 -        CXXFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk $CXXFLAGS"
+-        else
+-        CFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk $CFLAGS"
+-        CXXFLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk $CXXFLAGS"
+-        fi
 -        ;;
 -    esac
 -
