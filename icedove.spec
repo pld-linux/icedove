@@ -178,9 +178,8 @@ cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
 
 install -d libxul-sdk
 ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
-SDKDIR=$(cd libxul-sdk; pwd)
 
-cat << 'EOF' > .mozconfig
+cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
 
 # Options for 'configure' (same as command-line options).
@@ -251,9 +250,6 @@ ac_add_options --enable-crypto
 ac_add_options --enable-mathml
 ac_add_options --enable-pango
 ac_add_options --enable-reorder
-%if %{without xulrunner}
-ac_add_options --enable-static
-%endif
 ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
@@ -266,9 +262,10 @@ ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=icedove/branding
 %if %{with xulrunner}
-#ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
-#ac_add_options --with-libxul-sdk=$(pwd)/libxul-sdk
-ac_add_options --with-libxul-sdk=$SDKDIR
+ac_add_options --with-libxul-sdk=$(pwd)/libxul-sdk
+ac_add_options --enable-shared
+%else
+ac_add_options --enable-static
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
