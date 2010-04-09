@@ -64,10 +64,10 @@ BuildRequires:	libpng-devel >= 1.2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	nspr-devel >= 1:4.8
 BuildRequires:	nss-devel >= 1:3.12.0
-BuildRequires:	sqlite3-devel
 BuildRequires:	pango-devel >= 1:1.1.0
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
+BuildRequires:	sqlite3-devel >= 3.6.22
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
@@ -76,9 +76,9 @@ BuildRequires:	zip
 %if %{with xulrunner}
 %else
 Requires:	myspell-common
-Requires:	sqlite3 >= %{sqlite_build_version}
 Requires:	nspr >= 1:4.6.1
 Requires:	nss >= 1:3.11.3
+Requires:	sqlite3 >= %{sqlite_build_version}
 %endif
 Obsoletes:	mozilla-thunderbird
 Obsoletes:	mozilla-thunderbird-dictionary-en-US
