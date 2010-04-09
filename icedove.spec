@@ -48,6 +48,7 @@ Patch3:		%{name}-fonts.patch
 Patch4:		%{name}-install.patch
 Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
+Patch7:		system-mozldap.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -164,6 +165,7 @@ cd mozilla
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 cd mozilla
@@ -173,6 +175,10 @@ export CXXFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-
 cp -f %{_datadir}/automake/config.* mozilla/build/autoconf
 cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
 cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
+
+install -d libxul-sdk
+ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
+SDKDIR=$(cd libxul-sdk; pwd)
 
 cat << 'EOF' > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
@@ -222,6 +228,7 @@ ac_add_options --disable-gnomevfs
 %endif
 %if %{with ldap}
 ac_add_options --enable-ldap
+ac_add_options --with-system-ldap
 %else
 ac_add_options --disable-ldap
 %endif
@@ -244,7 +251,9 @@ ac_add_options --enable-crypto
 ac_add_options --enable-mathml
 ac_add_options --enable-pango
 ac_add_options --enable-reorder
+%if %{without xulrunner}
 ac_add_options --enable-static
+%endif
 ac_add_options --enable-startup-notification
 ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
@@ -257,7 +266,9 @@ ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=icedove/branding
 %if %{with xulrunner}
-ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
+#ac_add_options --with-libxul-sdk=%{_libdir}/xulrunner-sdk
+#ac_add_options --with-libxul-sdk=$(pwd)/libxul-sdk
+ac_add_options --with-libxul-sdk=$SDKDIR
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
@@ -338,9 +349,10 @@ cp -f %{SOURCE6} $ext_dir/chrome.manifest
 cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 %endif
 
-# win32 stuff
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/dirver
+# remove unecessary stuff
+rm $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
 
+# never package these
 # nss
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{freebl3,nss3,nssckbi,nssdbm3,nssutil3,smime3,softokn3,ssl3}.*
 # nspr
