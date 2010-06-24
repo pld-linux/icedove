@@ -1,0 +1,5 @@
+- up to 3.0.5
+- enigmail up to 1.1
+- no security advisories available at this point; stay tuned
+- fixes CVE-2010-1121, CVE-2010-1200, CVE-2010-1201, CVE-2010-1202,
+  CVE-2010-1203, CVE-2010-1196, CVE-2010-1199
