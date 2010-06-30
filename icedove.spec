@@ -17,7 +17,7 @@
 %undefine	with_gnomevfs
 %endif
 
-%define		enigmail_ver		1.1
+%define		enigmail_ver		1.1.2
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -28,13 +28,13 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.0.5
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
 # Source0-md5:	564911289b5d895ba5eaf4b3fbed51e8
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	6304088073928e22f08ab756894329f4
+# Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
