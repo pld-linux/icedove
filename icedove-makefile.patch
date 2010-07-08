@@ -1,0 +1,25 @@
+--- Makefile.in.orig	2010-06-23 19:43:07.000000000 +0200
++++ Makefile.in	2010-07-08 09:24:01.055067815 +0200
+@@ -58,21 +58,7 @@
+ 
+ include $(topsrcdir)/config/config.mk
+ 
+-default alldep all:: $(topsrcdir)/configure config.status
+-
+-$(topsrcdir)/configure: $(topsrcdir)/configure.in
+-	@echo "STOP!  configure.in has changed, and your configure is out of date."
+-	@echo "Please rerun autoconf and configure."
+-	@echo "To ignore this message, touch 'configure' in the source directory."
+-	@exit 1
+-
+-config.status: $(topsrcdir)/configure
+-	@echo "STOP!  configure has changed and needs to be run in this build directory."
+-	@echo "Please rerun configure."
+-	@echo "To ignore this message, touch 'config.status' in the build directory."
+-	@exit 1
+-
+-default export libs clean realclean distclean alldep maybe_clobber_profiledbuild uploadsymbols all::
++default export libs clean realclean distclean maybe_clobber_profiledbuild uploadsymbols::
+ 	$(MAKE) -C mozilla $@
+ 
+ ifdef ENABLE_TESTS
