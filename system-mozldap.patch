@@ -1,6 +1,6 @@
---- mozilla/configure.in~	2010-03-17 19:02:26.000000000 +0200
-+++ mozilla/configure.in	2010-04-09 14:19:51.573033459 +0300
-@@ -4953,6 +4953,13 @@
+--- mozilla/configure.in.orig	2010-06-23 19:43:07.000000000 +0200
++++ mozilla/configure.in	2010-07-06 11:14:54.350499449 +0200
+@@ -5032,6 +5032,13 @@
      MOZ_LDAP_XPCOM=,
      MOZ_LDAP_XPCOM=1)
  
@@ -14,12 +14,12 @@
  dnl ========================================================
  dnl = Trademarked Branding 
  dnl ========================================================
-@@ -7625,7 +7632,7 @@
+@@ -7612,7 +7619,7 @@
+ 
  # if we're building the LDAP XPCOM component, we need to build 
  # the c-sdk first.  
- #
--if test "$MOZ_LDAP_XPCOM"; then
-+if test "$MOZ_LDAP_XPCOM" && test -z "$MOZ_LDAP_DIR"; then
- 
+-if test -n "$COMPILE_ENVIRONMENT" -a -n "$MOZ_LDAP_XPCOM"; then
++if test -n "$COMPILE_ENVIRONMENT" -a -n "$MOZ_LDAP_XPCOM" -a -z "$MOZ_LDAP_DIR"; then
      # these subdirs may not yet have been created in the build tree.
      # don't use the "-p" switch to mkdir, since not all platforms have it
+     if test ! -d "directory/c-sdk/ldap"; then

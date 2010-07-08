@@ -1,7 +1,7 @@
-diff -urN mozilla.orig/calendar/lightning/install.rdf mozilla/calendar/lightning/install.rdf
---- mozilla.orig/calendar/lightning/install.rdf	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/calendar/lightning/install.rdf	2010-02-13 01:56:44.000000000 +0100
-@@ -42,7 +42,7 @@
+diff -urN mozilla.orig//calendar/lightning/install.rdf mozilla/calendar/lightning/install.rdf
+--- mozilla.orig//calendar/lightning/install.rdf	2010-07-05 21:35:28.425408088 +0200
++++ mozilla/calendar/lightning/install.rdf	2010-07-05 21:39:36.114349634 +0200
+@@ -46,7 +46,7 @@
      <em:id>{e2fda1a4-762b-4020-b5ad-a41df1933103}</em:id>
      <em:name>Lightning</em:name>
      <em:version>@LIGHTNING_VERSION@</em:version> <!-- BuildID=@GRE_BUILDID@ -->
@@ -10,9 +10,9 @@ diff -urN mozilla.orig/calendar/lightning/install.rdf mozilla/calendar/lightning
  #ifdef LIGHTNING_PRERELEASE_VERSION
      <em:developer>Build ID: @GRE_BUILDID@</em:developer>
  #endif
-diff -urN mozilla.orig/calendar/locales/en-US/chrome/lightning/lightning.properties mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties
---- mozilla.orig/calendar/locales/en-US/chrome/lightning/lightning.properties	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties	2010-02-13 01:56:30.000000000 +0100
+diff -urN mozilla.orig//calendar/locales/en-US/chrome/lightning/lightning.properties mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties
+--- mozilla.orig//calendar/locales/en-US/chrome/lightning/lightning.properties	2010-07-05 21:35:28.495173642 +0200
++++ mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties	2010-07-05 21:39:36.114349634 +0200
 @@ -39,7 +39,7 @@
  
  # addon description:
@@ -22,9 +22,9 @@ diff -urN mozilla.orig/calendar/locales/en-US/chrome/lightning/lightning.propert
  extensions.{e2fda1a4-762b-4020-b5ad-a41df1933103}.creator=Mozilla Calendar Project
  
  # Lightning branding
-diff -urN mozilla.orig/mail/app/application.ini mozilla/mail/app/application.ini
---- mozilla.orig/mail/app/application.ini	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/app/application.ini	2010-02-13 01:55:35.000000000 +0100
+diff -urN mozilla.orig//mail/app/application.ini mozilla/mail/app/application.ini
+--- mozilla.orig//mail/app/application.ini	2010-07-05 21:35:29.238749304 +0200
++++ mozilla/mail/app/application.ini	2010-07-05 21:39:36.141016423 +0200
 @@ -37,7 +37,7 @@
  
  #filter substitution
@@ -34,10 +34,10 @@ diff -urN mozilla.orig/mail/app/application.ini mozilla/mail/app/application.ini
  Version=@APP_VERSION@
  BuildID=@GRE_BUILDID@
  #ifdef MOZ_SOURCE_REPO
-diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/profile/all-thunderbird.js
---- mozilla.orig/mail/app/profile/all-thunderbird.js	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/app/profile/all-thunderbird.js	2010-02-13 01:55:35.000000000 +0100
-@@ -73,7 +73,7 @@
+diff -urN mozilla.orig//mail/app/profile/all-thunderbird.js mozilla/mail/app/profile/all-thunderbird.js
+--- mozilla.orig//mail/app/profile/all-thunderbird.js	2010-07-05 21:35:29.331249108 +0200
++++ mozilla/mail/app/profile/all-thunderbird.js	2010-07-05 21:39:36.164349628 +0200
+@@ -74,7 +74,7 @@
  // App-specific update preferences
  
  // Whether or not app updates are enabled
@@ -46,7 +46,7 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
  
  // This preference turns on app.update.mode and allows automatic download and
  // install to take place. We use a separate boolean toggle for this to make     
-@@ -98,10 +98,10 @@
+@@ -99,10 +99,10 @@
  
  // URL user can browse to manually if for some reason all update installation
  // attempts fail.  TODO: Change this URL
@@ -59,7 +59,7 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
  // User-settable override to app.update.url for testing purposes.
  //pref("app.update.url.override", "");
  
-@@ -127,10 +127,10 @@
+@@ -125,10 +125,10 @@
  pref("app.update.showInstalledUI", false);
  
  // Release notes URL
@@ -72,7 +72,7 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
  
  // Blocklist preferences
  pref("extensions.blocklist.enabled", true);
-@@ -158,9 +158,9 @@
+@@ -156,9 +156,9 @@
  pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
                                              // Themes every day
  // Non-symmetric (not shared by extensions) extension-specific [update] preferences
@@ -85,7 +85,7 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
  pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
  pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
  
-@@ -169,12 +169,12 @@
+@@ -167,12 +167,12 @@
  
  // Preferences for the Get Add-ons pane
  pref("extensions.getAddons.showPane", true);
@@ -102,8 +102,8 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
 +pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
  
  pref("xpinstall.whitelist.add", "update.mozilla.org");
- pref("xpinstall.whitelist.add.103", "addons.mozilla.org");
-@@ -361,7 +361,7 @@
+ pref("xpinstall.whitelist.add.36", "getpersonas.com");
+@@ -364,7 +364,7 @@
  pref("news.directory",                  "");
  pref("spellchecker.dictionary", "");
  // Dictionary download preference
@@ -112,18 +112,18 @@ diff -urN mozilla.orig/mail/app/profile/all-thunderbird.js mozilla/mail/app/prof
  
  // profile.force.migration can be used to bypass the migration wizard, forcing migration from a particular
  // mail application without any user intervention. Possible values are: 
-@@ -491,7 +491,7 @@
+@@ -499,7 +499,7 @@
  pref("mailnews.database.global.logging.console", true);
  
  // page to load to find good header add-ons
 -pref("mailnews.migration.header_addons_url","http://live.mozillamessaging.com/%APP%/addons/search?q=header&locale=%LOCALE%&lver=%VERSION%&hver=%VERSION%&os=%OS%");
 +pref("mailnews.migration.header_addons_url","http://live.mozillamessaging.com/thunderbird/addons/search?q=header&locale=%LOCALE%&lver=%VERSION%&hver=%VERSION%&os=%OS%");
  
- // What level of warning should we send to the error console?
- pref("mail.wizard.logging.console", "None");
-diff -urN mozilla.orig/mail/base/content/baseMenuOverlay.xul mozilla/mail/base/content/baseMenuOverlay.xul
---- mozilla.orig/mail/base/content/baseMenuOverlay.xul	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/base/content/baseMenuOverlay.xul	2010-02-13 01:55:35.000000000 +0100
+ // Serif fonts look dated.  Switching those language families to sans-serif
+ // where we think it makes sense.  Worth investigating for other font families
+diff -urN mozilla.orig//mail/base/content/baseMenuOverlay.xul mozilla/mail/base/content/baseMenuOverlay.xul
+--- mozilla.orig//mail/base/content/baseMenuOverlay.xul	2010-07-05 21:35:29.344789211 +0200
++++ mozilla/mail/base/content/baseMenuOverlay.xul	2010-07-05 21:39:36.174349684 +0200
 @@ -70,9 +70,6 @@
                  oncommand="openSupportURL();"
                  key="key_openHelp"/>
@@ -134,10 +134,10 @@ diff -urN mozilla.orig/mail/base/content/baseMenuOverlay.xul mozilla/mail/base/c
        <menuitem id="whatsNew"
                  label="&whatsNewCmd.label;" accesskey="&whatsNewCmd.accesskey;"
                  oncommand="openWhatsNew();"/>
-diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content/credits.xhtml
---- mozilla.orig/mail/base/content/credits.xhtml	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/base/content/credits.xhtml	2010-02-13 01:55:35.000000000 +0100
-@@ -216,7 +216,7 @@
+diff -urN mozilla.orig//mail/base/content/credits.xhtml mozilla/mail/base/content/credits.xhtml
+--- mozilla.orig//mail/base/content/credits.xhtml	2010-07-05 21:35:29.344789211 +0200
++++ mozilla/mail/base/content/credits.xhtml	2010-07-05 21:44:34.520940060 +0200
+@@ -198,7 +198,7 @@
      </div>
  
      <div id="creditsBox">
@@ -146,16 +146,8 @@ diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content
            <div class="motto">&brandMotto;</div>
          </h2>
  
-@@ -329,19 +329,13 @@
+@@ -312,12 +312,6 @@
          <p id="gecko" class="center">&credit.poweredByGecko;</p>
- 
-         <p class="footnote">
--          &brandFullName;&trade; &license.part0; &copy;1998-2010 &license.part1;
-+          &brandFullName; &license.part0; &copy;1998-2010 &license.part1;
-           <a href="" link="http://www.mozilla.org/credits/" onclick="visitLink(event); event.preventDefault();">&license.contrib;</a>,
-           &license.part2;
-           <a href="" onclick="openLicense(); event.preventDefault();">license</a>
-           &license.part3;</p>
  
          <p class="footnote">
 -          Mozilla Thunderbird&trade; and the Thunderbird logo are trademarks of the Mozilla
@@ -167,10 +159,10 @@ diff -urN mozilla.orig/mail/base/content/credits.xhtml mozilla/mail/base/content
            U.S. GOVERNMENT END USERS. The Software is a &ldquo;commercial item,&rdquo;
            as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
            &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
-diff -urN mozilla.orig/mail/build.mk mozilla/mail/build.mk
---- mozilla.orig/mail/build.mk	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/build.mk	2010-02-13 01:55:35.000000000 +0100
-@@ -112,11 +112,11 @@
+diff -urN mozilla.orig//mail/build.mk mozilla/mail/build.mk
+--- mozilla.orig//mail/build.mk	2010-07-05 21:35:29.562082558 +0200
++++ mozilla/mail/build.mk	2010-07-05 21:39:36.174349684 +0200
+@@ -117,11 +117,11 @@
  APP_NAME := $(APP_NAME)Debug
  endif
  PROGRAM_LOCATION = ../../../$(DIST)/$(APP_NAME).app/Contents/MacOS/
@@ -184,21 +176,9 @@ diff -urN mozilla.orig/mail/build.mk mozilla/mail/build.mk
  endif
  
  mozmill::
-diff -urN mozilla.orig/mail/components/shell/nsMailGNOMEIntegration.cpp mozilla/mail/components/shell/nsMailGNOMEIntegration.cpp
---- mozilla.orig/mail/components/shell/nsMailGNOMEIntegration.cpp	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/components/shell/nsMailGNOMEIntegration.cpp	2010-02-13 01:55:35.000000000 +0100
-@@ -94,7 +94,7 @@
-                               getter_AddRefs(appPath));
-   NS_ENSURE_SUCCESS(rv, rv);
- 
--  rv = appPath->AppendNative(NS_LITERAL_CSTRING("thunderbird"));
-+  rv = appPath->AppendNative(NS_LITERAL_CSTRING("icedove"));
-   NS_ENSURE_SUCCESS(rv, rv);
- 
-   rv = appPath->GetNativePath(mAppPath);
-diff -urN mozilla.orig/mail/confvars.sh mozilla/mail/confvars.sh
---- mozilla.orig/mail/confvars.sh	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/confvars.sh	2010-02-13 01:55:35.000000000 +0100
+diff -urN mozilla.orig//mail/confvars.sh mozilla/mail/confvars.sh
+--- mozilla.orig//mail/confvars.sh	2010-07-05 21:35:29.801718821 +0200
++++ mozilla/mail/confvars.sh	2010-07-05 21:39:36.174349684 +0200
 @@ -36,7 +36,7 @@
  #
  # ***** END LICENSE BLOCK *****
@@ -208,23 +188,9 @@ diff -urN mozilla.orig/mail/confvars.sh mozilla/mail/confvars.sh
  MOZ_UPDATER=1
  MOZ_THUNDERBIRD=1
  MOZ_NO_ACTIVEX_SUPPORT=1
-diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd
---- mozilla.orig/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/locales/en-US/chrome/messenger/aboutDialog.dtd	2010-02-13 01:55:35.000000000 +0100
-@@ -2,9 +2,7 @@
- <!ENTITY aboutButton.label      "&lt; Back">
- <!ENTITY aboutButton.accesskey  "B">
- <!ENTITY aboutVersion           "version">
--<!ENTITY copyrightText          "&#169;1998-2010 Contributors. All Rights Reserved. Mozilla Thunderbird and the 
--                                 Thunderbird logos are trademarks of the Mozilla Foundation.  All rights 
--                                 reserved.">
-+<!ENTITY copyrightText          "&#169;1998-2010 Contributors. All Rights Reserved.">
- <!ENTITY aboutMenu.label        "About">
- <!ENTITY aboutMenu.accesskey    "A">
- <!ENTITY aboutCredits.label     "Credits">
-diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
---- mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2010-02-13 01:55:35.000000000 +0100
+diff -urN mozilla.orig//mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
+--- mozilla.orig//mail/locales/en-US/chrome/messenger/credits.dtd	2010-07-05 21:35:30.087529062 +0200
++++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2010-07-05 21:39:36.174349684 +0200
 @@ -1,5 +1,5 @@
  <!ENTITY credit.title     "&brandFullName; Credits">
 -<!ENTITY brandMotto       "Thunderbirds Are Go!">
@@ -232,47 +198,10 @@ diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/credits.dtd mozilla/m
  <!ENTITY credit.thanks    "Special Thanks To">
  
  <!-- localization credits look like this: -->
-diff -urN mozilla.orig/mail/locales/en-US/chrome/messenger/featureConfigurator.dtd mozilla/mail/locales/en-US/chrome/messenger/featureConfigurator.dtd
---- mozilla.orig/mail/locales/en-US/chrome/messenger/featureConfigurator.dtd	2010-01-11 18:40:34.000000000 +0100
-+++ mozilla/mail/locales/en-US/chrome/messenger/featureConfigurator.dtd	2010-02-13 12:57:07.000000000 +0100
-@@ -4,13 +4,13 @@
- <!ENTITY featureConfigurator.title "Migration Assistant">
- 
- <!-- LOCALIZATION NOTE (featureConfigurator.heading): Heading for the page -->
--<!ENTITY featureConfigurator.heading "Thunderbird 3 features worth knowing about">
-+<!ENTITY featureConfigurator.heading "Icedove 3 features worth knowing about">
- 
- <!-- LOCALIZATION NOTE (featureConfigurator.para1): The tone of this paragraph
- is important: we tried for a tone that promotes the new features (which we
- believe are good and worth users learning about), but also emphasizing that we
- think it's important to preserve user choice. -->
--<!ENTITY featureConfigurator.para1 "Thunderbird 3 includes powerful new features which we're quite proud of, and think most people will love. People's tastes and needs vary, so we made it easy to control and customize Thunderbird.">
-+<!ENTITY featureConfigurator.para1 "Icedove 3 includes powerful new features which we're quite proud of, and think most people will love. People's tastes and needs vary, so we made it easy to control and customize Icedove.">
- 
- <!-- LOCALIZATION NOTE (featureConfigurator.para2): This paragraph explains
- that this page is active (the buttons change the UI), and that they can get
-@@ -37,7 +37,7 @@
- <!ENTITY featureConfigurator.alternative.label "Alternative">
- 
- <!ENTITY featureConfigurator.syncBenefits.para "Lets you read your mail when you're not connected to the internet, and lets you find messages based on the words they contain, not just the subjects and names.">
--<!ENTITY featureConfigurator.syncAlternative.para "Thunderbird will download all your mail onto this computer. Turn it off if you're low on disk space, or you have to pay for network traffic.">
-+<!ENTITY featureConfigurator.syncAlternative.para "Icedove will download all your mail onto this computer. Turn it off if you're low on disk space, or you have to pay for network traffic.">
- 
- <!-- LOCALIZATION NOTE (featureConfigurator.syncAll.button): The choice of
- lower case is intentional, but may be overriden if that doesn't make sense
-@@ -102,7 +102,7 @@
- 
- <!-- LOCALIZATION NOTE (featureConfigurator.headerParaBeforeLink): The part
- of the paragraph before the beginning of the link to the AMO search page.-->
--<!ENTITY featureConfigurator.headerParaBeforeLink "Thunderbird 3 has improved the detailed message header view, including buttons for message-related actions. There are alternative designs available as ">
-+<!ENTITY featureConfigurator.headerParaBeforeLink "Icedove 3 has improved the detailed message header view, including buttons for message-related actions. There are alternative designs available as ">
- 
- <!-- LOCALIZATION NOTE (featureConfigurator.headerParaLinkName): The name of
- the link to the AMO search page.-->
-diff -urN mozilla.orig/mozilla/toolkit/xre/nsAppRunner.cpp mozilla/mozilla/toolkit/xre/nsAppRunner.cpp
---- mozilla.orig/mozilla/toolkit/xre/nsAppRunner.cpp	2010-01-11 18:43:15.000000000 +0100
-+++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2010-02-13 01:55:35.000000000 +0100
-@@ -1236,8 +1236,7 @@
+diff -urN mozilla.orig//mozilla/toolkit/xre/nsAppRunner.cpp mozilla/mozilla/toolkit/xre/nsAppRunner.cpp
+--- mozilla.orig//mozilla/toolkit/xre/nsAppRunner.cpp	2010-07-05 21:36:51.774157698 +0200
++++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2010-07-05 21:39:36.177475358 +0200
+@@ -1334,8 +1334,7 @@
  static inline void
  DumpVersion()
  {

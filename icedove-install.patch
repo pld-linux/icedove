@@ -1,6 +1,6 @@
 --- comm-1.9.1/mozilla/toolkit/mozapps/installer/packager.mk.orig	2009-12-18 14:28:59.997141166 +0100
 +++ comm-1.9.1/mozilla/toolkit/mozapps/installer/packager.mk	2009-12-18 14:32:54.201542762 +0100
-@@ -365,7 +365,7 @@
+@@ -369,7 +369,7 @@
  # NOTE: this must be a tar now that dist links into the tree so that we
  # do not strip the binaries actually in the tree.
  	@echo "Creating package directory..."
@@ -8,18 +8,23 @@
 +	@mkdir $(DESTDIR)/$(MOZ_PKG_DIR)
  ifdef MOZ_PKG_MANIFEST
  	$(RM) -rf $(DIST)/xpt
- 	$(call PACKAGER_COPY, "$(DIST)",\
-@@ -384,7 +384,7 @@
+ 	$(call PACKAGER_COPY, "$(call core_abspath,$(DIST))",\
+@@ -384,11 +384,11 @@
+ ifndef STAGE_SDK
+ 	@cd $(DIST) && rsync -auv --copy-unsafe-links $(_APPNAME) $(MOZ_PKG_DIR)
+ else
+-	@cd $(DIST)/bin && tar $(TAR_CREATE_FLAGS) - * | (cd ../$(MOZ_PKG_DIR); tar -xf -)
++	cp -rfLp $(DIST)/bin/* $(DESTDIR)$(MOZ_PKG_APPDIR)
  endif
  endif
  else
 -	@cd $(DIST)/bin && tar $(TAR_CREATE_FLAGS) - * | (cd ../$(MOZ_PKG_DIR); tar -xf -)
 +	cp -rfLp $(DIST)/bin/* $(DESTDIR)$(MOZ_PKG_APPDIR)
- endif # DMG
- endif # MOZ_PKG_MANIFEST
- ifndef PKG_SKIP_STRIP
-@@ -416,7 +416,7 @@
- endif
+ 	@echo "Linking XPT files..."
+ 	@rm -rf $(DIST)/xpt
+ 	@$(NSINSTALL) -D $(DIST)/xpt
+@@ -431,7 +431,7 @@
+ endif # PKG_SKIP_STRIP
  	@echo "Removing unpackaged files..."
  ifdef NO_PKG_FILES
 -	cd $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH); rm -rf $(NO_PKG_FILES)
@@ -38,41 +43,6 @@
    -DAB_CD=$(AB_CD) \
    -DGRE_MILESTONE=$(GRE_MILESTONE) \
    -DGRE_BUILDID=$(GRE_BUILDID) \
-@@ -80,9 +80,9 @@
-     $(NULL)
- 
- ifneq (,$(filter OS2 WINCE WINNT,$(OS_ARCH)))
--PROGRAM = thunderbird$(BIN_SUFFIX)
-+PROGRAM = $(MOZ_APP_NAME)$(BIN_SUFFIX)
- else
--PROGRAM = thunderbird-bin$(BIN_SUFFIX)
-+PROGRAM = $(MOZ_APP_NAME)-bin$(BIN_SUFFIX)
- endif
- 
- REQUIRES = \
-@@ -311,18 +311,18 @@
- endif
- 
- ifneq (,$(filter-out OS2 WINNT Darwin,$(OS_ARCH)))
--thunderbird:: $(topsrcdir)/mozilla/build/unix/mozilla.in $(GLOBAL_DEPS) $(DEPTH)/config/autoconf.mk
-+$(MOZ_APP_NAME):: $(topsrcdir)/mozilla/build/unix/mozilla.in $(GLOBAL_DEPS) $(DEPTH)/config/autoconf.mk
- 	cat $< | sed -e "s|%MOZAPPDIR%|$(installdir)|" \
- 		-e "s|%MOZ_APP_DISPLAYNAME%|$(MOZ_APP_DISPLAYNAME)|" > $@
- 	chmod +x $@
- 
--libs:: thunderbird
-+libs:: $(MOZ_APP_NAME)
- 	$(INSTALL) $< $(DIST)/bin
- 
--install:: thunderbird
-+install:: $(MOZ_APP_NAME)
- 	$(SYSINSTALL) $< $(DESTDIR)$(bindir)
- 
--GARBAGE += thunderbird
-+GARBAGE += $(MOZ_APP_NAME)
- GARBAGE += $(addprefix $(DIST)/bin/defaults/pref/, all.js all-thunderbird.js channel-prefs.js mailnews.js)
- endif
- 
 @@ -359,7 +359,7 @@
  endif
  	mkdir -p $(DIST)/$(APP_NAME).app/Contents/Library/Spotlight
