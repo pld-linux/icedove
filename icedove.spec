@@ -50,6 +50,7 @@ Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
+Patch9:		%{name}-libpng.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -168,6 +169,7 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p0
+%patch9 -p0
 
 %build
 cd mozilla
