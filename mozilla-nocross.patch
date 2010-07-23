@@ -1,6 +1,6 @@
---- mozilla/configure.in~	2010-04-09 16:29:26.353057952 +0300
-+++ mozilla/configure.in	2010-04-09 16:46:29.789148843 +0300
-@@ -324,105 +324,8 @@
+--- icedove-3.1/mozilla/configure.in~	2010-07-23 12:04:13.419122641 +0300
++++ icedove-3.1/mozilla/configure.in	2010-07-23 12:05:09.659376310 +0300
+@@ -341,105 +341,8 @@
  esac
  
  if test -n "$CROSS_COMPILE" && test "$target" != "$host"; then
@@ -67,8 +67,8 @@
 -        dnl checks will fail.  Fake a working SDK in that case.
 -        _SAVE_CFLAGS=$CFLAGS
 -        _SAVE_CXXFLAGS=$CXXLAGS
--        dnl 1.9.1 and 1.9.2 support 10.4, 1.9.3 and later don't.
--        if test "$MOZILLA_1_9_1_BRANCH" = "1" -o "$MOZILLA_1_9_2_BRANCH" = "1";
+-        dnl 1.9.2 support 10.4, 1.9.3 and later don't.
+-        if test "$MOZILLA_1_9_2_BRANCH" = "1";
 -        then
 -        CFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk $CFLAGS"
 -        CXXFLAGS="-isysroot /Developer/SDKs/MacOSX10.4u.sdk $CXXFLAGS"
@@ -98,12 +98,12 @@
 -
 -    AC_CHECK_PROGS(RANLIB, $RANLIB "${target_alias}-ranlib" "${target}-ranlib", :)
 -    AC_CHECK_PROGS(AR, $AR "${target_alias}-ar" "${target}-ar", :)
--    AC_PATH_PROGS(AS, $AS "${target_alias}-as" "${target}-as", :)
+-    MOZ_PATH_PROGS(AS, $AS "${target_alias}-as" "${target}-as", :)
 -    AC_CHECK_PROGS(LD, $LD "${target_alias}-ld" "${target}-ld", :)
 -    AC_CHECK_PROGS(STRIP, $STRIP "${target_alias}-strip" "${target}-strip", :)
 -    AC_CHECK_PROGS(WINDRES, $WINDRES "${target_alias}-windres" "${target}-windres", :)
 -    AC_DEFINE(CROSS_COMPILE)
-+    echo >&2 Cross compile block breaks whole configure script
++    echo >&2 Cross compile block breaks whole configure script, be first to figure it out and fix it
 +    exit 1
  else
      AC_PROG_CC
