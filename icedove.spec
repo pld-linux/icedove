@@ -2,6 +2,11 @@
 # - separate spec for enigmail
 # - fix icedove (building) and installing nss/nspr libs!
 # - build with system mozldap
+# - about dialog broken:
+#XML Parsing Error: undefined entity
+#Location: chrome://messenger/content/aboutDialog.xul
+#Line Number 27, Column 37:        <description id="copyright">&logoTrademark;</description>
+#------------------------------------^
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
