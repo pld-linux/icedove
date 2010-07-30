@@ -403,8 +403,6 @@ exit 0
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/res
 
-%{_libdir}/%{name}/dependentlibs.list
-%{_pixmapsdir}/*.png
 %{_desktopdir}/*.desktop
 
 %dir %{_datadir}/%{name}
@@ -435,4 +433,5 @@ exit 0
 %files addon-enigmail
 %defattr(644,root,root,755)
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}
+%{_pixmapsdir}/*.png
 %endif
