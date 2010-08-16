@@ -421,13 +421,6 @@ exit 0
 %{_datadir}/%{name}/modules
 %{_datadir}/%{name}/res
 
-%dir %{_libdir}/%{name}/modules
-%{_libdir}/%{name}/modules/*.js*
-%dir %{_libdir}/%{name}/modules/activity
-%{_libdir}/%{name}/modules/activity/*.js
-%dir %{_libdir}/%{name}/modules/gloda
-%{_libdir}/%{name}/modules/gloda/*.js
-
 %dir %{_libdir}/%{name}/extensions
 %{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
 
