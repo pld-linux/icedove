@@ -32,12 +32,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	3.1
-Release:	0.4
+Version:	3.1.2
+Release:	0.2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	feb4d737d568066076879a09bd0d506e
+# Source0-md5:	48e80576a7af70e64d30a5162364525a
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
 Source2:	%{name}-branding.tar.bz2
@@ -294,9 +294,10 @@ EOF
 	CXX="%{__cxx}"
 
 %if %{with enigmail}
+top=$(pwd)
 cd mailnews/extensions/enigmail
-./makemake -r
-%{__make} -C ../../../obj-%{_target_cpu}/mailnews/extensions/enigmail \
+./makemake -r -o $top/obj-%{_target_cpu}
+%{__make} -C $top/obj-%{_target_cpu}/mailnews/extensions/enigmail \
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
@@ -308,11 +309,16 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} 
 	       $RPM_BUILD_ROOT%{_datadir}/%{name}
 install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
 
-cd mozilla
-%{__make} -C obj-%{_target_cpu}/mail/installer stage-package \
+cd mozilla/obj-%{_target_cpu}
+%{__make} -C mail/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
+
+# copy manually lightning files, somewhy they are not installed by make
+cp -a mozilla/dist/bin/extensions/calendar-timezones@mozilla.org \
+	mozilla/dist/bin/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103} \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions
 
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
@@ -336,7 +342,7 @@ ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
-cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
+cp -a ../icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 
 %if %{with enigmail}
 ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
