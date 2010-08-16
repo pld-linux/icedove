@@ -33,7 +33,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.1
-Release:	0.3
+Release:	0.4
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -335,7 +335,8 @@ ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 
-install %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 
 %if %{with enigmail}
 ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
@@ -354,11 +355,11 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig*
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt
 cp -f %{SOURCE6} $ext_dir/chrome.manifest
-cp -f icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 %endif
 
 # remove unecessary stuff
 rm $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
+rm $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
 
 # never package these
 # nss
@@ -411,6 +412,7 @@ exit 0
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/res
 
+%{_pixmapsdir}/*.png
 %{_desktopdir}/*.desktop
 
 %dir %{_datadir}/%{name}
@@ -435,5 +437,4 @@ exit 0
 %files addon-enigmail
 %defattr(644,root,root,755)
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}
-%{_pixmapsdir}/*.png
 %endif
