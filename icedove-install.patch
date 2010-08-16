@@ -1,15 +1,23 @@
---- comm-1.9.1/mozilla/toolkit/mozapps/installer/packager.mk.orig	2009-12-18 14:28:59.997141166 +0100
-+++ comm-1.9.1/mozilla/toolkit/mozapps/installer/packager.mk	2009-12-18 14:32:54.201542762 +0100
-@@ -369,7 +369,7 @@
+--- ./mozilla/toolkit/mozapps/installer/packager.mk.org	2010-01-21 21:10:00.234466295 +0100
++++ ./mozilla/toolkit/mozapps/installer/packager.mk	2010-01-21 21:10:29.847369216 +0100
+@@ -362,13 +362,13 @@
  # NOTE: this must be a tar now that dist links into the tree so that we
  # do not strip the binaries actually in the tree.
  	@echo "Creating package directory..."
 -	@mkdir $(DIST)/$(MOZ_PKG_DIR)
-+	@mkdir $(DESTDIR)/$(MOZ_PKG_DIR)
++	@mkdir -p $(DESTDIR)/$(MOZ_PKG_APPDIR)
  ifdef MOZ_PKG_MANIFEST
  	$(RM) -rf $(DIST)/xpt
  	$(call PACKAGER_COPY, "$(call core_abspath,$(DIST))",\
-@@ -384,11 +384,11 @@
+-		 "$(call core_abspath,$(DIST)/$(MOZ_PKG_DIR))", \
++		 "$(call core_abspath,$(DESTDIR)/$(MOZ_PKG_APPDIR))", \
+ 		"$(MOZ_PKG_MANIFEST)", "$(PKGCP_OS)", 1, 0, 1)
+-	$(PERL) $(MOZILLA_DIR)/xpinstall/packager/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
++	$(PERL) $(MOZILLA_DIR)/xpinstall/packager/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DESTDIR)/$(MOZ_PKG_APPDIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
+ else # !MOZ_PKG_MANIFEST
+ ifeq ($(MOZ_PKG_FORMAT),DMG)
+ # If UNIVERSAL_BINARY, the package will be made from an already-prepared
+@@ -377,11 +377,11 @@
  ifndef STAGE_SDK
  	@cd $(DIST) && rsync -auv --copy-unsafe-links $(_APPNAME) $(MOZ_PKG_DIR)
  else
@@ -23,15 +31,6 @@
  	@echo "Linking XPT files..."
  	@rm -rf $(DIST)/xpt
  	@$(NSINSTALL) -D $(DIST)/xpt
-@@ -431,7 +431,7 @@
- endif # PKG_SKIP_STRIP
- 	@echo "Removing unpackaged files..."
- ifdef NO_PKG_FILES
--	cd $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH); rm -rf $(NO_PKG_FILES)
-+	cd $(DESTDIR)$(MOZ_PKG_APPDIR)$(_BINPATH); rm -rf $(NO_PKG_FILES)
- endif
- ifdef MOZ_PKG_REMOVALS
- 	$(SYSINSTALL) $(IFLAGS1) $(MOZ_PKG_REMOVALS_GEN) $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)
 --- comm-1.9.1/mail/app/Makefile.in.orig	2009-12-18 14:49:43.990647725 +0100
 +++ comm-1.9.1/mail/app/Makefile.in	2009-12-18 14:49:53.830739781 +0100
 @@ -48,7 +48,7 @@
