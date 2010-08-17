@@ -33,7 +33,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.1.2
-Release:	0.5
+Release:	0.7
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -45,7 +45,6 @@ Source2:	%{name}-branding.tar.bz2
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
-Source6:	%{name}-enigmail.manifest
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-enigmail-shared.patch
 Patch2:		%{name}-gcc.patch
@@ -358,11 +357,12 @@ cp -rfLp chrome/enigmail.jar $ext_dir/chrome
 cp -rfLp chrome/enigmime.jar $ext_dir/chrome
 cp -rfLp components/enig* $ext_dir/components
 cp -rfLp components/libenigmime.so $ext_dir/components
+cp -rfLp components/libipc.so $ext_dir/components
 cp -rfLp components/ipc.xpt $ext_dir/components
 cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
 cd -
 cp -a ../mailnews/extensions/enigmail/package/install.rdf $ext_dir
-cp -f %{SOURCE6} $ext_dir/chrome.manifest
+cp -a ../mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
 %endif
 
 # remove unecessary stuff
@@ -448,5 +448,13 @@ exit 0
 %if %{with enigmail}
 %files addon-enigmail
 %defattr(644,root,root,755)
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}
+%dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/defaults
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/chrome
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/chrome.manifest
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/install.rdf
+%dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components
+%attr(755,root,root) %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.so
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.xpt
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.js
 %endif
