@@ -1,0 +1,23 @@
+--- icedove-3.1.2/mozilla/mozilla/toolkit/xre/nsXREDirProvider.cpp~	2010-08-03 02:28:31.000000000 +0300
++++ icedove-3.1.2/mozilla/mozilla/toolkit/xre/nsXREDirProvider.cpp	2010-08-17 15:46:17.972676534 +0300
+@@ -320,7 +320,7 @@
+ #endif
+ #if defined(XP_UNIX) && !defined(XP_MACOSX)
+   else if (!strcmp(aProperty, XRE_SYS_SHARE_EXTENSION_PARENT_DIR)) {
+-    static const char *const sysLExtDir = "/usr/share/mozilla/extensions";
++    static const char *const sysLExtDir = "/usr/share/icedove/extensions";
+     return NS_NewNativeLocalFile(nsDependentCString(sysLExtDir),
+                                  PR_FALSE, (nsILocalFile**)(nsIFile**) aFile);
+   }
+@@ -1231,9 +1231,9 @@
+ #elif defined(XP_UNIX)
+   static const char *const sysSExtDir = 
+ #ifdef HAVE_USR_LIB64_DIR
+-    "/usr/lib64/mozilla/extensions";
++    "/usr/lib64/icedove/extensions";
+ #else
+-    "/usr/lib/mozilla/extensions";
++    "/usr/lib/icedove/extensions";
+ #endif
+ 
+   rv = NS_NewNativeLocalFile(nsDependentCString(sysSExtDir), PR_FALSE,
