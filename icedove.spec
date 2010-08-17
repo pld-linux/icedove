@@ -15,11 +15,16 @@
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without  lightning	# disable sunbird calendar
-%bcond_with		xulrunner	# build with system xulrunner
+%bcond_with		xulrunner	# build with xulrunner
+%bcond_with	crashreporter	# report crashes to crash-stats.mozilla.com
 
 %if %{without gnome}
 %undefine	with_gnomeui
 %undefine	with_gnomevfs
+%endif
+
+%if %{?_enable_debug_packages} != 1
+%undefine	crashreporter
 %endif
 
 %define		enigmail_ver		1.1.2
@@ -33,7 +38,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.1.2
-Release:	0.8
+Release:	0.10
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -56,6 +61,7 @@ Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
 Patch9:		%{name}-libpng.patch
 Patch10:	%{name}-extensiondir.patch
+Patch11:	crashreporter.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	automake
@@ -176,12 +182,10 @@ cd mozilla
 %patch8 -p0
 %patch9 -p0
 %patch10 -p2
+%patch11 -p2
 
 %build
 cd mozilla
-export CFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
-export CXXFLAGS="%{rpmcflags} `%{_bindir}/pkg-config mozilla-nspr --cflags-only-I`"
-
 cp -f %{_datadir}/automake/config.* mozilla/build/autoconf
 cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
 cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
@@ -191,6 +195,13 @@ ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
 
 cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
+
+export CFLAGS="%{rpmcflags} %{?with_crashreporter:-gstabs+}"
+export CXXFLAGS="%{rpmcflags} %{?with_crashreporter:-gstabs+}"
+
+%if %{with crashreporter}
+export MOZ_DEBUG_SYMBOLS=1
+%endif
 
 # Options for 'configure' (same as command-line options).
 ac_add_options --prefix=%{_prefix}
@@ -241,7 +252,11 @@ ac_add_options --with-system-ldap
 %else
 ac_add_options --disable-ldap
 %endif
+%if %{with crashreporter}
+ac_add_options --enable-crashreporter
+%else
 ac_add_options --disable-crashreporter
+%endif
 ac_add_options --disable-xterm-updates
 ac_add_options --enable-postscript
 %if %{with lightning}
@@ -291,8 +306,14 @@ EOF
 
 %{__make} -j1 -f client.mk build \
 	STRIP="/bin/true" \
+	MOZ_MAKE_FLAGS="%{?_smp_mflags}" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
+
+%if %{with crashreporter}
+# create debuginfo for crash-stats.mozilla.com
+%{__make} -j1 -C obj-%{_target_cpu} buildsymbols
+%endif
 
 %if %{with enigmail}
 top=$(pwd)
@@ -306,15 +327,22 @@ cd mailnews/extensions/enigmail
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_pixmapsdir},%{_desktopdir}} \
-	       $RPM_BUILD_ROOT%{_datadir}/%{name}
-install -d $RPM_BUILD_ROOT%{_libdir}/%{name}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{_datadir}/%{name},%{_pixmapsdir},%{_desktopdir}}
 
 cd mozilla/obj-%{_target_cpu}
 %{__make} -C mail/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
+
+# Enable crash reporter for Firefox application
+%if %{with crashreporter}
+%{__sed} -i -e 's/\[Crash Reporter\]/[Crash Reporter]\nEnabled=1/' $RPM_BUILD_ROOT%{_libdir}/%{name}/application.ini
+
+# Add debuginfo for crash-stats.mozilla.com
+mkdir -p $RPM_BUILD_ROOT%{_exec_prefix}/lib/debug%{_libdir}/%{name}
+cp -a mozilla/dist/%{name}-%{version}.en-US.linux-*.crashreporter-symbols.zip $RPM_BUILD_ROOT%{_prefix}/lib/debug%{_libdir}/%{name}
+%endif
 
 # copy manually lightning files, somewhy they are not installed by make
 cp -a mozilla/dist/bin/extensions/calendar-timezones@mozilla.org \
@@ -343,7 +371,7 @@ ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
-cp -a ../icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
+cp -a ../icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
 
 # files created by regxpcom -register
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
@@ -399,7 +427,8 @@ exit 0
 %attr(755,root,root) %{_bindir}/mozilla-thunderbird
 %attr(755,root,root) %{_bindir}/thunderbird
 %dir %{_libdir}/%{name}
-%{_libdir}/%{name}/*.ini
+%{_libdir}/%{name}/application.ini
+%{_libdir}/%{name}/platform.ini
 %dir %{_libdir}/%{name}/components
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %{_libdir}/%{name}/components/*.js
@@ -431,6 +460,12 @@ exit 0
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/modules
 %{_datadir}/%{name}/res
+
+%if %{with crashreporter}
+%attr(755,root,root) %{_libdir}/%{name}/crashreporter
+%{_libdir}/%{name}/crashreporter.ini
+%{_libdir}/%{name}/Throbber-small.gif
+%endif
 
 %dir %{_libdir}/%{name}/extensions
 %{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
