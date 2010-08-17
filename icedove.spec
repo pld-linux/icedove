@@ -33,7 +33,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.1.2
-Release:	0.2
+Release:	0.4
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -344,22 +344,22 @@ ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 cp -a ../icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/icedove.png
 
+# files created by regxpcom -register
+touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
+touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
+
 %if %{with enigmail}
 ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
 install -d $ext_dir/{chrome,components,defaults/preferences}
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail.jar $ext_dir/chrome
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig* $ext_dir/components
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so $ext_dir/components
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt $ext_dir/components
-mv -f $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences/enigmail.js $ext_dir/defaults/preferences
-cp -f mailnews/extensions/enigmail/package/install.rdf $ext_dir
-rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults/preferences
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-en-US.jar
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmail-skin.jar
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome/enigmime.jar
-rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/components/enig*
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/libenigmime.so
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/components/ipc.xpt
+cd mozilla/dist/bin
+cp -rfLp chrome/enigmail.jar $ext_dir/chrome
+cp -rfLp chrome/enigmime.jar $ext_dir/chrome
+cp -rfLp components/enig* $ext_dir/components
+cp -rfLp components/libenigmime.so $ext_dir/components
+cp -rfLp components/ipc.xpt $ext_dir/components
+cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
+cd -
+cp -a ../mailnews/extensions/enigmail/package/install.rdf $ext_dir
 cp -f %{SOURCE6} $ext_dir/chrome.manifest
 %endif
 
@@ -431,6 +431,10 @@ exit 0
 
 %dir %{_libdir}/%{name}/extensions
 %{_libdir}/%{name}/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}
+
+# files created by regxpcom -register
+%ghost %{_libdir}/%{name}/components/compreg.dat
+%ghost %{_libdir}/%{name}/components/xpti.dat
 
 %if %{with lightning}
 %files addon-lightning
