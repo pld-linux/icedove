@@ -196,8 +196,8 @@ ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
 cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
 
-export CFLAGS="%{rpmcflags} %{?with_crashreporter:-gstabs+}"
-export CXXFLAGS="%{rpmcflags} %{?with_crashreporter:-gstabs+}"
+export CFLAGS="%{rpmcflags}"
+export CXXFLAGS="%{rpmcflags}"
 
 %if %{with crashreporter}
 export MOZ_DEBUG_SYMBOLS=1
