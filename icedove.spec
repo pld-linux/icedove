@@ -46,7 +46,7 @@ Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{vers
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
 Source2:	%{name}-branding.tar.bz2
-# Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
+# Source2-md5:	85fdf877e2f1bc41329d8086ef5cf0f1
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
