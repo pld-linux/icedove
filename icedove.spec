@@ -64,15 +64,20 @@ Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
+BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
+BuildRequires:	bzip2-devel
 BuildRequires:	freetype-devel >= 1:2.1.8
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
 BuildRequires:	gtk+2-devel >= 1:2.0.0
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 %{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
+%{?with_gnomeui:BuildRequires:	libgnome-keyring-devel}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
+BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
+BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng-devel >= 1.2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	nspr-devel >= 1:4.8
@@ -340,7 +345,7 @@ cd mozilla/obj-%{_target_cpu}
 %{__sed} -i -e 's/\[Crash Reporter\]/[Crash Reporter]\nEnabled=1/' $RPM_BUILD_ROOT%{_libdir}/%{name}/application.ini
 
 # Add debuginfo for crash-stats.mozilla.com
-mkdir -p $RPM_BUILD_ROOT%{_exec_prefix}/lib/debug%{_libdir}/%{name}
+install -d $RPM_BUILD_ROOT%{_exec_prefix}/lib/debug%{_libdir}/%{name}
 cp -a mozilla/dist/%{name}-%{version}.en-US.linux-*.crashreporter-symbols.zip $RPM_BUILD_ROOT%{_prefix}/lib/debug%{_libdir}/%{name}
 %endif
 
