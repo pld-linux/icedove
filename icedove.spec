@@ -112,6 +112,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 # and as we don't provide them, don't require either
 %define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
 
+%define		topdir		%{_builddir}/%{name}-%{version}
+%define		objdir		%{topdir}/obj-%{_target_cpu}
+
 %description
 Icedove is an open-source,fast and portable email client.
 
@@ -199,7 +202,7 @@ install -d libxul-sdk
 ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
 
 cat << EOF > .mozconfig
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/obj-%{_target_cpu}
+mk_add_options MOZ_OBJDIR=%{objdir}
 
 export CFLAGS="%{rpmcflags}"
 export CXXFLAGS="%{rpmcflags}"
@@ -321,10 +324,9 @@ EOF
 %endif
 
 %if %{with enigmail}
-top=$(pwd)
 cd mailnews/extensions/enigmail
-./makemake -r -o $top/obj-%{_target_cpu}
-%{__make} -C $top/obj-%{_target_cpu}/mailnews/extensions/enigmail \
+./makemake -r -o %{objdir}
+%{__make} -C %{objdir}/mailnews/extensions/enigmail \
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
@@ -334,7 +336,7 @@ cd mailnews/extensions/enigmail
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{_datadir}/%{name},%{_pixmapsdir},%{_desktopdir}}
 
-cd mozilla/obj-%{_target_cpu}
+cd %{objdir}
 %{__make} -C mail/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
 	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
@@ -376,7 +378,7 @@ ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
-cp -a ../icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
+cp -a %{topdir}/mozilla/icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
 
 # files created by regxpcom -register
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
@@ -394,8 +396,8 @@ cp -rfLp components/libipc.so $ext_dir/components
 cp -rfLp components/ipc.xpt $ext_dir/components
 cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
 cd -
-cp -a ../mailnews/extensions/enigmail/package/install.rdf $ext_dir
-cp -a ../mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
+cp -a %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_dir
+cp -a %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
 %endif
 
 # remove unecessary stuff
