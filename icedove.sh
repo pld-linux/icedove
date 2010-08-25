@@ -12,6 +12,15 @@ if [ ! -d $HOME/.icedove ]; then
 	fi
 fi
 
+# compreg.dat and/or chrome.rdf will screw things up if it's from an
+# older version.  http://bugs.gentoo.org/show_bug.cgi?id=63999
+for f in ~/.icedove/*/{compreg.dat,chrome.rdf,XUL.mfasl}; do
+	if [[ -f ${f} && ${f} -ot "$0" ]]; then
+		echo "Removing ${f} leftover from older Icedove"
+		rm -f "${f}"
+	fi
+done
+
 ICEDOVE="$LIBDIR/icedove"
 
 if [ "$1" == "-remote" ]; then
