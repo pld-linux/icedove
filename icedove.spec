@@ -2,11 +2,6 @@
 # - separate spec for enigmail
 # - fix icedove (building) and installing nss/nspr libs!
 # - build with system mozldap
-# - about dialog broken:
-#XML Parsing Error: undefined entity
-#Location: chrome://messenger/content/aboutDialog.xul
-#Line Number 27, Column 37:        <description id="copyright">&logoTrademark;</description>
-#------------------------------------^
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -38,7 +33,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.1.2
-Release:	0.10
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
