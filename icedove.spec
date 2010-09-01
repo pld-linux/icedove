@@ -33,7 +33,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.1.2
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -100,12 +100,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		filterout_cpp		-D_FORTIFY_SOURCE=[0-9]+
 
 # iceweasel/icedove/iceape provide their own versions
-%define		_noautoreqdep		libgfxpsshar.so libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpcom_core.so libxpistub.so
+%define		_noautoreqdep		libgfxpsshar.so libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpistub.so
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
 # we don't want these to satisfy xulrunner-devel
-%define		_noautoprov		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
+%define		_noautoprov		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so libxpcom_core.so
 # and as we don't provide them, don't require either
-%define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so
+%define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so libxpcom_core.so
 
 %define		topdir		%{_builddir}/%{name}-%{version}
 %define		objdir		%{topdir}/obj-%{_target_cpu}
