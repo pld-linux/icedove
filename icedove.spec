@@ -57,6 +57,7 @@ Patch8:		%{name}-makefile.patch
 Patch9:		%{name}-libpng.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
+Patch12:	no-subshell.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
@@ -80,7 +81,7 @@ BuildRequires:	nss-devel >= 1:3.12.0
 BuildRequires:	pango-devel >= 1:1.1.0
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
-BuildRequires:	sqlite3-devel >= 3.6.22
+BuildRequires:	sqlite3-devel >= 3.7.2-2
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
@@ -186,6 +187,7 @@ cd mozilla
 %patch9 -p0
 %patch10 -p2
 %patch11 -p2
+%patch12 -p1
 
 %build
 cd mozilla
