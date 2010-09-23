@@ -26,14 +26,14 @@ if [ "$1" == "-remote" ]; then
 else
 	PING=$($ICEDOVE -remote 'ping()' 2>&1 >/dev/null)
 	if [ -n "$PING" ]; then
-		$ICEDOVE "$@"
+		exec $ICEDOVE "$@"
 	else
 		case "$1" in
-		    -compose|-editor)
-			$ICEDOVE -remote 'xfeDoCommand (composeMessage)'
+		-compose|-editor)
+			exec $ICEDOVE -remote 'xfeDoCommand (composeMessage)'
 			;;
-		    *)
-			$ICEDOVE -remote 'xfeDoCommand (openInbox)'
+		*)
+			exec $ICEDOVE -remote 'xfeDoCommand (openInbox)'
 			;;
 		esac
 	fi
