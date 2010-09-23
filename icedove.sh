@@ -5,11 +5,9 @@ LIBDIR="@LIBDIR@/icedove"
 
 # copy profile from Thunderbird if its available and if no Icedove
 # profile exists
-if [ ! -d $HOME/.icedove ]; then
-	if [ -d $HOME/.thunderbird ]; then
-		echo "Copying profile from Thunderbird"
-		cp -rf $HOME/.thunderbird $HOME/.icedove
-	fi
+if [ ! -d $HOME/.icedove ] && [ -d $HOME/.thunderbird ]; then
+	echo "Copying profile from Thunderbird"
+	cp -a $HOME/.thunderbird $HOME/.icedove
 fi
 
 # compreg.dat and/or chrome.rdf will screw things up if it's from an
@@ -26,7 +24,7 @@ ICEDOVE="$LIBDIR/icedove"
 if [ "$1" == "-remote" ]; then
 	$ICEDOVE "$@"
 else
-	PING=`$ICEDOVE -remote 'ping()' 2>&1 >/dev/null`
+	PING=$($ICEDOVE -remote 'ping()' 2>&1 >/dev/null)
 	if [ -n "$PING" ]; then
 		$ICEDOVE "$@"
 	else
