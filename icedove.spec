@@ -33,7 +33,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	3.1.3
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -377,9 +377,21 @@ ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 cp -a %{topdir}/mozilla/icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
 
-# files created by regxpcom -register
+# files created by regxpcom -register in post
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/xpti.dat
+cat << 'EOF' > $RPM_BUILD_ROOT%{_libdir}/%{name}/register
+#!/bin/sh
+umask 022
+# make temporary HOME, as it attempts to touch files in $HOME/.mozilla
+# dangerous if you run this with sudo with keep_env += HOME
+# also TMPDIR could be pointing to sudo user's homedir so we reset that too.
+t=$(mktemp -d)
+rm -f %{_libdir}/%{name}/components/{compreg,xpti}.dat
+TMPDIR= TMP= HOME=$t %{_libdir}/%{name}/icedove -register
+rm -rf $t
+EOF
+chmod a+rx $RPM_BUILD_ROOT%{_libdir}/%{name}/register
 
 %if %{with enigmail}
 ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
@@ -425,6 +437,9 @@ for d in chrome defaults greprefs icons isp modules res; do
 done
 exit 0
 
+%post
+%{_libdir}/%{name}/register || :
+
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/icedove
@@ -444,6 +459,7 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/icedove
+%attr(755,root,root) %{_libdir}/%{name}/register
 
 # symlinks
 %{_libdir}/%{name}/chrome

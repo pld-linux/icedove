@@ -11,11 +11,12 @@ if [ ! -d $HOME/.icedove ] && [ -d $HOME/.thunderbird ]; then
 fi
 
 # compreg.dat and/or chrome.rdf will screw things up if it's from an
-# older version.  http://bugs.gentoo.org/show_bug.cgi?id=63999
+# older version. http://bugs.gentoo.org/show_bug.cgi?id=63999
 for f in ~/.icedove/*/{compreg.dat,chrome.rdf,XUL.mfasl}; do
-	if [[ -f ${f} && ${f} -ot "$0" ]]; then
-		echo "Removing ${f} leftover from older Icedove"
-		rm -f "${f}"
+	[ -f "$f" ] || continue
+	if [ "$f" -ot "$0" ] || [ "$f" -ot "$LIBDIR/components/compreg.dat" ]; then
+		echo "Removing $f leftover from older Icedove"
+		rm -f "$f"
 	fi
 done
 
