@@ -87,6 +87,7 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zip
+Requires(post):	mktemp >= 1.5-18
 %if %{with xulrunner}
 %else
 Requires:	myspell-common
