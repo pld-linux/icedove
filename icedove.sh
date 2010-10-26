@@ -22,8 +22,8 @@ done
 
 ICEDOVE="$LIBDIR/icedove"
 
-if [ "$1" == "-remote" ]; then
-	$ICEDOVE "$@"
+if [ "$1" = "-remote" ]; then
+	exec $ICEDOVE "$@"
 else
 	PING=$($ICEDOVE -remote 'ping()' 2>&1 >/dev/null)
 	if [ -n "$PING" ]; then
