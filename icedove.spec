@@ -174,7 +174,7 @@ Główne możliwości:
 mv -f comm-1.9.2 mozilla
 %setup -q -T -D -a2
 cd mozilla
-%{?with_enigmail:tar xvfz %{SOURCE1} -C mailnews/extensions}
+%{?with_enigmail:%{__gzip} -dc %{SOURCE1} | %{__tar} -xf - -C mailnews/extensions}
 /bin/sh %{SOURCE3}
 %patch0 -p1
 %{?with_enigmail:%patch1 -p1}
