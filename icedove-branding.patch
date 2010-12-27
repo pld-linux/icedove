@@ -194,14 +194,3 @@ diff -urN mozilla.orig//mozilla/toolkit/xre/nsAppRunner.cpp mozilla/mozilla/tool
    if (gAppData->copyright)
        printf(", %s", gAppData->copyright);
    printf("\n");
---- mozilla/mail/build.mk.org	2010-09-08 14:21:26.169329050 +0200
-+++ mozilla/mail/build.mk	2010-09-08 14:24:01.644480272 +0200
-@@ -119,7 +119,7 @@ endif
- PROGRAM = ../../../$(DIST)/$(APP_NAME).app/
- else
- # Non-mac options
--PROGRAM = ../../../$(DIST)/bin/thunderbird$(BIN_SUFFIX)
-+PROGRAM = ../../../$(DIST)/bin/$(MOZ_APP_NAME)$(BIN_SUFFIX)
- endif
- 
- mozmill::
