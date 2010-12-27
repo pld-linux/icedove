@@ -415,9 +415,13 @@ cp -a %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ex
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.list
 
-# never package these
+# never package these. always remove
+# nss
+%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{freebl3,nss3,nssckbi,nssdbm3,nssutil3,smime3,softokn3,ssl3}.*
+# nspr
+%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{nspr4,plc4,plds4}.so
 # mozldap
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap}60.so
+%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap,ssldap}60.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
