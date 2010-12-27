@@ -32,12 +32,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	3.1.6
+Version:	3.1.7
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	d126a68e6610d8e3675909e0ba606b42
+# Source0-md5:	be64630152a2d5a824a76752594e7596
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
 Source2:	%{name}-branding.tar.bz2
@@ -368,7 +368,7 @@ ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 
-rm -rf $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
+%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 
 %{__sed} -e 's,@LIBDIR@,%{_libdir},' %{SOURCE5} > $RPM_BUILD_ROOT%{_bindir}/icedove
@@ -388,7 +388,7 @@ umask 022
 # dangerous if you run this with sudo with keep_env += HOME
 # also TMPDIR could be pointing to sudo user's homedir so we reset that too.
 t=$(mktemp -d)
-rm -f %{_libdir}/%{name}/components/{compreg,xpti}.dat
+%{__rm} %{_libdir}/%{name}/components/{compreg,xpti}.dat
 TMPDIR= TMP= HOME=$t %{_libdir}/%{name}/icedove -register
 rm -rf $t
 EOF
@@ -411,17 +411,13 @@ cp -a %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ex
 %endif
 
 # remove unecessary stuff
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.list
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.list
 
 # never package these
-# nss
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{freebl3,nss3,nssckbi,nssdbm3,nssutil3,smime3,softokn3,ssl3}.*
-# nspr
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{nspr4,plc4,plds4}.so
 # mozldap
-rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap,ssldap}60.so
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap}60.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
