@@ -32,12 +32,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	3.1.7
-Release:	2
+Version:	3.1.8
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	be64630152a2d5a824a76752594e7596
+# Source0-md5:	bb4564eba437adceb22292249d186e11
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
 Source2:	%{name}-branding.tar.bz2
@@ -194,7 +194,7 @@ cd mozilla
 cd mozilla
 cp -f %{_datadir}/automake/config.* mozilla/build/autoconf
 cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
-cp -f %{_datadir}/automake/config.* directory/c-sdk/config/autoconf
+cp -f %{_datadir}/automake/config.* directory/sdks/c-sdk/config/autoconf
 
 install -d libxul-sdk
 ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
