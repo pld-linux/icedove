@@ -32,12 +32,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	3.1.9
-Release:	3
+Version:	3.1.10
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	e6917c419d3aaa8083a1d4b53fb80d8c
+# Source0-md5:	2a81f3ee7ea7acff0ee2eaee6574ea11
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
 Source2:	%{name}-branding.tar.bz2
@@ -58,7 +58,6 @@ Patch9:		%{name}-libpng.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
-Patch13:	%{name}-libnotify.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
@@ -82,7 +81,7 @@ BuildRequires:	nss-devel >= 1:3.12.0
 BuildRequires:	pango-devel >= 1:1.1.0
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
-BuildRequires:	sqlite3-devel >= 3.7.2-2
+BuildRequires:	sqlite3-devel >= 3.7.4
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
@@ -190,7 +189,6 @@ cd mozilla
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1
-%patch13 -p1
 
 %build
 cd mozilla
