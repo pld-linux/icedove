@@ -388,7 +388,7 @@ umask 022
 # dangerous if you run this with sudo with keep_env += HOME
 # also TMPDIR could be pointing to sudo user's homedir so we reset that too.
 t=$(mktemp -d)
-%{__rm} %{_libdir}/%{name}/components/{compreg,xpti}.dat
+%{__rm} -f %{_libdir}/%{name}/components/{compreg,xpti}.dat
 TMPDIR= TMP= HOME=$t %{_libdir}/%{name}/icedove -register
 rm -rf $t
 EOF
