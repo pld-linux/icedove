@@ -202,8 +202,8 @@ ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
 cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=%{objdir}
 
-export CFLAGS="%{rpmcflags}"
-export CXXFLAGS="%{rpmcflags}"
+export CFLAGS="%{rpmcflags} -fpermissive"
+export CXXFLAGS="%{rpmcflags} -fpermissive"
 
 %if %{with crashreporter}
 export MOZ_DEBUG_SYMBOLS=1
@@ -380,8 +380,8 @@ ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 
-cp -a %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
-cp -a %{topdir}/mozilla/icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
+cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+cp -p %{topdir}/mozilla/icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
 
 # files created by regxpcom -register in post
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
@@ -411,8 +411,8 @@ cp -rfLp components/libipc.so $ext_dir/components
 cp -rfLp components/ipc.xpt $ext_dir/components
 cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
 cd -
-cp -a %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_dir
-cp -a %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
+cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_dir
+cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
 %endif
 
 # remove unecessary stuff
