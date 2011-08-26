@@ -10,7 +10,7 @@
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without  lightning	# disable sunbird calendar
-%bcond_with		xulrunner	# build with xulrunner
+%bcond_without	xulrunner	# build with xulrunner
 %bcond_with	crashreporter	# report crashes to crash-stats.mozilla.com
 
 %if %{without gnome}
@@ -18,11 +18,13 @@
 %undefine	with_gnomevfs
 %endif
 
-%if %{?_enable_debug_packages} != 1
+%if 0%{?_enable_debug_packages} != 1
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver		1.1.2
+%define		enigmail_ver	1.1.2
+%define		nspr_ver		4.8.8
+%define		nss_ver			3.12.10
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -32,12 +34,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	3.1.11
-Release:	2
+Version:	6.0
+Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	25833b3f90925d96285630d22c85cd5c
+# Source0-md5:	9ac741d238e95790cdeb5222e9b23ae8
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
 Source2:	%{name}-branding.tar.bz2
@@ -54,7 +56,6 @@ Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
-Patch9:		%{name}-libpng.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
@@ -76,8 +77,8 @@ BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng-devel >= 1.2.0
 BuildRequires:	libstdc++-devel
-BuildRequires:	nspr-devel >= 1:4.8
-BuildRequires:	nss-devel >= 1:3.12.0
+BuildRequires:	nspr-devel >= 1:%{nspr_ver}
+BuildRequires:	nss-devel >= 1:%{nss_ver}
 BuildRequires:	pango-devel >= 1:1.1.0
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
@@ -91,8 +92,8 @@ Requires(post):	mktemp >= 1.5-18
 %if %{with xulrunner}
 %else
 Requires:	myspell-common
-Requires:	nspr >= 1:4.6.1
-Requires:	nss >= 1:3.11.3
+Requires:	nspr >= 1:%{nspr_ver}
+Requires:	nss >= 1:%{nss_ver}
 Requires:	sqlite3 >= %{sqlite_build_version}
 %endif
 Obsoletes:	mozilla-thunderbird
@@ -171,7 +172,7 @@ Główne możliwości:
 
 %prep
 %setup -qc
-mv -f comm-1.9.2 mozilla
+mv comm-release mozilla
 %setup -q -T -D -a2
 cd mozilla
 %{?with_enigmail:%{__gzip} -dc %{SOURCE1} | %{__tar} -xf - -C mailnews/extensions}
@@ -184,8 +185,7 @@ cd mozilla
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p0
-%patch9 -p0
+%patch8 -p2
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1
@@ -194,7 +194,7 @@ cd mozilla
 cd mozilla
 cp -f %{_datadir}/automake/config.* mozilla/build/autoconf
 cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
-cp -f %{_datadir}/automake/config.* directory/sdks/c-sdk/config/autoconf
+cp -f %{_datadir}/automake/config.* ldap/sdks/c-sdk/config/autoconf
 
 install -d libxul-sdk
 ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
@@ -293,10 +293,12 @@ ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=icedove/branding
 %if %{with xulrunner}
-ac_add_options --with-libxul-sdk=$(pwd)/libxul-sdk
+#ac_add_options --with-libxul-sdk=$(pwd)/libxul-sdk/sdk
+ac_add_options --with-system-libxul
 ac_add_options --enable-shared
+ac_add_options --enable-libxul
 %else
-ac_add_options --enable-static
+ac_add_options --disable-xul
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2

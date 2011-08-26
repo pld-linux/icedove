@@ -1,11 +1,18 @@
---- Makefile.in.orig	2010-06-23 19:43:07.000000000 +0200
-+++ Makefile.in	2010-07-08 09:24:01.055067815 +0200
-@@ -58,21 +58,7 @@
+--- icedove-6.0/mozilla/Makefile.in~	2011-08-12 16:52:03.000000000 +0300
++++ icedove-6.0/mozilla/Makefile.in	2011-08-26 13:00:59.373870016 +0300
+@@ -58,8 +58,6 @@
  
  include $(topsrcdir)/config/config.mk
  
 -default alldep all:: $(topsrcdir)/configure config.status
 -
+ ifndef INCLUDED_BRIDGE_MK
+ include $(topsrcdir)/bridge/bridge.mk
+ endif
+@@ -67,19 +65,7 @@
+ # workaround Bug 599809 by making these makefiles be generated here
+ SUBMAKEFILES += $(addsuffix /Makefile, $(APP_LIBXUL_DIRS) $(APP_LIBXUL_STATICDIRS))
+ 
 -$(topsrcdir)/configure: $(topsrcdir)/configure.in
 -	@echo "STOP!  configure.in has changed, and your configure is out of date."
 -	@echo "Please rerun autoconf and configure."
@@ -18,8 +25,21 @@
 -	@echo "To ignore this message, touch 'config.status' in the build directory."
 -	@exit 1
 -
--default export libs clean realclean distclean alldep maybe_clobber_profiledbuild uploadsymbols all::
-+default export libs clean realclean distclean maybe_clobber_profiledbuild uploadsymbols::
+-default export libs clean realclean distclean alldep \
++default export libs clean realclean distclean \
+ maybe_clobber_profiledbuild uploadsymbols all:: $(SUBMAKEFILES)
  	$(MAKE) -C mozilla $@
  
- ifdef ENABLE_TESTS
+--- icedove-6.0/mozilla/client.mk~	2011-08-26 13:10:08.000000000 +0300
++++ icedove-6.0/mozilla/client.mk	2011-08-26 13:10:11.365956960 +0300
+@@ -278,8 +278,8 @@
+ 	$(TOPSRCDIR)/mozilla/js/src/aclocal.m4 \
+ 	$(NULL)
+ 
+-$(CONFIGURES): %: %.in $(EXTRA_CONFIG_DEPS)
+-	@echo Generating $@ using autoconf
++$(CONFIGURES): 
++	echo Generating $@ using autoconf
+ 	cd $(@D); $(AUTOCONF)
+ 
+ CONFIG_STATUS_DEPS := \
