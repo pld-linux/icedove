@@ -90,6 +90,7 @@ BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zip
 Requires(post):	mktemp >= 1.5-18
 %if %{with xulrunner}
+BuildRequires:	xulrunner-devel
 %else
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
