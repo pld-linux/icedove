@@ -1,8 +1,7 @@
-diff -urN mozilla.orig//calendar/lightning/install.rdf mozilla/calendar/lightning/install.rdf
---- mozilla.orig//calendar/lightning/install.rdf	2010-07-05 21:35:28.425408088 +0200
-+++ mozilla/calendar/lightning/install.rdf	2010-07-05 21:39:36.114349634 +0200
-@@ -46,7 +46,7 @@
-     <em:id>{e2fda1a4-762b-4020-b5ad-a41df1933103}</em:id>
+--- mozilla/calendar/lightning/install.rdf~	2011-08-12 15:52:04.000000000 +0200
++++ mozilla/calendar/lightning/install.rdf	2011-09-17 15:22:37.326572866 +0200
+@@ -28,7 +28,7 @@
+     <em:id>@XPI_EM_ID@</em:id>
      <em:name>Lightning</em:name>
      <em:version>@LIGHTNING_VERSION@</em:version> <!-- BuildID=@GRE_BUILDID@ -->
 -    <em:description>An integrated calendar for Thunderbird</em:description>
@@ -10,9 +9,8 @@ diff -urN mozilla.orig//calendar/lightning/install.rdf mozilla/calendar/lightnin
  #ifdef LIGHTNING_PRERELEASE_VERSION
      <em:developer>Build ID: @GRE_BUILDID@</em:developer>
  #endif
-diff -urN mozilla.orig//calendar/locales/en-US/chrome/lightning/lightning.properties mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties
---- mozilla.orig//calendar/locales/en-US/chrome/lightning/lightning.properties	2010-07-05 21:35:28.495173642 +0200
-+++ mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties	2010-07-05 21:39:36.114349634 +0200
+--- mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties~	2011-08-12 15:52:04.000000000 +0200
++++ mozilla/calendar/locales/en-US/chrome/lightning/lightning.properties	2011-09-17 15:23:40.476566690 +0200
 @@ -39,7 +39,7 @@
  
  # addon description:
@@ -22,9 +20,8 @@ diff -urN mozilla.orig//calendar/locales/en-US/chrome/lightning/lightning.proper
  extensions.{e2fda1a4-762b-4020-b5ad-a41df1933103}.creator=Mozilla Calendar Project
  
  # Lightning branding
-diff -urN mozilla.orig//mail/app/application.ini mozilla/mail/app/application.ini
---- mozilla.orig//mail/app/application.ini	2010-07-05 21:35:29.238749304 +0200
-+++ mozilla/mail/app/application.ini	2010-07-05 21:39:36.141016423 +0200
+--- mozilla/mail/app/application.ini~	2011-08-12 15:52:04.000000000 +0200
++++ mozilla/mail/app/application.ini	2011-09-17 15:24:45.833226544 +0200
 @@ -37,7 +37,7 @@
  
  #filter substitution
@@ -34,24 +31,19 @@ diff -urN mozilla.orig//mail/app/application.ini mozilla/mail/app/application.in
  Version=@APP_VERSION@
  BuildID=@GRE_BUILDID@
  #ifdef MOZ_SOURCE_REPO
-diff -urN mozilla.orig//mail/app/profile/all-thunderbird.js mozilla/mail/app/profile/all-thunderbird.js
---- mozilla.orig//mail/app/profile/all-thunderbird.js	2010-07-05 21:35:29.331249108 +0200
-+++ mozilla/mail/app/profile/all-thunderbird.js	2010-07-05 21:39:36.164349628 +0200
+--- mozilla/mail/app/profile/all-thunderbird.js~	2011-08-12 15:52:04.000000000 +0200
++++ mozilla/mail/app/profile/all-thunderbird.js	2011-09-17 15:28:09.543206613 +0200
 @@ -74,7 +74,7 @@
  // App-specific update preferences
  
  // Whether or not app updates are enabled
 -pref("app.update.enabled", true);               
-+pref("app.update.enabled", false);
++pref("app.update.enabled", false);               
  
  // This preference turns on app.update.mode and allows automatic download and
  // install to take place. We use a separate boolean toggle for this to make     
-@@ -99,10 +99,10 @@
- 
- // URL user can browse to manually if for some reason all update installation
- // attempts fail.  TODO: Change this URL
--pref("app.update.url.manual", "http://www.mozillamessaging.com/%LOCALE%/%APP%/");
-+pref("app.update.url.manual", "http://www.mozillamessaging.com/%LOCALE%/thunderbird/");
+@@ -102,7 +102,7 @@
+ pref("app.update.url.manual", "http://www.getthunderbird.com");
  // A default value for the "More information about this update" link
  // supplied in the "An update is available" page of the update wizard. 
 -pref("app.update.url.details", "http://www.mozillamessaging.com/%LOCALE%/%APP%/releases/");
@@ -70,41 +62,34 @@ diff -urN mozilla.orig//mail/app/profile/all-thunderbird.js mozilla/mail/app/pro
 -pref("app.support.baseURL", "http://support.live.mozillamessaging.com/%LOCALE%/%APP%/%APPBUILDID%/");
 +pref("app.support.baseURL", "http://support.live.mozillamessaging.com/%LOCALE%/thunderbird/%APPBUILDID%/");
  
+ // Controls enabling of the extension system logging (can reduce performance)
+ pref("extensions.logging.enabled", false);
+@@ -138,10 +138,10 @@
+ // Preferences for AMO integration
+ pref("extensions.getAddons.cache.enabled", true);
+ pref("extensions.getAddons.maxResults", 15);
+-pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
+-pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/search?q=%TERMS%");
+-pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%?src=thunderbird");
+-pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/%APP%/discovery/pane/%VERSION%/%OS%");
++pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
++pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/search?q=%TERMS%");
++pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%?src=thunderbird");
++pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/discovery/pane/%VERSION%/%OS%");
+ 
  // Blocklist preferences
  pref("extensions.blocklist.enabled", true);
-@@ -156,9 +156,9 @@
+@@ -165,7 +165,7 @@
  pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
                                              // Themes every day
- // Non-symmetric (not shared by extensions) extension-specific [update] preferences
--pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/extensions/");
--pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/themes/");
--pref("extensions.getMorePluginsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/%APP%/%VERSION%/plugins/");
-+pref("extensions.getMoreExtensionsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/extensions/");
-+pref("extensions.getMoreThemesURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/themes/");
-+pref("extensions.getMorePluginsURL", "https://%LOCALE%.add-ons.mozilla.com/%LOCALE%/thunderbird/%VERSION%/plugins/");
+ 
+-pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/%APP%/themes/");
++pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/themes/");
  pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
  pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
  
-@@ -167,12 +167,12 @@
+@@ -352,7 +352,7 @@
  
- // Preferences for the Get Add-ons pane
- pref("extensions.getAddons.showPane", true);
--pref("extensions.getAddons.browseAddons", "https://addons.mozilla.org/%LOCALE%/%APP%");
-+pref("extensions.getAddons.browseAddons", "https://addons.mozilla.org/%LOCALE%/thunderbird");
- pref("extensions.getAddons.maxResults", 5);
--pref("extensions.getAddons.recommended.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/recommended");
--pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
--pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/search?q=%TERMS%");
--pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
-+pref("extensions.getAddons.recommended.browseURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/recommended");
-+pref("extensions.getAddons.recommended.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/list/featured/all/10/%OS%/%VERSION%");
-+pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/search?q=%TERMS%");
-+pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/%TERMS%/all/10/%OS%/%VERSION%");
- 
- pref("xpinstall.whitelist.add", "update.mozilla.org");
- pref("xpinstall.whitelist.add.36", "getpersonas.com");
-@@ -364,7 +364,7 @@
- pref("news.directory",                  "");
  pref("spellchecker.dictionary", "");
  // Dictionary download preference
 -pref("spellchecker.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/%APP%/dictionaries/");
@@ -112,7 +97,7 @@ diff -urN mozilla.orig//mail/app/profile/all-thunderbird.js mozilla/mail/app/pro
  
  // profile.force.migration can be used to bypass the migration wizard, forcing migration from a particular
  // mail application without any user intervention. Possible values are: 
-@@ -499,7 +499,7 @@
+@@ -489,7 +489,7 @@
  pref("mailnews.database.global.logging.console", true);
  
  // page to load to find good header add-ons
@@ -121,47 +106,20 @@ diff -urN mozilla.orig//mail/app/profile/all-thunderbird.js mozilla/mail/app/pro
  
  // Serif fonts look dated.  Switching those language families to sans-serif
  // where we think it makes sense.  Worth investigating for other font families
-diff -urN mozilla.orig//mail/base/content/baseMenuOverlay.xul mozilla/mail/base/content/baseMenuOverlay.xul
---- mozilla.orig//mail/base/content/baseMenuOverlay.xul	2010-07-05 21:35:29.344789211 +0200
-+++ mozilla/mail/base/content/baseMenuOverlay.xul	2010-07-05 21:39:36.174349684 +0200
-@@ -70,9 +70,6 @@
-                 oncommand="openSupportURL();"
-                 key="key_openHelp"/>
- #endif
--      <menuitem id="releaseNotes"
--                label="&releaseCmd.label;" accesskey="&releaseCmd.accesskey;"
--                oncommand="openFormattedURL('app.releaseNotesURL');"/>
+--- mozilla/mail/base/content/baseMenuOverlay.xul~	2011-08-12 15:52:04.000000000 +0200
++++ mozilla/mail/base/content/baseMenuOverlay.xul	2011-09-17 15:29:32.946531066 +0200
+@@ -73,9 +73,6 @@
        <menuitem id="whatsNew"
                  label="&whatsNewCmd.label;" accesskey="&whatsNewCmd.accesskey;"
                  oncommand="openWhatsNew();"/>
-diff -urN mozilla.orig//mail/base/content/credits.xhtml mozilla/mail/base/content/credits.xhtml
---- mozilla.orig//mail/base/content/credits.xhtml	2010-07-05 21:35:29.344789211 +0200
-+++ mozilla/mail/base/content/credits.xhtml	2010-07-05 21:44:34.520940060 +0200
-@@ -198,7 +198,7 @@
-     </div>
- 
-     <div id="creditsBox">
--        <h2 class="title">&brandFullName;&trade;
-+        <h2 class="title">&brandFullName;
-           <div class="motto">&brandMotto;</div>
-         </h2>
- 
-@@ -312,12 +312,6 @@
-         <p id="gecko" class="center">&credit.poweredByGecko;</p>
- 
-         <p class="footnote">
--          Mozilla Thunderbird&trade; and the Thunderbird logo are trademarks of the Mozilla
--          Foundation. You are not granted rights or licenses to the trademarks
--          of the Mozilla Foundation or any party, including without limitation the
--          Thunderbird name or logo.</p>
--
--        <p class="footnote">
-           U.S. GOVERNMENT END USERS. The Software is a &ldquo;commercial item,&rdquo;
-           as that term is defined in 48 C.F.R. 2.101 (Oct. 1995), consisting of
-           &ldquo;commercial computer software&rdquo; and &ldquo;commercial computer software
-diff -urN mozilla.orig//mail/confvars.sh mozilla/mail/confvars.sh
---- mozilla.orig//mail/confvars.sh	2010-07-05 21:35:29.801718821 +0200
-+++ mozilla/mail/confvars.sh	2010-07-05 21:39:36.174349684 +0200
+-      <menuitem id="releaseNotes"
+-                label="&releaseCmd2.label;" accesskey="&releaseCmd2.accesskey;"
+-                oncommand="openFormattedURL('app.releaseNotesURL');"/>
+       <menuseparator id="functionsSeparator"/>
+       <menuitem id="featureConfigurator"
+                 label="&featureConfiguratorCmd.label;"
+--- mozilla/mail/confvars.sh~	2011-08-12 15:52:05.000000000 +0200
++++ mozilla/mail/confvars.sh	2011-09-17 15:34:33.613167078 +0200
 @@ -36,7 +36,7 @@
  #
  # ***** END LICENSE BLOCK *****
@@ -170,21 +128,10 @@ diff -urN mozilla.orig//mail/confvars.sh mozilla/mail/confvars.sh
 +MOZ_APP_NAME=icedove
  MOZ_UPDATER=1
  MOZ_THUNDERBIRD=1
- MOZ_NO_ACTIVEX_SUPPORT=1
-diff -urN mozilla.orig//mail/locales/en-US/chrome/messenger/credits.dtd mozilla/mail/locales/en-US/chrome/messenger/credits.dtd
---- mozilla.orig//mail/locales/en-US/chrome/messenger/credits.dtd	2010-07-05 21:35:30.087529062 +0200
-+++ mozilla/mail/locales/en-US/chrome/messenger/credits.dtd	2010-07-05 21:39:36.174349684 +0200
-@@ -1,5 +1,5 @@
- <!ENTITY credit.title     "&brandFullName; Credits">
--<!ENTITY brandMotto       "Thunderbirds Are Go!">
-+<!ENTITY brandMotto       "Icedoves Are Free!">
- <!ENTITY credit.thanks    "Special Thanks To">
- 
- <!-- localization credits look like this: -->
-diff -urN mozilla.orig//mozilla/toolkit/xre/nsAppRunner.cpp mozilla/mozilla/toolkit/xre/nsAppRunner.cpp
---- mozilla.orig//mozilla/toolkit/xre/nsAppRunner.cpp	2010-07-05 21:36:51.774157698 +0200
-+++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2010-07-05 21:39:36.177475358 +0200
-@@ -1334,8 +1334,7 @@
+ MOZ_CHROME_FILE_FORMAT=omni
+--- mozilla/mozilla/toolkit/xre/nsAppRunner.cpp~	2011-08-12 16:16:45.000000000 +0200
++++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2011-09-17 15:36:16.599823973 +0200
+@@ -1324,8 +1324,7 @@
  static inline void
  DumpVersion()
  {
