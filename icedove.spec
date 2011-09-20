@@ -59,8 +59,8 @@ Patch8:		%{name}-makefile.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
-%{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 URL:		http://www.pld-linux.org/Packages/Icedove
+%{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
