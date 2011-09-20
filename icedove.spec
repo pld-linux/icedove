@@ -59,8 +59,8 @@ Patch8:		%{name}-makefile.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
-URL:		http://www.pld-linux.org/Packages/Icedove
 %{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
+URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
@@ -87,6 +87,7 @@ BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
+BuildRequires:	yasm
 BuildRequires:	zip
 Requires(post):	mktemp >= 1.5-18
 %if %{with xulrunner}
@@ -203,8 +204,8 @@ ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
 cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=%{objdir}
 
-export CFLAGS="%{rpmcflags} -fpermissive"
-export CXXFLAGS="%{rpmcflags} -fpermissive"
+export CFLAGS="%{rpmcflags} -fpermissive -I/usr/include/xulrunner"
+export CXXFLAGS="%{rpmcflags} -fpermissive -I/usr/include/xulrunner"
 
 %if %{with crashreporter}
 export MOZ_DEBUG_SYMBOLS=1
