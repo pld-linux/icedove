@@ -22,7 +22,7 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.1.2
+%define		enigmail_ver	1.3.2
 %define		nspr_ver		4.8.8
 %define		nss_ver			3.12.10
 
@@ -41,7 +41,7 @@ Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
 # Source0-md5:	917a667fe21cfd103092dbc23a112192
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	7d329d5e8afbbb28214ca1995beb09c9
+# Source1-md5:	2318d60320dc6c3db3c34d968bb7d533
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
