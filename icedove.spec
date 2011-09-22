@@ -341,7 +341,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{_datadir}/%{name},%{_
 cd %{objdir}
 %{__make} -C mail/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
-	MOZ_PKG_APPDIR=%{_libdir}/%{name} \
+	MOZ_PKG_DIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
 
 # Enable crash reporter for Firefox application
@@ -361,13 +361,13 @@ cp -a mozilla/dist/bin/extensions/calendar-timezones@mozilla.org \
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
+#mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
-ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
+#ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
 ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
@@ -407,8 +407,8 @@ chmod a+rx $RPM_BUILD_ROOT%{_libdir}/%{name}/register
 ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
 install -d $ext_dir/{chrome,components,defaults/preferences}
 cd mozilla/dist/bin
-cp -rfLp chrome/enigmail.jar $ext_dir/chrome
-cp -rfLp chrome/enigmime.jar $ext_dir/chrome
+#cp -rfLp chrome/enigmail.jar $ext_dir/chrome
+#cp -rfLp chrome/enigmime.jar $ext_dir/chrome
 cp -rfLp components/enig* $ext_dir/components
 cp -rfLp components/libenigmime.so $ext_dir/components
 cp -rfLp components/libipc.so $ext_dir/components
@@ -421,8 +421,8 @@ cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ex
 
 # remove unecessary stuff
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.list
+#%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
+#%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.list
 
 # never package these. always remove
 # nss
@@ -462,9 +462,11 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %{_libdir}/%{name}/components/*.js
 %{_libdir}/%{name}/components/*.xpt
-%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
+%attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
+#%%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
 %attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
-%attr(755,root,root) %{_libdir}/%{name}/libxpcom_core.so
+#%%attr(755,root,root) %{_libdir}/%{name}/libxpcom_core.so
+%attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/*.sh
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
@@ -475,7 +477,7 @@ exit 0
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/defaults
 %{_libdir}/%{name}/dictionaries
-%{_libdir}/%{name}/greprefs
+#%%{_libdir}/%{name}/greprefs
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/res
@@ -486,7 +488,7 @@ exit 0
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/chrome
 %{_datadir}/%{name}/defaults
-%{_datadir}/%{name}/greprefs
+#%%{_datadir}/%{name}/greprefs
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/modules
 %{_datadir}/%{name}/res
