@@ -13,4 +13,6 @@ Terminal=false
 Type=Application
 Categories=GTK;Network;Email;
 MimeType=message/rfc822;x-scheme-handler/mailto;
+StartupNotify=true
+StartupWMClass=Thunderbird-bin
 # vi: encoding=utf-8

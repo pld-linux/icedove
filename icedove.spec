@@ -26,6 +26,10 @@
 %define		nspr_ver		4.8.8
 %define		nss_ver			3.12.10
 
+# convert firefox release number to platform version: 6.0.x -> 6.0.x
+%define		xulrunner_main	7.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#7.0})
+
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
 %define		sqlite_build_version %(pkg-config --silence-errors --modversion sqlite3 2>/dev/null || echo ERROR)
@@ -34,12 +38,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	6.0.2
+Version:	7.0
 Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	917a667fe21cfd103092dbc23a112192
+# Source0-md5:	6a4b2dbdc2324f52c019a3a8dee6dad4
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	2318d60320dc6c3db3c34d968bb7d533
 Source2:	%{name}-branding.tar.bz2
@@ -89,14 +93,17 @@ BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	yasm
 BuildRequires:	zip
-Requires(post):	mktemp >= 1.5-18
 %if %{with xulrunner}
-BuildRequires:	xulrunner-devel
+BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
 %else
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
 Requires:	nss >= 1:%{nss_ver}
 Requires:	sqlite3 >= %{sqlite_build_version}
+%endif
+Requires(post):	mktemp >= 1.5-18
+%if %{with xulrunner}
+%requires_eq_to	xulrunner xulrunner-devel
 %endif
 Obsoletes:	mozilla-thunderbird
 Obsoletes:	mozilla-thunderbird-dictionary-en-US
@@ -184,7 +191,7 @@ cd mozilla
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
+%patch4 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
