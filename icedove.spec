@@ -39,7 +39,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	7.0
-Release:	0.1
+Release:	0.2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -190,7 +190,6 @@ cd mozilla
 %{?with_enigmail:%patch1 -p1}
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %patch4 -p1
 %patch6 -p1
 %patch7 -p1
