@@ -1,7 +1,28 @@
 # TODO:
 # - separate spec for enigmail
-# - fix icedove (building) and installing nss/nspr libs!
 # - build with system mozldap
+# - files:
+#   /usr/lib/icedove/blocklist.xml
+#   /usr/lib/icedove/chrome.manifest
+#   /usr/lib/icedove/components/components.manifest
+#   /usr/lib/icedove/components/interfaces.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/application.ini
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calCompositeCalendar.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calDavCalendar.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calICSCalendar.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calImportExportModule.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calItemModule.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calItipEmailTransport.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calItipProtocolHandler.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calMemoryCalendar.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calStorageCalendar.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calWcapCalendarModule.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/interfaces.manifest
+#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/lightningTextCalendarConverter.manifest
+#   /usr/lib/icedove/greprefs.js
+#   /usr/lib/icedove/hyphenation/hyph_en_US.dic
+#   /usr/lib/icedove/plugin-container
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -23,10 +44,10 @@
 %endif
 
 %define		enigmail_ver	1.3.2
-%define		nspr_ver		4.8.8
-%define		nss_ver			3.12.10
+%define		nspr_ver	4.8.8
+%define		nss_ver		3.12.10
 
-# convert firefox release number to platform version: 6.0.x -> 6.0.x
+# convert firefox release number to platform version: 7.0.x -> 7.0.x
 %define		xulrunner_main	7.0
 %define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#7.0})
 
@@ -38,12 +59,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	7.0
-Release:	0.2
+Version:	7.0.1
+Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	6a4b2dbdc2324f52c019a3a8dee6dad4
+# Source0-md5:	ad177fe5202deabda44882ff5c871f1b
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	2318d60320dc6c3db3c34d968bb7d533
 Source2:	%{name}-branding.tar.bz2
