@@ -1,6 +1,7 @@
 # TODO:
 # - separate spec for enigmail
 # - build with system mozldap
+# - replace gnome-vfs2 with gio
 # - files:
 #   /usr/lib/icedove/blocklist.xml
 #   /usr/lib/icedove/chrome.manifest
@@ -30,7 +31,7 @@
 %bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
 %bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
-%bcond_without  lightning	# disable sunbird calendar
+%bcond_without	lightning	# disable Sunbird/Lightning calendar
 %bcond_without	xulrunner	# build with xulrunner
 %bcond_with	crashreporter	# report crashes to crash-stats.mozilla.com
 
@@ -89,9 +90,11 @@ URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
+BuildRequires:	cairo-devel >= 1.10
+BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	freetype-devel >= 1:2.1.8
 %{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
-BuildRequires:	gtk+2-devel >= 1:2.0.0
+BuildRequires:	gtk+2-devel >= 2:2.10.0
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 %{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
@@ -100,12 +103,14 @@ BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libiw-devel
 BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libnotify-devel >= 0.4
-BuildRequires:	libpng-devel >= 1.2.0
+BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
 BuildRequires:	pango-devel >= 1:1.1.0
+BuildRequires:	perl-base >= 1:5.6
 BuildRequires:	pkgconfig
+BuildRequires:	python >= 1:2.5
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3.7.4
 BuildRequires:	startup-notification-devel >= 0.8
