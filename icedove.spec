@@ -7,23 +7,8 @@
 #   /usr/lib/icedove/chrome.manifest
 #   /usr/lib/icedove/components/components.manifest
 #   /usr/lib/icedove/components/interfaces.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/application.ini
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calCompositeCalendar.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calDavCalendar.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calICSCalendar.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calImportExportModule.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calItemModule.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calItipEmailTransport.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calItipProtocolHandler.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calMemoryCalendar.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calStorageCalendar.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/calWcapCalendarModule.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/interfaces.manifest
-#   /usr/lib/icedove/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/lightningTextCalendarConverter.manifest
 #   /usr/lib/icedove/greprefs.js
 #   /usr/lib/icedove/hyphenation/hyph_en_US.dic
-#   /usr/lib/icedove/plugin-container
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -503,6 +488,7 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/icedove
+%attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %attr(755,root,root) %{_libdir}/%{name}/register
 
 # symlinks
@@ -543,18 +529,19 @@ exit 0
 %files addon-lightning
 %defattr(644,root,root,755)
 %dir %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/defaults
+%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/application.ini
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome.manifest
+%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/defaults
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/install.rdf
 %dir %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components
 %attr(755,root,root) %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.so
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.xpt
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.js
+%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.manifest
+%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.xpt
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/modules
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/calendar-js
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/timezones.sqlite
-
 %{_libdir}/%{name}/extensions/calendar-timezones@mozilla.org
 %endif
 
