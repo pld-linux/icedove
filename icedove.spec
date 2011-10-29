@@ -3,11 +3,6 @@
 # - build with system mozldap
 # - replace gnome-vfs2 with gio
 # - files:
-#   /usr/lib/icedove/blocklist.xml
-#   /usr/lib/icedove/chrome.manifest
-#   /usr/lib/icedove/components/components.manifest
-#   /usr/lib/icedove/components/interfaces.manifest
-#   /usr/lib/icedove/greprefs.js
 #   /usr/lib/icedove/hyphenation/hyph_en_US.dic
 #
 # Conditional builds
@@ -134,10 +129,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		objdir		%{topdir}/obj-%{_target_cpu}
 
 %description
-Icedove is an open-source,fast and portable email client.
+Icedove is an open-source, fast and portable email client.
 
 %description -l pl.UTF-8
-Icedove jest open sourcowym, szybkim i przenośnym klientem poczty.
+Icedove jest mającym otwarte źródła, szybkim i przenośnym klientem
+poczty.
 
 %package addon-lightning
 Summary:	An integrated calendar for Icedove
@@ -378,13 +374,11 @@ cp -a mozilla/dist/bin/extensions/calendar-timezones@mozilla.org \
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
-#mv $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs $RPM_BUILD_ROOT%{_datadir}/%{name}/greprefs
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
-#ln -s ../../share/%{name}/greprefs $RPM_BUILD_ROOT%{_libdir}/%{name}/greprefs
 ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
@@ -456,7 +450,7 @@ rm -rf $RPM_BUILD_ROOT
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
 fi
-for d in chrome defaults greprefs icons isp modules res; do
+for d in chrome defaults icons isp modules res; do
 	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
 		install -d %{_datadir}/%{name}
 		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/$d
@@ -475,10 +469,15 @@ exit 0
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/application.ini
 %{_libdir}/%{name}/platform.ini
+%{_libdir}/%{name}/blocklist.xml
+%{_libdir}/%{name}/chrome.manifest
+%{_libdir}/%{name}/greprefs.js
 %dir %{_libdir}/%{name}/components
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %{_libdir}/%{name}/components/*.js
 %{_libdir}/%{name}/components/*.xpt
+%{_libdir}/%{name}/components/components.manifest
+%{_libdir}/%{name}/components/interfaces.manifest
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
 #%%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
 %attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
