@@ -29,8 +29,8 @@
 %define		nss_ver		3.12.10
 
 # convert firefox release number to platform version: 7.0.x -> 7.0.x
-%define		xulrunner_main	7.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#7.0})
+%define		xulrunner_main	8.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#8.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -40,12 +40,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	7.0.1
+Version:	8.0
 Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	ad177fe5202deabda44882ff5c871f1b
+# Source0-md5:	332f60036aebdce7dec6ee2b1af4941d
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	2318d60320dc6c3db3c34d968bb7d533
 Source2:	%{name}-branding.tar.bz2
