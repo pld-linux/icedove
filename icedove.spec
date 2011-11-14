@@ -431,7 +431,7 @@ cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ex
 %endif
 
 # remove unecessary stuff
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
+#%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
 #%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
 #%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.list
 
