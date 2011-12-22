@@ -4,6 +4,7 @@
 # - replace gnome-vfs2 with gio
 # - files:
 #   /usr/lib/icedove/hyphenation/hyph_en_US.dic
+# - enigmail - new version needed
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -24,13 +25,13 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.3.2
+%define		enigmail_ver	1.3.4
 %define		nspr_ver	4.8.8
 %define		nss_ver		3.12.10
 
 # convert firefox release number to platform version: 7.0.x -> 7.0.x
-%define		xulrunner_main	8.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#8.0})
+%define		xulrunner_main	9.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#9.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -40,14 +41,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	8.0
+Version:	9.0
 Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	332f60036aebdce7dec6ee2b1af4941d
+# Source0-md5:	681bdf6362945b59b2bec23f8aecc7e7
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	2318d60320dc6c3db3c34d968bb7d533
+# Source1-md5:	2b5f188791811d248b6ff1fc51a5806a
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
