@@ -1,16 +1,14 @@
 # TODO:
 # - separate spec for enigmail
 # - build with system mozldap
-# - replace gnome-vfs2 with gio
 # - files:
-#   /usr/lib/icedove/hyphenation/hyph_en_US.dic
+#   /usr/lib/icedove/hyphenation/hyph_en_US.dic (and more, more hyph dicts)
 # - enigmail - new version needed
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
 %bcond_without	gnomeui		# disable gnomeui support
-%bcond_without	gnomevfs	# disable GNOME comp. (gconf+libgnome+gnomevfs) and gnomevfs ext.
-%bcond_without	gnome		# disable all GNOME components (gnome+gnomeui+gnomevfs)
+%bcond_without	gnome		# alias for gnomeui
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without	lightning	# disable Sunbird/Lightning calendar
 %bcond_without	xulrunner	# build with xulrunner
@@ -18,7 +16,6 @@
 
 %if %{without gnome}
 %undefine	with_gnomeui
-%undefine	with_gnomevfs
 %endif
 
 %if 0%{?_enable_debug_packages} != 1
@@ -68,18 +65,18 @@ Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
-%{?with_gnomevfs:BuildRequires:	GConf2-devel >= 1.2.1}
+BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
 BuildRequires:	automake
 BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10
 BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	freetype-devel >= 1:2.1.8
-%{?with_gnomevfs:BuildRequires:	gnome-vfs2-devel >= 2.0}
+BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	gtk+2-devel >= 2:2.10.0
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
-%{?with_gnomevfs:BuildRequires:	libgnome-devel >= 2.0}
+%{?with_gnomeui:BuildRequires:	libgnome-devel >= 2.0}
 %{?with_gnomeui:BuildRequires:	libgnome-keyring-devel}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
@@ -260,16 +257,13 @@ ac_add_options --enable-tests
 %else
 ac_add_options --disable-tests
 %endif
+ac_add_options --enable-gio
 %if %{with gnomeui}
 ac_add_options --enable-gnomeui
 %else
 ac_add_options --disable-gnomeui
 %endif
-%if %{with gnomevfs}
-ac_add_options --enable-gnomevfs
-%else
 ac_add_options --disable-gnomevfs
-%endif
 %if %{with ldap}
 ac_add_options --enable-ldap
 ac_add_options --with-system-ldap
