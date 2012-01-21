@@ -1,0 +1,21 @@
+--- xulrunner-9.0.1/mozilla/modules/libpr0n/decoders/nsPNGDecoder.h.orig	2011-12-21 00:28:33.000000000 +0100
++++ xulrunner-9.0.1/mozilla/modules/libpr0n/decoders/nsPNGDecoder.h	2012-01-16 18:43:35.830209631 +0100
+@@ -76,7 +76,7 @@
+   // Checks if the info header contains valid information
+   bool HasValidInfo() const 
+   {
+-    return mInfo && mInfo->valid;
++    return mInfo && png_get_valid(mPNG, mInfo, 0xFFFFFFFFU);
+   }
+ 
+   // Obtain the pixel depth if available or 0 otherwise
+@@ -85,7 +85,8 @@
+     if (!mInfo) {
+       return 0;
+     }
+-    return mInfo->pixel_depth;
++    // XXX: shouldn't png_get_pixel_depth() be available?
++    return png_get_bit_depth(mPNG, mInfo) * png_get_channels(mPNG, mInfo);
+   }
+ 
+ public:
