@@ -1,8 +1,6 @@
 # TODO:
 # - separate spec for enigmail
 # - build with system mozldap
-# - files:
-#   /usr/lib/icedove/hyphenation/hyph_en_US.dic (and more, more hyph dicts)
 # - enigmail - new version needed
 #
 # Conditional builds
@@ -39,7 +37,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	9.0.1
-Release:	0.1
+Release:	0.2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -388,6 +386,9 @@ install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 
+%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
+ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
+
 %{__sed} -e 's,@LIBDIR@,%{_libdir},' %{SOURCE5} > $RPM_BUILD_ROOT%{_bindir}/icedove
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
@@ -476,9 +477,7 @@ exit 0
 %{_libdir}/%{name}/components/components.manifest
 %{_libdir}/%{name}/components/interfaces.manifest
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
-#%%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
 %attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
-#%%attr(755,root,root) %{_libdir}/%{name}/libxpcom_core.so
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/*.sh
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
@@ -491,7 +490,7 @@ exit 0
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/defaults
 %{_libdir}/%{name}/dictionaries
-#%%{_libdir}/%{name}/greprefs
+%{_libdir}/%{name}/hyphenation
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/res
