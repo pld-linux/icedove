@@ -20,13 +20,13 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.3.4
+%define		enigmail_ver	1.3.5
 %define		nspr_ver	4.8.8
 %define		nss_ver		3.12.10
 
 # convert firefox release number to platform version: 9.0.x -> 9.0.x
-%define		xulrunner_main	9.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#9.0})
+%define		xulrunner_main	10.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#10.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -36,14 +36,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	9.0.1
-Release:	2
+Version:	10.0.1
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	a5904751dbd33074682b438b732fdbab
+# Source0-md5:	623c32d9deae370383e1422b1ea48061
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	2b5f188791811d248b6ff1fc51a5806a
+# Source1-md5:	1b008b0d106e238c11e4bead08126bc0
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
@@ -58,7 +58,7 @@ Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
-Patch9:		%{name}-libpng.patch
+#Patch9:		%{name}-libpng.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
@@ -198,7 +198,7 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
-%patch9 -p1
+#%patch9 -p1
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1
