@@ -1,7 +1,6 @@
 # TODO:
 # - separate spec for enigmail
 # - build with system mozldap
-# - enigmail - new version needed
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
@@ -36,12 +35,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	10.0.1
+Version:	10.0.2
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	623c32d9deae370383e1422b1ea48061
+# Source0-md5:	624bef982d7ac610b1175737d9905150
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	1b008b0d106e238c11e4bead08126bc0
 Source2:	%{name}-branding.tar.bz2
@@ -198,7 +197,7 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
-#%patch9 -p1
+#%%patch9 -p1
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1
@@ -485,6 +484,7 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/icedove
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %attr(755,root,root) %{_libdir}/%{name}/register
+%{_libdir}/%{name}/searchplugins
 
 # symlinks
 %{_libdir}/%{name}/chrome
