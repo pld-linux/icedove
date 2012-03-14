@@ -36,7 +36,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	10.0.2
-Release:	2
+Release:	3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -371,11 +371,13 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
 ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
+ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
 
 # dir for arch independant extensions besides arch dependant extensions
 # see mozilla/xpcom/build/nsXULAppAPI.h
@@ -447,7 +449,7 @@ rm -rf $RPM_BUILD_ROOT
 if [ -d %{_libdir}/%{name}/dictionaries ] && [ ! -L %{_libdir}/%{name}/dictionaries ]; then
 	mv -v %{_libdir}/%{name}/dictionaries{,.rpmsave}
 fi
-for d in chrome defaults icons isp modules res; do
+for d in chrome defaults icons isp modules res searchplugins; do
 	if [ -d %{_libdir}/%{name}/$d ] && [ ! -L %{_libdir}/%{name}/$d ]; then
 		install -d %{_datadir}/%{name}
 		mv %{_libdir}/%{name}/$d %{_datadir}/%{name}/$d
@@ -484,7 +486,6 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/icedove
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %attr(755,root,root) %{_libdir}/%{name}/register
-%{_libdir}/%{name}/searchplugins
 
 # symlinks
 %{_libdir}/%{name}/chrome
@@ -494,6 +495,7 @@ exit 0
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/res
+%{_libdir}/%{name}/searchplugins
 
 %{_pixmapsdir}/*.png
 %{_desktopdir}/*.desktop
@@ -501,11 +503,11 @@ exit 0
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/chrome
 %{_datadir}/%{name}/defaults
-#%%{_datadir}/%{name}/greprefs
+%{_datadir}/%{name}/extensions
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/modules
 %{_datadir}/%{name}/res
-%{_datadir}/%{name}/extensions
+%{_datadir}/%{name}/searchplugins
 
 %if %{with crashreporter}
 %attr(755,root,root) %{_libdir}/%{name}/crashreporter
