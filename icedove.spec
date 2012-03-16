@@ -57,7 +57,7 @@ Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
-#Patch9:		%{name}-libpng.patch
+
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
@@ -197,7 +197,6 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
-#%%patch9 -p1
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1
