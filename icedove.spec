@@ -23,7 +23,7 @@
 %define		nspr_ver	4.8.8
 %define		nss_ver		3.12.10
 
-# convert firefox release number to platform version: 9.0.x -> 9.0.x
+# convert thunderbird release number to platform version: 9.0.x -> 9.0.x
 %define		xulrunner_main	10.0
 %define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#10.0})
 
@@ -114,12 +114,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		filterout_cpp		-D_FORTIFY_SOURCE=[0-9]+
 
 # iceweasel/icedove/iceape provide their own versions
-%define		_noautoreqdep		libgfxpsshar.so libgkgfx.so libgtkxtbin.so libjsj.so libxpcom_compat.so libxpistub.so
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
 # we don't want these to satisfy xulrunner-devel
-%define		_noautoprov		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so libxpcom_core.so
+%define		_noautoprov		libmozjs.so libxpcom.so libxul.so
 # and as we don't provide them, don't require either
-%define		_noautoreq		libgtkembedmoz.so libmozjs.so libxpcom.so libxul.so libxpcom_core.so
+%define		_noautoreq		libmozjs.so libxpcom.so libxul.so
 
 %define		topdir		%{_builddir}/%{name}-%{version}
 %define		objdir		%{topdir}/obj-%{_target_cpu}
@@ -496,8 +495,8 @@ exit 0
 %{_libdir}/%{name}/res
 %{_libdir}/%{name}/searchplugins
 
-%{_pixmapsdir}/*.png
-%{_desktopdir}/*.desktop
+%{_pixmapsdir}/icedove.png
+%{_desktopdir}/icedove.desktop
 
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/chrome
