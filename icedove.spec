@@ -50,7 +50,6 @@ Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-enigmail-shared.patch
-Patch2:		%{name}-gcc.patch
 Patch3:		%{name}-fonts.patch
 Patch4:		%{name}-install.patch
 Patch5:		%{name}-hunspell.patch
@@ -190,7 +189,6 @@ cd mozilla
 /bin/sh %{SOURCE3}
 %patch0 -p1
 %{?with_enigmail:%patch1 -p1}
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch6 -p1
