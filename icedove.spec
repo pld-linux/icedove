@@ -8,7 +8,7 @@
 %bcond_without	gnome		# alias for gnomeui
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without	lightning	# disable Sunbird/Lightning calendar
-%bcond_without	xulrunner	# build with xulrunner
+%bcond_with	xulrunner	# system xulrunner
 %bcond_with	crashreporter	# report crashes to crash-stats.mozilla.com
 
 %if %{without gnome}
@@ -50,6 +50,7 @@ Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-enigmail-shared.patch
+Patch2:		%{name}-system-xulrunner.patch
 Patch3:		%{name}-fonts.patch
 Patch4:		%{name}-install.patch
 Patch5:		%{name}-hunspell.patch
@@ -189,6 +190,7 @@ cd mozilla
 /bin/sh %{SOURCE3}
 %patch0 -p1
 %{?with_enigmail:%patch1 -p1}
+%{?with_system_xulrunner:%patch2 -p1}
 %patch3 -p1
 %patch4 -p1
 %patch6 -p1
@@ -204,14 +206,12 @@ cp -f %{_datadir}/automake/config.* mozilla/build/autoconf
 cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
 cp -f %{_datadir}/automake/config.* ldap/sdks/c-sdk/config/autoconf
 
-install -d libxul-sdk
-ln -snf %{_libdir}/xulrunner-sdk libxul-sdk/sdk
-
 cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=%{objdir}
 
-export CFLAGS="%{rpmcflags} -fpermissive -I/usr/include/xulrunner"
-export CXXFLAGS="%{rpmcflags} -fpermissive -I/usr/include/xulrunner"
+export CFLAGS="%{rpmcflags}"
+# use c++0x for char16_t (like in xulrunner 10.0.x)
+export CXXFLAGS="%{rpmcflags}%{?with_system_xulrunner: -std=gnu++0x}"
 
 %if %{with crashreporter}
 export MOZ_DEBUG_SYMBOLS=1
@@ -298,10 +298,9 @@ ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=icedove/branding
 %if %{with xulrunner}
-#ac_add_options --with-libxul-sdk=$(pwd)/libxul-sdk/sdk
+ac_add_options --enable-shared-js
+ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 ac_add_options --with-system-libxul
-ac_add_options --enable-shared
-ac_add_options --enable-libxul
 %else
 ac_add_options --disable-xul
 %endif
@@ -424,11 +423,6 @@ cd -
 cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_dir
 cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
 %endif
-
-# remove unecessary stuff
-#%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/README.txt
-#%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/components/components.list
-#%%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/components.list
 
 # never package these. always remove
 # nss
