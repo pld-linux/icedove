@@ -190,7 +190,7 @@ cd mozilla
 /bin/sh %{SOURCE3}
 %patch0 -p1
 %{?with_enigmail:%patch1 -p1}
-%{?with_system_xulrunner:%patch2 -p1}
+%{?with_xulrunner:%patch2 -p1}
 %patch3 -p1
 %patch4 -p1
 %patch6 -p1
@@ -210,8 +210,7 @@ cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=%{objdir}
 
 export CFLAGS="%{rpmcflags}"
-# use c++0x for char16_t (like in xulrunner 10.0.x)
-export CXXFLAGS="%{rpmcflags}%{?with_system_xulrunner: -std=gnu++0x}"
+export CXXFLAGS="%{rpmcflags}"
 
 %if %{with crashreporter}
 export MOZ_DEBUG_SYMBOLS=1
@@ -362,25 +361,28 @@ mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/c
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
 ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
 ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
 ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
 ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
-ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
 ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
+%if %{without xulrunner}
+mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
+ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
+%endif
 
 # dir for arch independant extensions besides arch dependant extensions
 # see mozilla/xpcom/build/nsXULAppAPI.h
 # XRE_SYS_LOCAL_EXTENSION_PARENT_DIR and XRE_SYS_SHARE_EXTENSION_PARENT_DIR
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 
+%if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
-
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
+%endif
 
 %{__sed} -e 's,@LIBDIR@,%{_libdir},' %{SOURCE5} > $RPM_BUILD_ROOT%{_bindir}/icedove
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
@@ -454,35 +456,39 @@ exit 0
 %attr(755,root,root) %{_bindir}/thunderbird
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/application.ini
-%{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/blocklist.xml
 %{_libdir}/%{name}/chrome.manifest
-%{_libdir}/%{name}/greprefs.js
 %dir %{_libdir}/%{name}/components
-%attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %{_libdir}/%{name}/components/*.js
 %{_libdir}/%{name}/components/*.xpt
 %{_libdir}/%{name}/components/components.manifest
 %{_libdir}/%{name}/components/interfaces.manifest
+%attr(755,root,root) %{_libdir}/%{name}/*.sh
+%attr(755,root,root) %{_libdir}/%{name}/*-bin
+%attr(755,root,root) %{_libdir}/%{name}/icedove
+%attr(755,root,root) %{_libdir}/%{name}/register
+%if %{without xulrunner}
+%{_libdir}/%{name}/platform.ini
+%{_libdir}/%{name}/greprefs.js
+%attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
 %attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
-%attr(755,root,root) %{_libdir}/%{name}/*.sh
-%attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
-%attr(755,root,root) %{_libdir}/%{name}/icedove
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
-%attr(755,root,root) %{_libdir}/%{name}/register
+%endif
 
 # symlinks
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/defaults
-%{_libdir}/%{name}/dictionaries
-%{_libdir}/%{name}/hyphenation
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/modules
-%{_libdir}/%{name}/res
 %{_libdir}/%{name}/searchplugins
+%if %{without xulrunner}
+%{_libdir}/%{name}/dictionaries
+%{_libdir}/%{name}/hyphenation
+%{_libdir}/%{name}/res
+%endif
 
 %{_pixmapsdir}/icedove.png
 %{_desktopdir}/icedove.desktop
@@ -493,8 +499,10 @@ exit 0
 %{_datadir}/%{name}/extensions
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/modules
-%{_datadir}/%{name}/res
 %{_datadir}/%{name}/searchplugins
+%if %{without xulrunner}
+%{_datadir}/%{name}/res
+%endif
 
 %if %{with crashreporter}
 %attr(755,root,root) %{_libdir}/%{name}/crashreporter

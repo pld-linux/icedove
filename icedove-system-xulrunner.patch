@@ -1,26 +1,3 @@
---- mozilla/config/config.mk.orig	2012-03-22 16:58:29.475414529 +0100
-+++ mozilla/config/config.mk	2012-03-22 19:11:29.342349305 +0100
-@@ -368,7 +368,7 @@
- CCC		= $(CXX)
- PURIFY		= purify $(PURIFYOPTIONS)
- QUANTIFY	= quantify $(QUANTIFYOPTIONS)
--XPIDL_LINK = $(PYTHON) $(SDK_BIN_DIR)/xpt.py link
-+XPIDL_LINK = $(PYTHON) $(LIBXUL_DIST)/sdk/bin/xpt.py link
- 
- INCLUDES = \
-   $(LOCAL_INCLUDES) \
---- mozilla/mail/build.mk.orig	2012-02-16 11:18:23.000000000 +0100
-+++ mozilla/mail/build.mk	2012-03-22 20:58:11.475895080 +0100
-@@ -45,6 +45,9 @@
- 
- ifndef LIBXUL_SDK
- include $(topsrcdir)/toolkit/toolkit-tiers.mk
-+else
-+tier_app_staticdirs += $(APP_LIBXUL_STATICDIRS)
-+tier_app_dirs += $(APP_LIBXUL_DIRS)
- endif
- 
- TIERS += app
 --- mozilla/mail/app/Makefile.in.orig	2012-02-16 11:18:22.000000000 +0100
 +++ mozilla/mail/app/Makefile.in	2012-03-22 16:43:33.608721456 +0100
 @@ -44,5 +44,7 @@
@@ -63,7 +40,7 @@
  
 +ifdef LIBXUL_SDK
 +libs::
-+	cp $(LIBXUL_DIST)/bin/$(XULRUNNER_STUB_NAME)$(BIN_SUFFIX) $(DIST)/$(MOZ_APP_NAME)-bin$(BIN_SUFFIX)
++	cp $(LIBXUL_DIST)/bin/$(XULRUNNER_STUB_NAME)$(BIN_SUFFIX) $(DIST)/bin/$(MOZ_APP_NAME)-bin$(BIN_SUFFIX)
 +endif
 +
  ifneq (,$(filter-out OS2 WINNT,$(OS_ARCH)))
