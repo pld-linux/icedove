@@ -31,8 +31,8 @@
  Version=@APP_VERSION@
  BuildID=@GRE_BUILDID@
  #ifdef MOZ_SOURCE_REPO
---- mozilla/mail/app/profile/all-thunderbird.js~	2011-08-12 15:52:04.000000000 +0200
-+++ mozilla/mail/app/profile/all-thunderbird.js	2011-09-17 15:28:09.543206613 +0200
+--- mozilla/mail/app/profile/all-thunderbird.js.orig	2012-03-13 03:37:11.000000000 +0100
++++ mozilla/mail/app/profile/all-thunderbird.js	2012-03-24 21:42:35.608437888 +0100
 @@ -74,7 +74,7 @@
  // App-specific update preferences
  
@@ -51,7 +51,7 @@
  // User-settable override to app.update.url for testing purposes.
  //pref("app.update.url.override", "");
  
-@@ -125,10 +125,10 @@
+@@ -120,10 +120,10 @@
  pref("app.update.showInstalledUI", false);
  
  // Release notes URL
@@ -64,22 +64,24 @@
  
  // Controls enabling of the extension system logging (can reduce performance)
  pref("extensions.logging.enabled", false);
-@@ -145,10 +145,10 @@
+@@ -145,11 +145,11 @@
  // Preferences for AMO integration
  pref("extensions.getAddons.cache.enabled", true);
  pref("extensions.getAddons.maxResults", 15);
--pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
+-pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%");
+-pref("extensions.getAddons.getWithPerformance.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
 -pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/%APP%/search?q=%TERMS%");
 -pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/%APP%/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%/%COMPATIBILITY_MODE%?src=thunderbird");
 -pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/%APP%/discovery/pane/%VERSION%/%OS%");
-+pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
++pref("extensions.getAddons.get.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%");
++pref("extensions.getAddons.getWithPerformance.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/guid:%IDS%?src=thunderbird&appOS=%OS%&appVersion=%VERSION%&tMain=%TIME_MAIN%&tFirstPaint=%TIME_FIRST_PAINT%&tSessionRestored=%TIME_SESSION_RESTORED%");
 +pref("extensions.getAddons.search.browseURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/search?q=%TERMS%");
 +pref("extensions.getAddons.search.url", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/api/%API_VERSION%/search/%TERMS%/all/%MAX_RESULTS%/%OS%/%VERSION%/%COMPATIBILITY_MODE%?src=thunderbird");
 +pref("extensions.webservice.discoverURL", "https://services.addons.mozilla.org/%LOCALE%/thunderbird/discovery/pane/%VERSION%/%OS%");
-
+ 
  // Blocklist preferences
  pref("extensions.blocklist.enabled", true);
-@@ -165,7 +165,7 @@
+@@ -174,7 +174,7 @@
  pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
                                              // Themes every day
  
@@ -88,7 +90,7 @@
  pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
  pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
  
-@@ -352,7 +352,7 @@
+@@ -370,7 +370,7 @@
  
  pref("spellchecker.dictionary", "");
  // Dictionary download preference
@@ -97,7 +99,7 @@
  
  // profile.force.migration can be used to bypass the migration wizard, forcing migration from a particular
  // mail application without any user intervention. Possible values are: 
-@@ -489,7 +489,7 @@
+@@ -507,7 +507,7 @@
  pref("mailnews.database.global.logging.console", true);
  
  // page to load to find good header add-ons

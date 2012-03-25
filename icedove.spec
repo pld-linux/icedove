@@ -19,13 +19,13 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.3.5
-%define		nspr_ver	4.8.8
-%define		nss_ver		3.12.10
+%define		enigmail_ver	1.4
+%define		nspr_ver	4.9
+%define		nss_ver		3.13.3
 
-# convert thunderbird release number to platform version: 9.0.x -> 9.0.x
-%define		xulrunner_main	10.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#10.0})
+# convert thunderbird release number to platform version: 11.0.x -> 11.0.x
+%define		xulrunner_main	11.0
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#11.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -35,14 +35,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	10.0.2
-Release:	3
+Version:	11.0
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	624bef982d7ac610b1175737d9905150
+# Source0-md5:	1d7127a3282e62d95eb9b59d47291b70
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	1b008b0d106e238c11e4bead08126bc0
+# Source1-md5:	5cf3d9720ed1cda1b22eabe5457772c2
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
@@ -276,7 +276,6 @@ ac_add_options --enable-calendar
 ac_add_options --disable-calendar
 %endif
 ac_add_options --disable-installer
-ac_add_options --disable-jsd
 ac_add_options --disable-updater
 ac_add_options --disable-xprint
 ac_add_options --disable-permissions
@@ -301,8 +300,6 @@ ac_add_options --with-branding=icedove/branding
 ac_add_options --enable-shared-js
 ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 ac_add_options --with-system-libxul
-%else
-ac_add_options --disable-xul
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
