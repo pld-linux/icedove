@@ -342,7 +342,12 @@ cd %{objdir}
 	MOZ_PKG_DIR=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
 
-# Enable crash reporter for Firefox application
+%if %{with xulrunner}
+# needed to find mozilla runtime
+ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
+%endif
+ 
+# Enable crash reporter for Thunderbird application
 %if %{with crashreporter}
 %{__sed} -i -e 's/\[Crash Reporter\]/[Crash Reporter]\nEnabled=1/' $RPM_BUILD_ROOT%{_libdir}/%{name}/application.ini
 
@@ -484,7 +489,9 @@ exit 0
 %{_libdir}/%{name}/isp
 %{_libdir}/%{name}/modules
 %{_libdir}/%{name}/searchplugins
-%if %{without xulrunner}
+%if %{with xulrunner}
+%{_libdir}/%{name}/xulrunner
+%else
 %{_libdir}/%{name}/dictionaries
 %{_libdir}/%{name}/hyphenation
 %{_libdir}/%{name}/res
