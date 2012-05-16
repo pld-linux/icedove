@@ -23,8 +23,8 @@
 %define		nspr_ver	4.9
 %define		nss_ver		3.13.3
 
-# convert thunderbird release number to platform version: 11.0.x -> 11.0.x
-%define		xulrunner_main	11.0
+# convert thunderbird release number to platform version: 12.0.x -> 12.0.x
+%define		xulrunner_main	12.0
 %define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#11.0})
 
 %if %{without xulrunner}
@@ -35,12 +35,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	11.0
-Release:	2
+Version:	12.0
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	1d7127a3282e62d95eb9b59d47291b70
+# Source0-md5:	7b30b72472a65bce74ba0ae60e4d4e6c
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
 # Source1-md5:	5cf3d9720ed1cda1b22eabe5457772c2
 Source2:	%{name}-branding.tar.bz2
@@ -57,7 +57,8 @@ Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
-
+# this is only workaround, check if it is fixed with newer firefox
+Patch9:		bug-722975-workaround.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
@@ -83,7 +84,7 @@ BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
-BuildRequires:	pango-devel >= 1:1.1.0
+BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-base >= 1:5.6
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.5
@@ -196,6 +197,9 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
+cd mozilla
+%patch9 -p1
+cd -
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1
@@ -435,6 +439,8 @@ cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ex
 %{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{nspr4,plc4,plds4}.so
 # mozldap
 %{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap,ssldap}60.so
+# testpilot quiz
+%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/distribution/extensions/tbtestpilot@labs.mozilla.com.xpi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
