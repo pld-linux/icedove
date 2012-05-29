@@ -23,9 +23,7 @@
 %define		nspr_ver	4.9
 %define		nss_ver		3.13.3
 
-# convert thunderbird release number to platform version: 12.0.x -> 12.0.x
-%define		xulrunner_main	12.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#12.0})
+%define		xulrunner_ver	12.0
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
