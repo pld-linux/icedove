@@ -25,7 +25,7 @@
 
 # convert thunderbird release number to platform version: 12.0.x -> 12.0.x
 %define		xulrunner_main	12.0
-%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#11.0})
+%define		xulrunner_ver	%(v=%{version}; echo %{xulrunner_main}${v#12.0})
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -116,10 +116,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # iceweasel/icedove/iceape provide their own versions
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
-# we don't want these to satisfy xulrunner-devel
-%define		_noautoprov		libmozjs.so libxpcom.so libxul.so
+%if %{without xulrunner}
+# we don't want these to satisfy packages depending on xulrunner
+%define		_noautoprov		libmozalloc.so libxpcom.so libxul.so
 # and as we don't provide them, don't require either
-%define		_noautoreq		libmozjs.so libxpcom.so libxul.so
+%define		_noautoreq		libmozalloc.so libxpcom.so libxul.so
+%endif
 
 %define		topdir		%{_builddir}/%{name}-%{version}
 %define		objdir		%{topdir}/obj-%{_target_cpu}
