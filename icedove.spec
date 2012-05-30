@@ -23,7 +23,7 @@
 %define		nspr_ver	4.9
 %define		nss_ver		3.13.3
 
-%define		xulrunner_ver	12.0
+%define		xulrunner_ver	2:12.0
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -95,7 +95,7 @@ BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	yasm
 BuildRequires:	zip
 %if %{with xulrunner}
-BuildRequires:	xulrunner-devel >= 2:%{xulrunner_ver}
+BuildRequires:	xulrunner-devel >= %{xulrunner_ver}
 %else
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
