@@ -34,7 +34,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	13.0
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -389,6 +389,10 @@ ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 %endif
+
+%{__sed} -e "s|%MOZAPPDIR%|%{_libdir}/%{name}|" \
+	 -e "s|%MOZ_APP_DISPLAYNAME%|Icedove|" \
+	%{topdir}/mozilla/mozilla/build/unix/mozilla.in > $RPM_BUILD_ROOT%{_libdir}/%{name}/icedove
 
 %{__sed} -e 's,@LIBDIR@,%{_libdir},' %{SOURCE5} > $RPM_BUILD_ROOT%{_bindir}/icedove
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird

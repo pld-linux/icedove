@@ -20,7 +20,7 @@ for f in ~/.icedove/*/{compreg.dat,chrome.rdf,XUL.mfasl}; do
 	fi
 done
 
-ICEDOVE="$LIBDIR/run-mozilla.sh"
+ICEDOVE="$LIBDIR/icedove"
 
 if [ "$1" = "-remote" ]; then
 	exec $ICEDOVE "$@"
@@ -31,11 +31,10 @@ else
 	else
 		case "$1" in
 		-compose|-editor)
-			shift
-			exec $ICEDOVE -remote 'xfeDoCommand (composeMessage)' "$@"
+			exec $ICEDOVE -remote 'xfeDoCommand (composeMessage)'
 			;;
 		*)
-			exec $ICEDOVE -remote 'xfeDoCommand (openInbox)' "$@"
+			exec $ICEDOVE -remote 'xfeDoCommand (openInbox)'
 			;;
 		esac
 	fi
