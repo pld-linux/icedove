@@ -19,11 +19,11 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.4.1
+%define		enigmail_ver	1.4.2
 %define		nspr_ver	4.9
 %define		nss_ver		3.13.3
 
-%define		xulrunner_ver	2:12.0
+%define		xulrunner_ver	2:13.0
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -33,14 +33,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	12.0.1
+Version:	13.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	64cacde4cb2b1e8736f1c3a0ea6a02db
+# Source0-md5:	0134c67c30e8598f2a64ea004d5bc4bc
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	0eba75fbcf8f0bb32d538df102fbb8e9
+# Source1-md5:	ed608e1cd4cd20b96f7f5afdbf081141
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
@@ -55,8 +55,7 @@ Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
-# this is only workaround, check if it is fixed with newer firefox
-Patch9:		bug-722975-workaround.patch
+Patch9:		system-cairo.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
@@ -197,9 +196,7 @@ cd mozilla
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
-cd mozilla
 %patch9 -p1
-cd -
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1

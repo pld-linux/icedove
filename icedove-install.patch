@@ -1,6 +1,6 @@
 --- mozilla/mozilla/toolkit/mozapps/installer/packager.mk.orig	2012-03-13 03:43:47.000000000 +0100
 +++ mozilla/mozilla/toolkit/mozapps/installer/packager.mk	2012-03-24 21:50:54.171788606 +0100
-@@ -708,30 +708,30 @@
+@@ -708,35 +708,35 @@
  endif
  
  stage-package: $(MOZ_PKG_MANIFEST) $(MOZ_PKG_REMOVALS_GEN) elfhack
@@ -20,6 +20,12 @@
 -	  "$(call core_abspath,$(DIST)/$(MOZ_PKG_DIR))", \
 +	  "$(call core_abspath,$(DESTDIR)/$(MOZ_PKG_DIR))", \
  	  "$(MOZ_PKG_MANIFEST)", "$(PKGCP_OS)", 1, 0, 1)
+ ifeq (DMG, $(MOZ_PKG_FORMAT))
+ ifeq (dmg, $(filter dmg, $(MOZ_INTERNAL_SIGNING_FORMAT)))
+-	@cd $(DIST)/$(_APPNAME)/Contents && ln -sf _CodeSignature/CodeResources CodeResources
++	@cd $(DESTDIR)/$(_APPNAME)/Contents && ln -sf _CodeSignature/CodeResources CodeResources
+ endif
+ endif
 -	$(PERL) $(MOZILLA_DIR)/toolkit/mozapps/installer/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DIST)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
 +	$(PERL) $(MOZILLA_DIR)/toolkit/mozapps/installer/xptlink.pl -s $(DIST) -d $(DIST)/xpt -f $(DESTDIR)/$(MOZ_PKG_DIR)/$(_BINPATH)/components -v -x "$(XPIDL_LINK)"
  	$(PYTHON) $(MOZILLA_DIR)/toolkit/mozapps/installer/link-manifests.py \
@@ -64,11 +70,11 @@
 --- comm-1.9.1/mail/app/Makefile.in.orig	2009-12-18 14:49:43.990647725 +0100
 +++ comm-1.9.1/mail/app/Makefile.in	2009-12-18 14:49:53.830739781 +0100
 @@ -48,7 +48,7 @@
- GRE_BUILDID = $(shell $(PYTHON) $(MOZILLA_SRCDIR)/config/printconfigsetting.py $(LIBXUL_DIST)/bin/platform.ini Build BuildID)
- 
  DEFINES += \
--  -DTHUNDERBIRD_ICO=\"$(DIST)/branding/thunderbird.ico\" \
-+  -DTHUNDERBIRD_ICO=\"$(DIST)/branding/$(MOZ_APP_NAME).ico\" -DAB_CD=$(AB_CD) \
    -DAB_CD=$(AB_CD) \
+   -DAPP_VERSION="$(MOZ_APP_VERSION)" \
+-  -DTHUNDERBIRD_ICO=\"$(DIST)/branding/thunderbird.ico\" \
++  -DTHUNDERBIRD_ICO=\"$(DIST)/branding/$(MOZ_APP_NAME).ico\" \
    -DGRE_MILESTONE=$(GRE_MILESTONE) \
    -DGRE_BUILDID=$(GRE_BUILDID) \
+    $(NULL)
