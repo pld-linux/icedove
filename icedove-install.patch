@@ -58,6 +58,15 @@
  	@echo "Linking XPT files..."
  	@rm -rf $(DIST)/xpt
  	@$(NSINSTALL) -D $(DIST)/xpt
+@@ -801,7 +801,7 @@
+ endif # DMG
+ endif # MOZ_PKG_MANIFEST
+ endif # UNIVERSAL_BINARY
+-	$(OPTIMIZE_JARS_CMD) --optimize $(JARLOG_DIR_AB_CD) $(DIST)/bin/chrome $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)/chrome
++	$(OPTIMIZE_JARS_CMD) --optimize $(JARLOG_DIR_AB_CD) $(DIST)/bin/chrome $(DESTDIR)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH)/chrome
+ ifndef PKG_SKIP_STRIP
+   ifeq ($(OS_ARCH),OS2)
+ 		@echo "Stripping package directory..."
 @@ -830,7 +830,7 @@
  	cd $(DIST)/$(STAGEPATH)$(MOZ_PKG_DIR)$(_BINPATH) && $(PACK_OMNIJAR)
  endif
