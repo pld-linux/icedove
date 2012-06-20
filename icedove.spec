@@ -34,7 +34,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	13.0.1
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -332,6 +332,11 @@ cd mailnews/extensions/enigmail
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
+
+%{__make} -C %{objdir}/mailnews/extensions/enigmail xpi \
+	STRIP="/bin/true" \
+	CC="%{__cc}" \
+	CXX="%{__cxx}"
 %endif
 
 %install
@@ -420,15 +425,16 @@ chmod a+rx $RPM_BUILD_ROOT%{_libdir}/%{name}/register
 
 %if %{with enigmail}
 ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
-install -d $ext_dir/{chrome,components,defaults/preferences}
+install -d $ext_dir/{chrome,components,defaults/preferences,modules}
 cd mozilla/dist/bin
-#cp -rfLp chrome/enigmail.jar $ext_dir/chrome
-#cp -rfLp chrome/enigmime.jar $ext_dir/chrome
+cp -rfLp chrome/enigmail.jar $ext_dir/chrome
 cp -rfLp components/enig* $ext_dir/components
 cp -rfLp components/libenigmime.so $ext_dir/components
 cp -rfLp components/libipc.so $ext_dir/components
 cp -rfLp components/ipc.xpt $ext_dir/components
 cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
+cp -rfLp modules/{commonFuncs,enigmailCommon,keyManagement,pipeConsole,pipeTransport,subprocess}.jsm $ext_dir/modules
+cp -rfLp modules/{subprocess_worker_unix,subprocess_worker_win}.js $ext_dir/modules
 cd -
 cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_dir
 cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
@@ -514,6 +520,16 @@ exit 0
 %{_datadir}/%{name}/extensions
 %{_datadir}/%{name}/isp
 %{_datadir}/%{name}/modules
+%if %{with enigmail}
+%exclude %{_datadir}/%{name}/modules/commonFuncs.jsm
+%exclude %{_datadir}/%{name}/modules/enigmailCommon.jsm
+%exclude %{_datadir}/%{name}/modules/keyManagement.jsm
+%exclude %{_datadir}/%{name}/modules/pipeConsole.jsm
+%exclude %{_datadir}/%{name}/modules/pipeTransport.jsm
+%exclude %{_datadir}/%{name}/modules/subprocess.jsm
+%exclude %{_datadir}/%{name}/modules/subprocess_worker_unix.js
+%exclude %{_datadir}/%{name}/modules/subprocess_worker_win.js
+%endif
 %{_datadir}/%{name}/searchplugins
 %if %{without xulrunner}
 %{_datadir}/%{name}/res
@@ -564,4 +580,7 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.so
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.xpt
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.js
+%dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/modules
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/modules/*.jsm
+%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/modules/*.js
 %endif
