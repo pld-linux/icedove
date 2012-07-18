@@ -46,8 +46,8 @@
  pref("app.update.url.manual", "http://www.getthunderbird.com");
  // A default value for the "More information about this update" link
  // supplied in the "An update is available" page of the update wizard. 
--pref("app.update.url.details", "http://www.mozillamessaging.com/%LOCALE%/%APP%/releases/");
-+pref("app.update.url.details", "http://www.mozillamessaging.com/%LOCALE%/thunderbird/releases/");
+-pref("app.update.url.details", "http://www.mozilla.org/%LOCALE%/%APP%/releases/");
++pref("app.update.url.details", "http://www.mozilla.org/%LOCALE%/thunderbird/releases/");
  // User-settable override to app.update.url for testing purposes.
  //pref("app.update.url.override", "");
  
