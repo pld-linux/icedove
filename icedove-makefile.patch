@@ -1,18 +1,11 @@
 --- icedove-6.0/mozilla/Makefile.in~	2011-08-12 16:52:03.000000000 +0300
 +++ icedove-6.0/mozilla/Makefile.in	2011-08-26 13:00:59.373870016 +0300
-@@ -58,8 +58,6 @@
+@@ -26,21 +26,7 @@
  
  include $(topsrcdir)/config/config.mk
  
 -default alldep all:: $(topsrcdir)/configure config.status
 -
- ifndef INCLUDED_BRIDGE_MK
- include $(topsrcdir)/bridge/bridge.mk
- endif
-@@ -67,19 +65,7 @@
- # workaround Bug 599809 by making these makefiles be generated here
- SUBMAKEFILES += $(addsuffix /Makefile, $(APP_LIBXUL_DIRS) $(APP_LIBXUL_STATICDIRS))
- 
 -$(topsrcdir)/configure: $(topsrcdir)/configure.in
 -	@echo "STOP!  configure.in has changed, and your configure is out of date."
 -	@echo "Please rerun autoconf and configure."

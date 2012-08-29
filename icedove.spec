@@ -19,11 +19,11 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.4.3
+%define		enigmail_ver	1.4.4
 %define		nspr_ver	4.9
 %define		nss_ver		3.13.3
 
-%define		xulrunner_ver	2:13.0
+%define		xulrunner_ver	2:15.0
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -33,14 +33,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	14.0
+Version:	15.0
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	64dcfaa0aa47aa5fd8588090503fac9d
+# Source0-md5:	e41f88ca2fd0c9bc608aa2c145b3bc2c
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	4a253db11436a32ef81d5917c4ee6e25
+# Source1-md5:	1bc36b5077f6b01b6acf0f75565dddc8
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
@@ -59,6 +59,8 @@ Patch9:		system-cairo.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
+# Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
+Patch13:	system-virtualenv.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
@@ -201,6 +203,7 @@ cd mozilla
 %patch10 -p2
 %patch11 -p2
 %patch12 -p1
+%patch13 -p1
 
 %build
 cd mozilla

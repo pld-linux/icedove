@@ -1,0 +1,24 @@
+Restore --system-site-packages when system virtualenv gets 1.7 upgrade
+
+--- xulrunner-15.0/mozilla/configure.in~	2012-08-29 11:06:34.517985819 +0200
++++ xulrunner-15.0/mozilla/configure.in	2012-08-29 11:23:47.234616054 +0200
+@@ -9069,7 +9069,7 @@
+ AC_MSG_RESULT([Creating Python virtualenv])
+ rm -rf _virtualenv
+ mkdir -p _virtualenv
+-MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= $PYTHON $_topsrcdir/other-licenses/virtualenv/virtualenv.py --system-site-packages ./_virtualenv
++MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= /usr/bin/virtualenv ./_virtualenv
+ case "$host_os" in
+ mingw*)
+     PYTHON=`pwd`/_virtualenv/Scripts/python.exe
+--- xulrunner-15.0/mozilla/configure~	2012-08-29 11:25:28.121279162 +0200
++++ xulrunner-15.0/mozilla/configure	2012-08-29 11:27:27.981274936 +0200
+@@ -25468,7 +25468,7 @@
+ echo "$ac_t""Creating Python virtualenv" 1>&6
+ rm -rf _virtualenv
+ mkdir -p _virtualenv
+-MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= $PYTHON $_topsrcdir/other-licenses/virtualenv/virtualenv.py --system-site-packages ./_virtualenv
++MACOSX_DEPLOYMENT_TARGET= PYTHONDONTWRITEBYTECODE= /usr/bin/virtualenv ./_virtualenv
+ case "$host_os" in
+ mingw*)
+     PYTHON=`pwd`/_virtualenv/Scripts/python.exe

@@ -122,11 +122,13 @@
                  label="&featureConfiguratorCmd.label;"
 --- mozilla/mail/confvars.sh~	2011-08-12 15:52:05.000000000 +0200
 +++ mozilla/mail/confvars.sh	2011-09-17 15:34:33.613167078 +0200
-@@ -36,7 +36,7 @@
- #
- # ***** END LICENSE BLOCK *****
+@@ -36,8 +36,8 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
  
+-MOZ_APP_BASENAME=Thunderbird
 -MOZ_APP_NAME=thunderbird
++MOZ_APP_BASENAME=Icedove
 +MOZ_APP_NAME=icedove
  MOZ_UPDATER=1
  MOZ_THUNDERBIRD=1
