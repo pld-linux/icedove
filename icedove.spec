@@ -19,7 +19,7 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.4.4
+%define		enigmail_ver	1.4.6
 %define		nspr_ver	4.9
 %define		nss_ver		3.13.3
 
@@ -33,14 +33,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	15.0
-Release:	1
+Version:	17.0
+Release:	0.1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	e41f88ca2fd0c9bc608aa2c145b3bc2c
+# Source0-md5:	f3690660044337273efb52f79cb15b0e
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	1bc36b5077f6b01b6acf0f75565dddc8
+# Source1-md5:	3d42cff27e0f8da24bdabf8363d8261f
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
