@@ -23,7 +23,7 @@
 %define		nspr_ver	4.9
 %define		nss_ver		3.13.3
 
-%define		xulrunner_ver	2:15.0
+%define		xulrunner_ver	2:17.0
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -34,7 +34,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	17.0
-Release:	0.1
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
