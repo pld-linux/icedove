@@ -320,6 +320,7 @@ EOF
 %{__make} -j1 -f client.mk build \
 	STRIP="/bin/true" \
 	MOZ_MAKE_FLAGS="%{?_smp_mflags}" \
+	XLIBS="-lX11 -lXt" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
 
@@ -433,10 +434,8 @@ cd mozilla/dist/bin
 cp -rfLp chrome/enigmail.jar $ext_dir/chrome
 cp -rfLp components/enig* $ext_dir/components
 cp -rfLp components/libenigmime.so $ext_dir/components
-cp -rfLp components/libipc.so $ext_dir/components
-cp -rfLp components/ipc.xpt $ext_dir/components
 cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
-cp -rfLp modules/{commonFuncs,enigmailCommon,keyManagement,pipeConsole,pipeTransport,subprocess}.jsm $ext_dir/modules
+cp -rfLp modules/{commonFuncs,enigmailCommon,keyManagement,pipeConsole,subprocess}.jsm $ext_dir/modules
 cp -rfLp modules/{subprocess_worker_unix,subprocess_worker_win}.js $ext_dir/modules
 cd -
 cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_dir
@@ -528,7 +527,6 @@ exit 0
 %exclude %{_datadir}/%{name}/modules/enigmailCommon.jsm
 %exclude %{_datadir}/%{name}/modules/keyManagement.jsm
 %exclude %{_datadir}/%{name}/modules/pipeConsole.jsm
-%exclude %{_datadir}/%{name}/modules/pipeTransport.jsm
 %exclude %{_datadir}/%{name}/modules/subprocess.jsm
 %exclude %{_datadir}/%{name}/modules/subprocess_worker_unix.js
 %exclude %{_datadir}/%{name}/modules/subprocess_worker_win.js
