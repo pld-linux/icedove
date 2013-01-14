@@ -34,7 +34,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	17.0.2
-Release:	1
+Release:	2
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -77,7 +77,9 @@ BuildRequires:	libIDL-devel >= 0.8.0
 %{?with_gnomeui:BuildRequires:	libgnome-keyring-devel}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
+# requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
+BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
@@ -107,6 +109,7 @@ Requires(post):	mktemp >= 1.5-18
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
+Requires:	libjpeg-turbo
 Obsoletes:	mozilla-thunderbird
 Obsoletes:	mozilla-thunderbird-dictionary-en-US
 Conflicts:	icedove-lang-resources < %{version}
