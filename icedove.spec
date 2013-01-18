@@ -78,7 +78,9 @@ BuildRequires:	libIDL-devel >= 0.8.0
 %{?with_gnomeui:BuildRequires:	libgnome-keyring-devel}
 %{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
 BuildRequires:	libiw-devel
+# requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
+BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
@@ -108,6 +110,7 @@ Requires(post):	mktemp >= 1.5-18
 %if %{with xulrunner}
 %requires_eq_to	xulrunner xulrunner-devel
 %endif
+Requires:	libjpeg-turbo
 Obsoletes:	mozilla-thunderbird
 Obsoletes:	mozilla-thunderbird-dictionary-en-US
 Conflicts:	icedove-lang-resources < %{version}
