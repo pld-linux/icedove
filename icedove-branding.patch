@@ -33,8 +33,8 @@
  #ifdef MOZ_SOURCE_REPO
 --- mozilla/mail/app/profile/all-thunderbird.js.orig	2012-03-13 03:37:11.000000000 +0100
 +++ mozilla/mail/app/profile/all-thunderbird.js	2012-03-24 21:42:35.608437888 +0100
-@@ -74,7 +74,7 @@
- // App-specific update preferences
+@@ -84,7 +84,7 @@
+ pref("app.update.certs.2.commonName", "aus3.mozilla.org");
  
  // Whether or not app updates are enabled
 -pref("app.update.enabled", true);               
@@ -42,7 +42,7 @@
  
  // This preference turns on app.update.mode and allows automatic download and
  // install to take place. We use a separate boolean toggle for this to make     
-@@ -102,7 +102,7 @@
+@@ -117,7 +117,7 @@
  pref("app.update.url.manual", "http://www.getthunderbird.com");
  // A default value for the "More information about this update" link
  // supplied in the "An update is available" page of the update wizard. 
@@ -51,12 +51,8 @@
  // User-settable override to app.update.url for testing purposes.
  //pref("app.update.url.override", "");
  
-@@ -120,10 +120,10 @@
- pref("app.update.showInstalledUI", false);
- 
- // Release notes URL
--pref("app.releaseNotesURL", "http://live.mozillamessaging.com/%APP%/releasenotes?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
-+pref("app.releaseNotesURL", "http://live.mozillamessaging.com/thunderbird/releasenotes?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
+@@ -139,7 +139,7 @@
+ #endif
  
  // Base URL for web-based support pages.
 -pref("app.support.baseURL", "http://support.live.mozillamessaging.com/%LOCALE%/%APP%/%APPBUILDID%/");
@@ -64,7 +60,7 @@
  
  // Controls enabling of the extension system logging (can reduce performance)
  pref("extensions.logging.enabled", false);
-@@ -145,11 +145,11 @@
+@@ -161,18 +161,18 @@
  // Preferences for AMO integration
  pref("extensions.getAddons.cache.enabled", true);
  pref("extensions.getAddons.maxResults", 15);
@@ -81,7 +77,16 @@
  
  // Blocklist preferences
  pref("extensions.blocklist.enabled", true);
-@@ -174,7 +174,7 @@
+ pref("extensions.blocklist.interval", 86400);
+ pref("extensions.blocklist.url", "https://addons.mozilla.org/blocklist/3/%APP_ID%/%APP_VERSION%/%PRODUCT%/%BUILD_ID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/%DISTRIBUTION%/%DISTRIBUTION_VERSION%/%PING_COUNT%/%TOTAL_PING_COUNT%/%DAYS_SINCE_LAST_PING%/");
+-pref("extensions.blocklist.detailsURL", "https://addons.mozilla.org/%LOCALE%/%APP%/blocked/");
+-pref("extensions.blocklist.itemURL", "https://addons.mozilla.org/%LOCALE%/%APP%/blocked/%blockID%");
++pref("extensions.blocklist.detailsURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/blocked/");
++pref("extensions.blocklist.itemURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/blocked/%blockID%");
+ 
+ // Enables some extra Extension System Logging (can reduce performance) 
+ pref("extensions.logging.enabled", false); 
+@@ -190,7 +190,7 @@
  pref("extensions.update.interval", 86400);  // Check for updates to Extensions and 
                                              // Themes every day
  
@@ -90,7 +95,7 @@
  pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
  pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
  
-@@ -370,7 +370,7 @@
+@@ -391,7 +391,7 @@
  
  pref("spellchecker.dictionary", "");
  // Dictionary download preference
@@ -99,7 +104,7 @@
  
  // profile.force.migration can be used to bypass the migration wizard, forcing migration from a particular
  // mail application without any user intervention. Possible values are: 
-@@ -507,7 +507,7 @@
+@@ -540,7 +540,7 @@
  pref("mailnews.database.global.logging.console", true);
  
  // page to load to find good header add-ons
@@ -108,6 +113,15 @@
  
  // Serif fonts look dated.  Switching those language families to sans-serif
  // where we think it makes sense.  Worth investigating for other font families
+@@ -764,7 +764,7 @@
+ 
+ pref("plugins.update.url", "https://www.mozilla.com/%LOCALE%/plugincheck/");
+ pref("plugins.update.notifyUser", false);
+-pref("plugins.crash.supportUrl", "https://live.mozillamessaging.com/%APP%/plugin-crashed?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
++pref("plugins.crash.supportUrl", "https://live.mozillamessaging.com/thunderbird/plugin-crashed?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
+ 
+ // Windows taskbar support
+ #ifdef XP_WIN
 --- mozilla/mail/base/content/baseMenuOverlay.xul~	2011-08-12 15:52:04.000000000 +0200
 +++ mozilla/mail/base/content/baseMenuOverlay.xul	2011-09-17 15:29:32.946531066 +0200
 @@ -73,9 +73,6 @@

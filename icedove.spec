@@ -19,7 +19,7 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.5.0
+%define		enigmail_ver	1.5.1
 %define		nspr_ver	4.9.3
 %define		nss_ver		3.14.1
 
@@ -33,14 +33,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	17.0.2
-Release:	3
+Version:	17.0.3
+Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	9b7f15fbc672745571d47a3c0e227ca1
+# Source0-md5:	180f7768f6419182ea78eeb80da7f588
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	af4b3534417f32dc201765e4de6ecc86
+# Source1-md5:	3e71f84ed2c11471282412ebe4f5eb2d
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
 Source3:	%{name}-rm_nonfree.sh
@@ -190,7 +190,7 @@ Główne możliwości:
 
 %prep
 %setup -qc
-mv comm-release mozilla
+mv comm-esr17 mozilla
 %setup -q -T -D -a2
 cd mozilla
 %{?with_enigmail:%{__gzip} -dc %{SOURCE1} | %{__tar} -xf - -C mailnews/extensions}
@@ -494,6 +494,7 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/icedove
 %attr(755,root,root) %{_libdir}/%{name}/register
 %if %{without xulrunner}
+%{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
 %{_libdir}/%{name}/greprefs.js
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
