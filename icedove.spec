@@ -36,7 +36,7 @@ Name:		icedove
 Version:	17.0.3
 Release:	1
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
-Group:		X11/Applications/Networking
+Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
 # Source0-md5:	180f7768f6419182ea78eeb80da7f588
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
