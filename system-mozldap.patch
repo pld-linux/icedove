@@ -1,8 +1,8 @@
 --- mozilla/configure.in.orig	2010-06-23 19:43:07.000000000 +0200
 +++ mozilla/configure.in	2010-07-06 11:14:54.350499449 +0200
-@@ -5032,6 +5032,13 @@
-     MOZ_LDAP_XPCOM=,
-     MOZ_LDAP_XPCOM=1)
+@@ -134,6 +134,13 @@
+   AC_MSG_RESULT([no])
+ fi
  
 +dnl system LDAP Support
 +dnl ========================================================
@@ -14,12 +14,28 @@
  dnl ========================================================
  dnl = Trademarked Branding 
  dnl ========================================================
-@@ -7612,7 +7619,7 @@
+--- mozilla/mail/configure.in.orig	2010-06-23 19:43:07.000000000 +0200
++++ mozilla/mail/configure.in	2010-07-06 11:14:54.350499449 +0200
+@@ -59,7 +59,12 @@
+     MOZ_LDAP_XPCOM=,
+     MOZ_LDAP_XPCOM=1)
  
- # if we're building the LDAP XPCOM component, we need to build 
- # the c-sdk first.  
+-if test "$MOZ_LDAP_XPCOM"; then
++if test "$MOZ_LDAP_DIR" ; then
++    LDAP_CFLAGS=$(pkg-config --cflags mozldap)
++    LDAP_LIBS=$(pkg-config --libs mozldap)
++    LDAP_COMPONENT=mozldap
++    LDAP_MODULE="MODULE(nsLDAPProtocolModule)"
++elif test "$MOZ_LDAP_XPCOM"; then
+     MOZ_ARG_ENABLE_BOOL(incomplete-toolkit-ldap-autocomplete,
+     [  --enable-incomplete-toolkit-ldap-autocomplete Builds a JavaScript component that implements an LDAP autocomplete component using the toolkit interfaces rather than the C++ component using the obsolete XPFE interfaces. ],
+         MOZ_INCOMPLETE_TOOLKIT_LDAP_AUTOCOMPLETE=1,
+@@ -118,7 +130,7 @@
+ 
+ # if we're building the LDAP XPCOM component, we need to build
+ # the c-sdk first.
 -if test -n "$COMPILE_ENVIRONMENT" -a -n "$MOZ_LDAP_XPCOM"; then
 +if test -n "$COMPILE_ENVIRONMENT" -a -n "$MOZ_LDAP_XPCOM" -a -z "$MOZ_LDAP_DIR"; then
-     # these subdirs may not yet have been created in the build tree.
-     # don't use the "-p" switch to mkdir, since not all platforms have it
-     if test ! -d "directory/c-sdk/ldap"; then
+     # Save configure args so we can restore them after configuring LDAP.
+     _save_ac_configure_args="$ac_configure_args"
+     ac_configure_args="$_SUBDIR_CONFIG_ARGS"

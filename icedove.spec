@@ -4,26 +4,20 @@
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
-%bcond_without	gnomeui		# disable gnomeui support
-%bcond_without	gnome		# alias for gnomeui
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without	lightning	# disable Sunbird/Lightning calendar
 %bcond_with	xulrunner	# system xulrunner
 %bcond_with	crashreporter	# report crashes to crash-stats.mozilla.com
 
-%if %{without gnome}
-%undefine	with_gnomeui
-%endif
-
 %if 0%{?_enable_debug_packages} != 1
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.5.1
+%define		enigmail_ver	1.6
 %define		nspr_ver	4.9.3
-%define		nss_ver		3.14.1
+%define		nss_ver		3.15.3.1
 
-%define		xulrunner_ver	2:17.0
+%define		xulrunner_ver	2:24.0
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -33,34 +27,32 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	17.0.8
-Release:	2
+Version:	24.2.0
+Release:	0.3
 License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	e4aee8852e94e455930bf482aecdbcd4
+# Source0-md5:	53d457a8ff97a305d975c20d1bebff04
 Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	3e71f84ed2c11471282412ebe4f5eb2d
+# Source1-md5:	4a2bbcb020bdb282a660fda8c70d5608
 Source2:	%{name}-branding.tar.bz2
-# Source2-md5:	2da351522bdd7f4a3bd8aaff4c776976
+# Source2-md5:	d8e6897870bf288fdf264c0e9ef85f7d
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-enigmail-shared.patch
 Patch3:		%{name}-fonts.patch
-Patch4:		%{name}-install.patch
-Patch5:		%{name}-hunspell.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
-Patch9:		system-cairo.patch
 Patch10:	%{name}-extensiondir.patch
 Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
 Patch13:	system-virtualenv.patch
 Patch14:	gyp-slashism.patch
+Patch15:	enable-addons.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
@@ -70,12 +62,12 @@ BuildRequires:	cairo-devel >= 1.10
 BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	freetype-devel >= 1:2.1.8
 BuildRequires:	glib2-devel >= 2.0
+BuildRequires:	gstreamer0.10-devel
+BuildRequires:	gstreamer0.10-plugins-base-devel
 BuildRequires:	gtk+2-devel >= 2:2.10.0
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
-%{?with_gnomeui:BuildRequires:	libgnome-devel >= 2.0}
-%{?with_gnomeui:BuildRequires:	libgnome-keyring-devel}
-%{?with_gnomeui:BuildRequires:	libgnomeui-devel >= 2.2.0}
+BuildRequires:	libevent-devel
 BuildRequires:	libiw-devel
 # requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
@@ -83,15 +75,18 @@ BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
+BuildRequires:	mozldap-devel
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
 BuildRequires:	pango-devel >= 1:1.14.0
 BuildRequires:	perl-base >= 1:5.6
+BuildRequires:	python-virtualenv
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.5
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3.7.4
 BuildRequires:	startup-notification-devel >= 0.8
+BuildRequires:	libvpx-devel >= 1.0.0
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
@@ -99,7 +94,6 @@ BuildRequires:	yasm
 BuildRequires:	zip
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= %{xulrunner_ver}
-BuildRequires:	xulrunner-devel < 2:18
 %else
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
@@ -190,7 +184,7 @@ Główne możliwości:
 
 %prep
 %setup -qc
-mv comm-esr17 mozilla
+mv comm-esr24 mozilla
 %setup -q -T -D -a2
 cd mozilla
 %{?with_enigmail:%{__gzip} -dc %{SOURCE1} | %{__tar} -xf - -C mailnews/extensions}
@@ -198,16 +192,18 @@ cd mozilla
 %patch0 -p1
 %{?with_enigmail:%patch1 -p1}
 %patch3 -p1
-%patch4 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p2
-%patch9 -p1
 %patch10 -p2
-%patch11 -p2
+#patch11 -p2
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
+%patch15 -p1
+
+# the entire check in that configure is so wrong, it's simpler to just workaround it here temporarily
+%{__sed} -i -e 's|min_nss_version=3.15.3.1|min_nss_version=3.15.3|' mozilla/configure
 
 %build
 cd mozilla
@@ -259,11 +255,7 @@ ac_add_options --enable-tests
 ac_add_options --disable-tests
 %endif
 ac_add_options --enable-gio
-%if %{with gnomeui}
-ac_add_options --enable-gnomeui
-%else
 ac_add_options --disable-gnomeui
-%endif
 ac_add_options --disable-gnomevfs
 %if %{with ldap}
 ac_add_options --enable-ldap
@@ -283,35 +275,31 @@ ac_add_options --enable-calendar
 %else
 ac_add_options --disable-calendar
 %endif
+ac_add_options --disable-elf-dynstr-gc
 ac_add_options --disable-installer
+ac_add_options --disable-javaxpcom
 ac_add_options --disable-updater
-ac_add_options --disable-xprint
-ac_add_options --disable-permissions
-ac_add_options --disable-pref-extensions
-ac_add_options --enable-canvas
 ac_add_options --enable-crypto
-ac_add_options --enable-mathml
+ac_add_options --enable-libxul
 ac_add_options --enable-pango
-ac_add_options --enable-reorder
+ac_add_options --enable-shared-js
 ac_add_options --enable-startup-notification
-ac_add_options --enable-svg
 ac_add_options --enable-system-cairo
 ac_add_options --enable-system-hunspell
 ac_add_options --enable-system-sqlite
-ac_add_options --enable-xft
 ac_add_options --enable-application=mail
-ac_add_options --enable-default-toolkit=cairo-gtk2
-ac_add_options --enable-xinerama
 ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=icedove/branding
 %if %{with xulrunner}
-ac_add_options --enable-shared-js
-ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 ac_add_options --with-system-libxul
+ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
+ac_add_options --with-system-ffi
 ac_add_options --with-system-jpeg
+ac_add_options --with-system-libevent
+ac_add_options --with-system-libvpx
 ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-png
@@ -321,9 +309,13 @@ ac_add_options --disable-profilesharing
 ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
+mkdir -p %{objdir}/config
+ln -s %{topdir}/mozilla/config/*.mk %{objdir}/config
+
 %{__make} -j1 -f client.mk build \
 	STRIP="/bin/true" \
 	MOZ_MAKE_FLAGS="%{?_smp_mflags}" \
+	installdir=%{_libdir}/%{name} \
 	XLIBS="-lX11 -lXt" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
@@ -336,12 +328,12 @@ EOF
 %if %{with enigmail}
 cd mailnews/extensions/enigmail
 ./makemake -r -o %{objdir}
-%{__make} -C %{objdir}/mailnews/extensions/enigmail \
+%{__make} -j1 -C %{objdir}/mailnews/extensions/enigmail \
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
 
-%{__make} -C %{objdir}/mailnews/extensions/enigmail xpi \
+%{__make} -j1 -C %{objdir}/mailnews/extensions/enigmail xpi \
 	STRIP="/bin/true" \
 	CC="%{__cc}" \
 	CXX="%{__cxx}"
@@ -354,9 +346,14 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{_datadir}/%{name},%{_
 cd %{objdir}
 %{__make} -C mail/installer stage-package \
 	DESTDIR=$RPM_BUILD_ROOT \
-	MOZ_PKG_DIR=%{_libdir}/%{name} \
+	installdir=%{_libdir}/%{name} \
 	PKG_SKIP_STRIP=1
 
+%{__make} -C icedove/branding install \
+	DESTDIR=$RPM_BUILD_ROOT
+
+cp -a mozilla/dist/icedove/* $RPM_BUILD_ROOT%{_libdir}/%{name}/
+ 
 %if %{with xulrunner}
 # needed to find mozilla runtime
 ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
@@ -372,25 +369,12 @@ cp -a mozilla/dist/%{name}-%{version}.en-US.linux-*.crashreporter-symbols.zip $R
 %endif
 
 # copy manually lightning files, somewhy they are not installed by make
-cp -a mozilla/dist/bin/extensions/calendar-timezones@mozilla.org \
-	mozilla/dist/bin/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103} \
+cp -a mozilla/dist/bin/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103} \
 	$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions
 
 # move arch independant ones to datadir
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome $RPM_BUILD_ROOT%{_datadir}/%{name}/chrome
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults $RPM_BUILD_ROOT%{_datadir}/%{name}/defaults
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/isp $RPM_BUILD_ROOT%{_datadir}/%{name}/isp
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/modules $RPM_BUILD_ROOT%{_datadir}/%{name}/modules
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
-ln -s ../../share/%{name}/chrome $RPM_BUILD_ROOT%{_libdir}/%{name}/chrome
-ln -s ../../share/%{name}/defaults $RPM_BUILD_ROOT%{_libdir}/%{name}/defaults
-ln -s ../../share/%{name}/isp $RPM_BUILD_ROOT%{_libdir}/%{name}/isp
-ln -s ../../share/%{name}/modules $RPM_BUILD_ROOT%{_libdir}/%{name}/modules
 ln -s ../../share/%{name}/searchplugins $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins
-%if %{without xulrunner}
-mv $RPM_BUILD_ROOT%{_libdir}/%{name}/res $RPM_BUILD_ROOT%{_datadir}/%{name}/res
-ln -s ../../share/%{name}/res $RPM_BUILD_ROOT%{_libdir}/%{name}/res
-%endif
 
 # dir for arch independant extensions besides arch dependant extensions
 # see mozilla/xpcom/build/nsXULAppAPI.h
@@ -400,8 +384,6 @@ install -d $RPM_BUILD_ROOT%{_datadir}/%{name}/extensions
 %if %{without xulrunner}
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
 ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/dictionaries
-%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
-ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 %endif
 
 %{__sed} -e "s|%MOZAPPDIR%|%{_libdir}/%{name}|" \
@@ -412,8 +394,17 @@ ln -s %{_datadir}/myspell $RPM_BUILD_ROOT%{_libdir}/%{name}/hyphenation
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/thunderbird
 ln -s %{name} $RPM_BUILD_ROOT%{_bindir}/mozilla-thunderbird
 
-cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+# install icons and desktop file
 cp -p %{topdir}/mozilla/icedove/branding/content/icon64.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}.png
+for i in 16 32 48 64 128 256; do
+	install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps
+	cp -a %{topdir}/mozilla/icedove/branding/icedove${i}.png \
+		$RPM_BUILD_ROOT%{_iconsdir}/hicolor/${i}x${i}/apps/icedove.png
+done
+install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/scalable/apps
+cp -a %{topdir}/mozilla/icedove/branding/icedove.svg $RPM_BUILD_ROOT%{_iconsdir}/hicolor/scalable/apps/icedove.svg
+
+cp -p %{SOURCE4} $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
 
 # files created by regxpcom -register in post
 touch $RPM_BUILD_ROOT%{_libdir}/%{name}/components/compreg.dat
@@ -437,7 +428,6 @@ install -d $ext_dir/{chrome,components,defaults/preferences,modules}
 cd mozilla/dist/bin
 cp -rfLp chrome/enigmail.jar $ext_dir/chrome
 cp -rfLp components/enig* $ext_dir/components
-cp -rfLp components/libenigmime.so $ext_dir/components
 cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
 cp -rfLp modules/{commonFuncs,enigmailCommon,keyManagement,pipeConsole,subprocess}.jsm $ext_dir/modules
 cp -rfLp modules/{subprocess_worker_unix,subprocess_worker_win}.js $ext_dir/modules
@@ -446,15 +436,9 @@ cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_di
 cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
 %endif
 
-# never package these. always remove
-# nss
-%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{freebl3,nss3,nssckbi,nssdbm3,nssutil3,smime3,softokn3,ssl3}.*
-# nspr
-%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{nspr4,plc4,plds4}.so
 # mozldap
-%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap,ssldap}60.so
-# testpilot quiz
-%{__rm} -f $RPM_BUILD_ROOT%{_libdir}/%{name}/distribution/extensions/tbtestpilot@labs.mozilla.com.xpi
+%{__sed} -i '/lib\(ldap\|ldif\|prldap\)60.so/d' $RPM_BUILD_ROOT%{_libdir}/%{name}/dependentlibs.list
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/lib{ldap,ldif,prldap}60.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -484,21 +468,19 @@ exit 0
 %{_libdir}/%{name}/blocklist.xml
 %{_libdir}/%{name}/chrome.manifest
 %dir %{_libdir}/%{name}/components
-%{_libdir}/%{name}/components/*.js
-%{_libdir}/%{name}/components/*.xpt
 %{_libdir}/%{name}/components/components.manifest
-%{_libdir}/%{name}/components/interfaces.manifest
 %attr(755,root,root) %{_libdir}/%{name}/*.sh
 %attr(755,root,root) %{_libdir}/%{name}/*-bin
 %attr(755,root,root) %{_libdir}/%{name}/icedove
 %attr(755,root,root) %{_libdir}/%{name}/register
+%{_libdir}/%{name}/omni.ja
 %if %{without xulrunner}
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
-%{_libdir}/%{name}/greprefs.js
+#%{_libdir}/%{name}/greprefs.js
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
-%attr(755,root,root) %{_libdir}/%{name}/libxpcom.so
+%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
@@ -508,38 +490,20 @@ exit 0
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/defaults
 %{_libdir}/%{name}/isp
-%{_libdir}/%{name}/modules
+#%{_libdir}/%{name}/modules
 %{_libdir}/%{name}/searchplugins
 %if %{with xulrunner}
 %{_libdir}/%{name}/xulrunner
 %else
 %{_libdir}/%{name}/dictionaries
-%{_libdir}/%{name}/hyphenation
-%{_libdir}/%{name}/res
 %endif
 
 %{_pixmapsdir}/icedove.png
 %{_desktopdir}/icedove.desktop
 
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/chrome
-%{_datadir}/%{name}/defaults
 %{_datadir}/%{name}/extensions
-%{_datadir}/%{name}/isp
-%{_datadir}/%{name}/modules
-%if %{with enigmail}
-%exclude %{_datadir}/%{name}/modules/commonFuncs.jsm
-%exclude %{_datadir}/%{name}/modules/enigmailCommon.jsm
-%exclude %{_datadir}/%{name}/modules/keyManagement.jsm
-%exclude %{_datadir}/%{name}/modules/pipeConsole.jsm
-%exclude %{_datadir}/%{name}/modules/subprocess.jsm
-%exclude %{_datadir}/%{name}/modules/subprocess_worker_unix.js
-%exclude %{_datadir}/%{name}/modules/subprocess_worker_win.js
-%endif
 %{_datadir}/%{name}/searchplugins
-%if %{without xulrunner}
-%{_datadir}/%{name}/res
-%endif
 
 %if %{with crashreporter}
 %attr(755,root,root) %{_libdir}/%{name}/crashreporter
@@ -553,6 +517,8 @@ exit 0
 # files created by regxpcom -register
 %ghost %{_libdir}/%{name}/components/compreg.dat
 %ghost %{_libdir}/%{name}/components/xpti.dat
+
+%{_iconsdir}/hicolor/*/apps/icedove.*
 
 %if %{with lightning}
 %files addon-lightning
@@ -571,7 +537,6 @@ exit 0
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/modules
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/calendar-js
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/timezones.sqlite
-%{_libdir}/%{name}/extensions/calendar-timezones@mozilla.org
 %endif
 
 %if %{with enigmail}
@@ -583,7 +548,6 @@ exit 0
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/chrome.manifest
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/install.rdf
 %dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components
-%attr(755,root,root) %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.so
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.xpt
 %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.js
 %dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/modules

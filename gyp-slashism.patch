@@ -34,15 +34,6 @@
      if self.WriteTargetMakefile(output_file, rel_path, qualified_target, spec, build_file, subdepth):
          # If WriteTargetMakefile returns True, then this is a useful target
        dirs.append(rel_path)
-@@ -376,7 +382,7 @@
-     WriteMakefile(output_file, data, build_file, depth, top,
-                   # we set srcdir up one directory, since the subdir
-                   # doesn't actually exist in the source directory
--                  swapslashes(os.path.join(top, self.relative_srcdir, os.path.split(rel_path)[0])),
-+                  swapslashes(append_relative(append_relative(top, self.relative_srcdir), os.path.split(rel_path)[0])),
-                   self.relative_srcdir)
-     return True
- 
 @@ -399,7 +405,7 @@
    # The relative path from objdir to gyp_file_dir
    srcdir = gyp.common.RelativePath(gyp_file_dir, objdir)
