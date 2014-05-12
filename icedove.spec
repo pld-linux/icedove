@@ -42,6 +42,7 @@ Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
 Patch1:		%{name}-enigmail-shared.patch
+Patch2:		%{name}-sh.patch
 Patch3:		%{name}-fonts.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
@@ -191,6 +192,7 @@ cd mozilla
 /bin/sh %{SOURCE3}
 %patch0 -p1
 %{?with_enigmail:%patch1 -p1}
+%patch2 -p1
 %patch3 -p1
 %patch6 -p1
 %patch7 -p1
