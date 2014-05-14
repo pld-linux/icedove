@@ -4,6 +4,7 @@
 #
 # Conditional builds
 %bcond_without	enigmail	# don't build enigmail - GPG/PGP support
+%bcond_with	gtk3		# GTK+ 3.x instead of 2.x
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without	lightning	# disable Sunbird/Lightning calendar
 %bcond_with	xulrunner	# system xulrunner
@@ -14,8 +15,8 @@
 %endif
 
 %define		enigmail_ver	1.6
-%define		nspr_ver	4.9.3
-%define		nss_ver		3.15.3.1
+%define		nspr_ver	4.10.2
+%define		nss_ver		3.15.4
 
 %define		xulrunner_ver	2:24.0
 
@@ -29,7 +30,7 @@ Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	24.5.0
 Release:	1
-License:	MPL 1.1 or GPL v2+ or LGPL v2.1+
+License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
 # Source0-md5:	dbe164c48e42c04b4959910eda2e52ca
@@ -48,7 +49,6 @@ Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
 Patch8:		%{name}-makefile.patch
 Patch10:	%{name}-extensiondir.patch
-Patch11:	crashreporter.patch
 Patch12:	no-subshell.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
 Patch13:	system-virtualenv.patch
@@ -65,7 +65,8 @@ BuildRequires:	freetype-devel >= 1:2.1.8
 BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	gstreamer0.10-devel
 BuildRequires:	gstreamer0.10-plugins-base-devel
-BuildRequires:	gtk+2-devel >= 2:2.10.0
+%{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2:2.14}
+%{?with_gtk3:BuildRequires:	gtk+3-devel >= 3.0.0}
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libevent-devel
@@ -73,7 +74,6 @@ BuildRequires:	libiw-devel
 # requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
 BuildRequires:	libjpeg-turbo-devel
-BuildRequires:	libnotify-devel >= 0.4
 BuildRequires:	libpng-devel >= 1.4.1
 BuildRequires:	libstdc++-devel
 BuildRequires:	mozldap-devel
@@ -85,7 +85,7 @@ BuildRequires:	python-virtualenv
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.5
 BuildRequires:	sed >= 4.0
-BuildRequires:	sqlite3-devel >= 3.7.4
+BuildRequires:	sqlite3-devel >= 3.7.17
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	libvpx-devel >= 1.0.0
 BuildRequires:	xorg-lib-libXext-devel
@@ -96,6 +96,8 @@ BuildRequires:	zip
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= %{xulrunner_ver}
 %else
+%{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
+%{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
 Requires:	nss >= 1:%{nss_ver}
@@ -149,7 +151,7 @@ funkcjonalność kalendarza.
 %package addon-enigmail
 Summary:	Extension for the authentication and encryption features provided by GnuPG
 Summary(pl.UTF-8):	Rozszerzenie do uwierzytelniania i szyfrowania zapewnianego przez GnuPG
-License:	MPL/LGPL
+License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		Applications/Networking
 URL:		http://enigmail.mozdev.org/
 Requires:	%{name} = %{version}-%{release}
@@ -188,7 +190,7 @@ Główne możliwości:
 mv comm-esr24 mozilla
 %setup -q -T -D -a2
 cd mozilla
-%{?with_enigmail:%{__gzip} -dc %{SOURCE1} | %{__tar} -xf - -C mailnews/extensions}
+%{?with_enigmail:%{__gzip} -dc %{SOURCE1} | %{__tar} xf - -C mailnews/extensions}
 /bin/sh %{SOURCE3}
 %patch0 -p1
 %{?with_enigmail:%patch1 -p1}
@@ -198,14 +200,10 @@ cd mozilla
 %patch7 -p1
 %patch8 -p2
 %patch10 -p2
-#patch11 -p2
 %patch12 -p1
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-
-# the entire check in that configure is so wrong, it's simpler to just workaround it here temporarily
-%{__sed} -i -e 's|min_nss_version=3.15.3.1|min_nss_version=3.15.3|' mozilla/configure
 
 %build
 cd mozilla
@@ -256,45 +254,49 @@ ac_add_options --enable-tests
 %else
 ac_add_options --disable-tests
 %endif
-ac_add_options --enable-gio
-ac_add_options --disable-gnomeui
-ac_add_options --disable-gnomevfs
-%if %{with ldap}
-ac_add_options --enable-ldap
-ac_add_options --with-system-ldap
+%if %{with lightning}
+ac_add_options --enable-calendar
 %else
-ac_add_options --disable-ldap
+ac_add_options --disable-calendar
 %endif
 %if %{with crashreporter}
 ac_add_options --enable-crashreporter
 %else
 ac_add_options --disable-crashreporter
 %endif
-ac_add_options --disable-xterm-updates
-ac_add_options --enable-postscript
-%if %{with lightning}
-ac_add_options --enable-calendar
-%else
-ac_add_options --disable-calendar
-%endif
 ac_add_options --disable-elf-dynstr-gc
+ac_add_options --disable-gnomeui
+ac_add_options --disable-gnomevfs
 ac_add_options --disable-installer
 ac_add_options --disable-javaxpcom
+ac_add_options --disable-profilesharing
 ac_add_options --disable-updater
+ac_add_options --disable-xterm-updates
+ac_add_options --enable-application=mail
 ac_add_options --enable-crypto
+ac_add_options --enable-default-toolkit=%{?with_gtk3:cairo-gtk3}%{!?with_gtk3:cairo-gtk2}
+ac_add_options --enable-gio
+%if %{with ldap}
+ac_add_options --enable-ldap
+ac_add_options --with-system-ldap
+%else
+ac_add_options --disable-ldap
+%endif
 ac_add_options --enable-libxul
 ac_add_options --enable-pango
+ac_add_options --enable-postscript
 ac_add_options --enable-shared-js
+ac_add_options --enable-single-profile
 ac_add_options --enable-startup-notification
 ac_add_options --enable-system-cairo
 ac_add_options --enable-system-hunspell
 ac_add_options --enable-system-sqlite
-ac_add_options --enable-application=mail
-ac_add_options --with-distribution-id=org.pld-linux
 ac_add_options --with-branding=icedove/branding
+ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
+ac_add_options --with-distribution-id=org.pld-linux
 %if %{with xulrunner}
-ac_add_options --with-system-libxul
 ac_add_options --with-libxul-sdk=$(pkg-config --variable=sdkdir libxul)
+ac_add_options --with-system-libxul
 %endif
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
@@ -306,9 +308,6 @@ ac_add_options --with-system-nspr
 ac_add_options --with-system-nss
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
-ac_add_options --enable-single-profile
-ac_add_options --disable-profilesharing
-ac_add_options --with-default-mozilla-five-home=%{_libdir}/%{name}
 EOF
 
 mkdir -p %{objdir}/config
@@ -479,7 +478,6 @@ exit 0
 %if %{without xulrunner}
 %{_libdir}/%{name}/dependentlibs.list
 %{_libdir}/%{name}/platform.ini
-#%{_libdir}/%{name}/greprefs.js
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
@@ -492,7 +490,6 @@ exit 0
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/defaults
 %{_libdir}/%{name}/isp
-#%{_libdir}/%{name}/modules
 %{_libdir}/%{name}/searchplugins
 %if %{with xulrunner}
 %{_libdir}/%{name}/xulrunner
