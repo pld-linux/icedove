@@ -89,6 +89,7 @@ BuildRequires:	yasm
 BuildRequires:	zip
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= %{xulrunner_ver}
+BuildRequires:	xulrunner-devel < 2:25
 %else
 Requires:	glib2 >= 1:2.20
 %{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
