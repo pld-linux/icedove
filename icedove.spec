@@ -1,9 +1,7 @@
 # TODO:
-# - separate spec for enigmail
 # - build with system mozldap
 #
 # Conditional builds
-%bcond_without	enigmail	# don't build enigmail - GPG/PGP support
 %bcond_with	gtk3		# GTK+ 3.x instead of 2.x
 %bcond_without	ldap		# disable e-mail address lookups in LDAP directories
 %bcond_without	lightning	# disable Sunbird/Lightning calendar
@@ -14,9 +12,8 @@
 %undefine	crashreporter
 %endif
 
-%define		enigmail_ver	1.6
 %define		nspr_ver	4.10.2
-%define		nss_ver		3.15.4
+%define		nss_ver		3.16.2
 
 %define		xulrunner_ver	2:24.0
 
@@ -28,21 +25,18 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	24.5.0
+Version:	24.8.1
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	dbe164c48e42c04b4959910eda2e52ca
-Source1:	http://www.mozilla-enigmail.org/download/source/enigmail-%{enigmail_ver}.tar.gz
-# Source1-md5:	4a2bbcb020bdb282a660fda8c70d5608
+# Source0-md5:	24f90b2a2da3b0eee1ffc527bcf765a8
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	d8e6897870bf288fdf264c0e9ef85f7d
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
-Patch1:		%{name}-enigmail-shared.patch
 Patch2:		%{name}-sh.patch
 Patch3:		%{name}-fonts.patch
 Patch6:		%{name}-prefs.patch
@@ -62,7 +56,7 @@ BuildRequires:	bzip2-devel
 BuildRequires:	cairo-devel >= 1.10
 BuildRequires:	dbus-glib-devel >= 0.60
 BuildRequires:	freetype-devel >= 1:2.1.8
-BuildRequires:	glib2-devel >= 2.0
+BuildRequires:	glib2-devel >= 1:2.20
 BuildRequires:	gstreamer0.10-devel
 BuildRequires:	gstreamer0.10-plugins-base-devel
 %{!?with_gtk3:BuildRequires:	gtk+2-devel >= 2:2.14}
@@ -96,6 +90,7 @@ BuildRequires:	zip
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= %{xulrunner_ver}
 %else
+Requires:	glib2 >= 1:2.20
 %{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
 %{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
 Requires:	myspell-common
@@ -119,9 +114,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoprovfiles	%{_libdir}/%{name}/components
 %if %{without xulrunner}
 # we don't want these to satisfy packages depending on xulrunner
-%define		_noautoprov		libmozalloc.so libxpcom.so libxul.so
+%define		_noautoprov		libmozalloc.so libmozjs.so libxul.so
 # and as we don't provide them, don't require either
-%define		_noautoreq		libmozalloc.so libxpcom.so libxul.so
+%define		_noautoreq		libmozalloc.so libmozjs.so libxul.so
 %endif
 
 %define		topdir		%{_builddir}/%{name}-%{version}
@@ -148,52 +143,13 @@ Lightning is an calendar extension to Icedove email client.
 Lightning to rozszerzenie do klienta poczty Icedove dodające
 funkcjonalność kalendarza.
 
-%package addon-enigmail
-Summary:	Extension for the authentication and encryption features provided by GnuPG
-Summary(pl.UTF-8):	Rozszerzenie do uwierzytelniania i szyfrowania zapewnianego przez GnuPG
-License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
-Group:		Applications/Networking
-URL:		http://enigmail.mozdev.org/
-Requires:	%{name} = %{version}-%{release}
-Requires:	gnupg
-Obsoletes:	mozilla-thunderbird-addon-enigmail
-
-%description addon-enigmail
-Enigmail is an extension to the Icedove mail client which allows users
-to access the authentication and encryption features provided by
-GnuPG.
-
-Main Features:
-- Encrypt/sign mail when sending, decrypt/authenticate received mail
-- Support for inline-PGP (RFC 2440) and PGP/MIME (RFC 3156)
-- Per-Account based encryption and signing defaults
-- Per-Recipient rules for automated key selection, and
-  enabling/disabling encryption and signing
-- OpenPGP key management interface
-
-%description addon-enigmail -l pl.UTF-8
-Enigmail to rozszerzenie klienta pocztowego Icedove pozwalające
-użytkownikom na dostęp do uwierzytelniania i szyfrowania zapewnianego
-przez GnuPG.
-
-Główne możliwości:
-- szyfrowanie/podpisywanie poczty przy wysyłaniu,
-  odszyfrowywanie/uwierzytelnianie poczty odebranej
-- obsługa inline-PGP (RFC 2440) i PGP/MIME (RFC 3156)
-- ustawienia domyślne szyfrowania i podpisywania dla każdego konta
-- reguły automatycznego wyboru kluczy i włączenia szyfrowania oraz
-  podpisywania dla każdego adresata
-- interfejs do zarządzania kluczami OpenPGP
-
 %prep
 %setup -qc
 mv comm-esr24 mozilla
 %setup -q -T -D -a2
 cd mozilla
-%{?with_enigmail:%{__gzip} -dc %{SOURCE1} | %{__tar} xf - -C mailnews/extensions}
 /bin/sh %{SOURCE3}
 %patch0 -p1
-%{?with_enigmail:%patch1 -p1}
 %patch2 -p1
 %patch3 -p1
 %patch6 -p1
@@ -326,20 +282,6 @@ ln -s %{topdir}/mozilla/config/*.mk %{objdir}/config
 %{__make} -j1 -C obj-%{_target_cpu} buildsymbols
 %endif
 
-%if %{with enigmail}
-cd mailnews/extensions/enigmail
-./makemake -r -o %{objdir}
-%{__make} -j1 -C %{objdir}/mailnews/extensions/enigmail \
-	STRIP="/bin/true" \
-	CC="%{__cc}" \
-	CXX="%{__cxx}"
-
-%{__make} -j1 -C %{objdir}/mailnews/extensions/enigmail xpi \
-	STRIP="/bin/true" \
-	CC="%{__cc}" \
-	CXX="%{__cxx}"
-%endif
-
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{name},%{_datadir}/%{name},%{_pixmapsdir},%{_desktopdir}}
@@ -422,20 +364,6 @@ TMPDIR= TMP= HOME=$t %{_libdir}/%{name}/icedove -register
 rm -rf $t
 EOF
 chmod a+rx $RPM_BUILD_ROOT%{_libdir}/%{name}/register
-
-%if %{with enigmail}
-ext_dir=$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions/\{847b3a00-7ab1-11d4-8f02-006008948af5\}
-install -d $ext_dir/{chrome,components,defaults/preferences,modules}
-cd mozilla/dist/bin
-cp -rfLp chrome/enigmail.jar $ext_dir/chrome
-cp -rfLp components/enig* $ext_dir/components
-cp -rfLp defaults/preferences/enigmail.js $ext_dir/defaults/preferences
-cp -rfLp modules/{commonFuncs,enigmailCommon,keyManagement,pipeConsole,subprocess}.jsm $ext_dir/modules
-cp -rfLp modules/{subprocess_worker_unix,subprocess_worker_win}.js $ext_dir/modules
-cd -
-cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/install.rdf $ext_dir
-cp -p %{topdir}/mozilla/mailnews/extensions/enigmail/package/chrome.manifest $ext_dir/chrome.manifest
-%endif
 
 # mozldap
 %{__sed} -i '/lib\(ldap\|ldif\|prldap\)60.so/d' $RPM_BUILD_ROOT%{_libdir}/%{name}/dependentlibs.list
@@ -536,20 +464,4 @@ exit 0
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/modules
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/calendar-js
 %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/timezones.sqlite
-%endif
-
-%if %{with enigmail}
-%files addon-enigmail
-%defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/defaults
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/chrome
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/chrome.manifest
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/install.rdf
-%dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.xpt
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/components/*.js
-%dir %{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/modules
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/modules/*.jsm
-%{_libdir}/%{name}/extensions/{847b3a00-7ab1-11d4-8f02-006008948af5}/modules/*.js
 %endif
