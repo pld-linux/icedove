@@ -1,5 +1,5 @@
---- xulrunner-21.0/mozilla/build/virtualenv/populate_virtualenv.py~	2013-05-11 21:19:23.000000000 +0200
-+++ xulrunner-21.0/mozilla/build/virtualenv/populate_virtualenv.py	2013-05-14 22:51:32.136719267 +0200
+--- xulrunner-27.0/mozilla/python/mozbuild/mozbuild/virtualenv.py~	2013-05-11 21:19:23.000000000 +0200
++++ xulrunner-27.0/mozilla/python/mozbuild/mozbuild/virtualenv.py	2013-05-14 22:51:32.136719267 +0200
 @@ -37,8 +37,7 @@
      @property
      def virtualenv_script_path(self):

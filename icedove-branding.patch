@@ -86,6 +86,14 @@
  
  // Enables some extra Extension System Logging (can reduce performance) 
  pref("extensions.logging.enabled", false); 
+@@ -208,6 +207,7 @@ pref("extensions.update.url", "https://versioncheck.addons.mozilla.org/update/Ve
+ pref("extensions.update.interval", 86400);  // Check for updates to Extensions and
+                                             // Themes every day
+ 
++pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/themes/");
+ pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
+ pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
+ 
 @@ -391,7 +391,7 @@
  
  pref("spellchecker.dictionary", "");
@@ -113,18 +121,17 @@
  
  // Windows taskbar support
  #ifdef XP_WIN
---- mozilla/mail/base/content/baseMenuOverlay.xul~	2011-08-12 15:52:04.000000000 +0200
-+++ mozilla/mail/base/content/baseMenuOverlay.xul	2011-09-17 15:29:32.946531066 +0200
-@@ -73,9 +73,6 @@
-       <menuitem id="whatsNew"
-                 label="&whatsNewCmd.label;" accesskey="&whatsNewCmd.accesskey;"
-                 oncommand="openWhatsNew();"/>
--      <menuitem id="releaseNotes"
--                label="&releaseCmd2.label;" accesskey="&releaseCmd2.accesskey;"
--                oncommand="openFormattedURL('app.releaseNotesURL');"/>
-       <menuseparator id="functionsSeparator"/>
-       <menuitem id="featureConfigurator"
-                 label="&featureConfiguratorCmd.label;"
+--- mozilla/mail/locales/en-US/chrome/messenger/accountCreation.dtd~
++++ mozilla/mail/locales/en-US/chrome/messenger/accountCreation.dtd
+@@ -78,7 +78,7 @@
+ <!ENTITY changeSettings.label            "Change Settings">
+ <!ENTITY changeSettings.accesskey        "S">
+ 
+-<!ENTITY contactYourProvider.description "&brandShortName; can allow you to get to your mail using the provided configurations. However, you should contact your administrator or email provider regarding these improper connections. See the Thunderbird FAQ for more information.">
++<!ENTITY contactYourProvider.description "&brandShortName; can allow you to get to your mail using the provided configurations. However, you should contact your administrator or email provider regarding these improper connections. See the Icedove FAQ for more information.">
+ 
+ <!ENTITY insecureServer.tooltip.title    "Warning! This is an insecure server.">
+ <!ENTITY insecureServer.tooltip.details  "Click circle for more details.">
 --- mozilla/mail/confvars.sh~	2011-08-12 15:52:05.000000000 +0200
 +++ mozilla/mail/confvars.sh	2011-09-17 15:34:33.613167078 +0200
 @@ -36,8 +36,8 @@
@@ -138,15 +145,3 @@
  MOZ_UPDATER=1
  MOZ_THUNDERBIRD=1
  MOZ_CHROME_FILE_FORMAT=omni
---- mozilla/mozilla/toolkit/xre/nsAppRunner.cpp~	2011-08-12 16:16:45.000000000 +0200
-+++ mozilla/mozilla/toolkit/xre/nsAppRunner.cpp	2011-09-17 15:36:16.599823973 +0200
-@@ -1324,8 +1324,7 @@
- static inline void
- DumpVersion()
- {
--  printf("%s %s %s", 
--         gAppData->vendor ? gAppData->vendor : "", gAppData->name, gAppData->version);
-+  printf("%s %s", gAppData->name, gAppData->version);
-   if (gAppData->copyright)
-       printf(", %s", gAppData->copyright);
-   printf("\n");

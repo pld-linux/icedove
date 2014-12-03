@@ -27,9 +27,9 @@
 +    LDAP_COMPONENT=mozldap
 +    LDAP_MODULE="MODULE(nsLDAPProtocolModule)"
 +elif test "$MOZ_LDAP_XPCOM"; then
-     MOZ_ARG_ENABLE_BOOL(incomplete-toolkit-ldap-autocomplete,
-     [  --enable-incomplete-toolkit-ldap-autocomplete Builds a JavaScript component that implements an LDAP autocomplete component using the toolkit interfaces rather than the C++ component using the obsolete XPFE interfaces. ],
-         MOZ_INCOMPLETE_TOOLKIT_LDAP_AUTOCOMPLETE=1,
+     LDAP_CFLAGS='-I${DIST}/public/ldap'
+     if test "$OS_ARCH" = "WINNT"; then
+         if test -n "$GNU_CC"; then
 @@ -118,7 +130,7 @@
  
  # if we're building the LDAP XPCOM component, we need to build

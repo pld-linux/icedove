@@ -25,19 +25,18 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	24.8.1
-Release:	1
+Version:	31.3.0
+Release:	0.1
 License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	24f90b2a2da3b0eee1ffc527bcf765a8
+# Source0-md5:	3781dfb541412c7f6b530a654b834ce5
 Source2:	%{name}-branding.tar.bz2
 # Source2-md5:	d8e6897870bf288fdf264c0e9ef85f7d
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
-Patch2:		%{name}-sh.patch
 Patch3:		%{name}-fonts.patch
 Patch6:		%{name}-prefs.patch
 Patch7:		system-mozldap.patch
@@ -46,7 +45,6 @@ Patch10:	%{name}-extensiondir.patch
 Patch12:	no-subshell.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
 Patch13:	system-virtualenv.patch
-Patch14:	gyp-slashism.patch
 Patch15:	enable-addons.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
@@ -146,12 +144,11 @@ funkcjonalność kalendarza.
 
 %prep
 %setup -qc
-mv comm-esr24 mozilla
+%{__mv} comm-esr31 mozilla
 %setup -q -T -D -a2
 cd mozilla
 /bin/sh %{SOURCE3}
 %patch0 -p1
-%patch2 -p1
 %patch3 -p1
 %patch6 -p1
 %patch7 -p1
@@ -159,7 +156,6 @@ cd mozilla
 %patch10 -p2
 %patch12 -p1
 %patch13 -p1
-%patch14 -p1
 %patch15 -p1
 
 %build

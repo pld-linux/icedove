@@ -9,18 +9,18 @@
  
  // Preferences for AMO integration
  pref("extensions.getAddons.cache.enabled", true);
---- comm-release/mozilla/toolkit/mozapps/extensions/XPIProvider.jsm.addons	2011-11-21 11:28:32.000000000 +0100
-+++ comm-release/mozilla/toolkit/mozapps/extensions/XPIProvider.jsm	2011-12-14 12:43:42.461184351 +0100
+--- comm-release/mozilla/toolkit/mozapps/extensions/internal/XPIProvider.jsm.addons	2011-11-21 11:28:32.000000000 +0100
++++ comm-release/mozilla/toolkit/mozapps/extensions/internal/XPIProvider.jsm	2011-12-14 12:43:42.461184351 +0100
 @@ -1591,8 +1591,8 @@ var XPIProvider = {
-       this.showUpgradeUI();
-       flushCaches = true;
-     }
--    else if (aAppChanged === undefined) {
--      // For new profiles we will never need to show the add-on selection UI
-+    else {
-+      // For all profiles we will never need to show the add-on selection UI
-       Services.prefs.setBoolPref(PREF_SHOWN_SELECTION_UI, true);
-     }
+         this.showUpgradeUI();
+         flushCaches = true;
+       }
+-      else if (aAppChanged === undefined) {
+-        // For new profiles we will never need to show the add-on selection UI
++      else {
++        // For all profiles we will never need to show the add-on selection UI
+         Services.prefs.setBoolPref(PREF_SHOWN_SELECTION_UI, true);
+       }
  
 --- comm-release/suite/browser/browser-prefs.js~	2013-11-06 19:54:38.789734061 +0100
 +++ comm-release/suite/browser/browser-prefs.js	2013-11-06 20:55:33.765611935 +0100
