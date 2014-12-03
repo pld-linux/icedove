@@ -1,0 +1,22 @@
+--- icedove-31.3.0/mozilla/mozilla/configure.in~	2014-11-27 23:16:21.000000000 +0100
++++ icedove-31.3.0/mozilla/mozilla/configure.in	2014-12-03 22:29:51.134278969 +0100
+@@ -3655,7 +3655,7 @@
+     _USE_SYSTEM_NSS=1 )
+ 
+ if test -n "$_USE_SYSTEM_NSS"; then
+-    AM_PATH_NSS(3.16.2.3, [MOZ_NATIVE_NSS=1], [AC_MSG_ERROR([you don't have NSS installed or your version is too old])])
++    AM_PATH_NSS(3.17.0, [MOZ_NATIVE_NSS=1], [AC_MSG_ERROR([you don't have NSS installed or your version is too old])])
+ fi
+ 
+ if test -n "$MOZ_NATIVE_NSS"; then
+--- icedove-31.3.0/mozilla/mozilla/configure~	2014-11-27 23:18:38.000000000 +0100
++++ icedove-31.3.0/mozilla/mozilla/configure	2014-12-03 22:29:29.704278073 +0100
+@@ -15225,7 +15225,7 @@
+   echo "$ac_t""no" 1>&6
+ fi
+ 
+-	min_nss_version=3.16.2.3
++	min_nss_version=3.17.0
+ 	echo $ac_n "checking for NSS - version >= $min_nss_version""... $ac_c" 1>&6
+ echo "configure:15231: checking for NSS - version >= $min_nss_version" >&5
+ 

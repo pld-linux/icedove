@@ -13,7 +13,7 @@
 %endif
 
 %define		nspr_ver	4.10.2
-%define		nss_ver		3.16.2
+%define		nss_ver		3.16.2.3
 
 %define		xulrunner_ver	2:24.0
 
@@ -46,6 +46,7 @@ Patch12:	no-subshell.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
 Patch13:	system-virtualenv.patch
 Patch15:	enable-addons.patch
+Patch16:	bump-nss-req.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
@@ -157,6 +158,7 @@ cd mozilla
 %patch12 -p1
 %patch13 -p1
 %patch15 -p1
+%patch16 -p1
 
 %build
 cd mozilla
