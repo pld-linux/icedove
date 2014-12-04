@@ -7,6 +7,8 @@
 %bcond_without	lightning	# disable Sunbird/Lightning calendar
 %bcond_with	xulrunner	# system xulrunner
 %bcond_with	crashreporter	# report crashes to crash-stats.mozilla.com
+# - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
+%bcond_with	shared_js	# shared libmozjs library [broken]
 
 %if 0%{?_enable_debug_packages} != 1
 %undefine	crashreporter
@@ -240,7 +242,7 @@ ac_add_options --disable-ldap
 ac_add_options --enable-libxul
 ac_add_options --enable-pango
 ac_add_options --enable-postscript
-ac_add_options --enable-shared-js
+%{?with_shared_js:ac_add_options --enable-shared-js}
 ac_add_options --enable-single-profile
 ac_add_options --enable-startup-notification
 ac_add_options --enable-system-cairo
@@ -407,7 +409,7 @@ exit 0
 %{_libdir}/%{name}/platform.ini
 %attr(755,root,root) %{_libdir}/%{name}/components/*.so
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
-%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so
+%{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
 %attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
