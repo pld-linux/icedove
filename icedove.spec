@@ -33,8 +33,8 @@ License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
 # Source0-md5:	3781dfb541412c7f6b530a654b834ce5
-Source2:	%{name}-branding.tar.bz2
-# Source2-md5:	d8e6897870bf288fdf264c0e9ef85f7d
+Source2:	%{name}-branding.tar.xz
+# Source2-md5:	85992ebd22e36ba69743b06b4c53fb2a
 Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
