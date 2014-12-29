@@ -14,10 +14,10 @@
 %undefine	crashreporter
 %endif
 
-%define		nspr_ver	4.10.2
-%define		nss_ver		3.16.2.3
+%define		nspr_ver	4.10.6
+%define		nss_ver		3.17.0
 
-%define		xulrunner_ver	2:24.0
+%define		xulrunner_ver	2:31.3.0
 
 %if %{without xulrunner}
 # The actual sqlite version (see RHBZ#480989):
@@ -74,15 +74,15 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	mozldap-devel
 BuildRequires:	nspr-devel >= 1:%{nspr_ver}
 BuildRequires:	nss-devel >= 1:%{nss_ver}
-BuildRequires:	pango-devel >= 1:1.14.0
+BuildRequires:	pango-devel >= 1:1.22.0
 BuildRequires:	perl-base >= 1:5.6
 BuildRequires:	python-virtualenv
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.5
 BuildRequires:	sed >= 4.0
-BuildRequires:	sqlite3-devel >= 3.7.17
+BuildRequires:	sqlite3-devel >= 3.8.4.2
 BuildRequires:	startup-notification-devel >= 0.8
-BuildRequires:	libvpx-devel >= 1.0.0
+BuildRequires:	libvpx-devel >= 1.3.0
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
@@ -90,14 +90,16 @@ BuildRequires:	yasm
 BuildRequires:	zip
 %if %{with xulrunner}
 BuildRequires:	xulrunner-devel >= %{xulrunner_ver}
-BuildRequires:	xulrunner-devel < 2:25
+BuildRequires:	xulrunner-devel < 2:32
 %else
 Requires:	glib2 >= 1:2.20
 %{!?with_gtk3:Requires:	gtk+2 >= 2:2.14}
 %{?with_gtk3:Requires:	gtk+3 >= 3.0.0}
+Requires:	libvpx >= 1.3.0
 Requires:	myspell-common
 Requires:	nspr >= 1:%{nspr_ver}
 Requires:	nss >= 1:%{nss_ver}
+Requires:	pango >= 1:1.22.0
 Requires:	sqlite3 >= %{sqlite_build_version}
 %endif
 Requires(post):	mktemp >= 1.5-18
