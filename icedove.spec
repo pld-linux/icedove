@@ -27,12 +27,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	31.3.0
+Version:	31.4.0
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	3781dfb541412c7f6b530a654b834ce5
+# Source0-md5:	da9c86271bb498c5feb02ce9c360669f
 Source2:	%{name}-branding.tar.xz
 # Source2-md5:	85992ebd22e36ba69743b06b4c53fb2a
 Source3:	%{name}-rm_nonfree.sh
@@ -65,6 +65,7 @@ BuildRequires:	gstreamer0.10-plugins-base-devel
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libevent-devel
+BuildRequires:	libicu-devel >= 50.1
 BuildRequires:	libiw-devel
 # requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
@@ -260,6 +261,7 @@ ac_add_options --with-system-libxul
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
 ac_add_options --with-system-ffi
+ac_add_options --with-system-icu
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
