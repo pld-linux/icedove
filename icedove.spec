@@ -27,12 +27,12 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	31.4.0
+Version:	31.5.0
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	da9c86271bb498c5feb02ce9c360669f
+# Source0-md5:	d79f8d232f2ad3d501ac5ff5ca4ecbe8
 Source2:	%{name}-branding.tar.xz
 # Source2-md5:	85992ebd22e36ba69743b06b4c53fb2a
 Source3:	%{name}-rm_nonfree.sh
