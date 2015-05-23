@@ -28,7 +28,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	31.5.0
-Release:	1
+Release:	2
 License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -39,16 +39,17 @@ Source3:	%{name}-rm_nonfree.sh
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
-Patch3:		%{name}-fonts.patch
-Patch6:		%{name}-prefs.patch
-Patch7:		system-mozldap.patch
-Patch8:		%{name}-makefile.patch
-Patch10:	%{name}-extensiondir.patch
-Patch12:	no-subshell.patch
+Patch1:		%{name}-fonts.patch
+Patch2:		%{name}-prefs.patch
+Patch3:		system-mozldap.patch
+Patch4:		%{name}-makefile.patch
+Patch5:		%{name}-extensiondir.patch
+Patch6:		no-subshell.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
-Patch13:	system-virtualenv.patch
-Patch15:	enable-addons.patch
-Patch16:	bump-nss-req.patch
+Patch7:		system-virtualenv.patch
+Patch8:		enable-addons.patch
+Patch9:		bump-nss-req.patch
+Patch10:	libvpx2.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
@@ -155,15 +156,16 @@ funkcjonalność kalendarza.
 cd mozilla
 /bin/sh %{SOURCE3}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 %patch3 -p1
+%patch4 -p2
+%patch5 -p2
 %patch6 -p1
 %patch7 -p1
-%patch8 -p2
-%patch10 -p2
-%patch12 -p1
-%patch13 -p1
-%patch15 -p1
-%patch16 -p2
+%patch8 -p1
+%patch9 -p2
+%patch10 -p1
 
 %build
 cd mozilla
