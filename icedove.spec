@@ -50,6 +50,7 @@ Patch7:		system-virtualenv.patch
 Patch8:		enable-addons.patch
 Patch9:		bump-nss-req.patch
 Patch10:	libvpx2.patch
+Patch11:	freetype-2.6.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
@@ -166,6 +167,7 @@ cd mozilla
 %patch8 -p1
 %patch9 -p2
 %patch10 -p1
+%patch11 -p1
 
 %build
 cd mozilla
