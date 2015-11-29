@@ -38,10 +38,8 @@ Source2:	%{name}-branding.tar.xz
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
-Patch1:		%{name}-fonts.patch
 Patch2:		%{name}-prefs.patch
 Patch3:		system-mozldap.patch
-Patch4:		%{name}-makefile.patch
 Patch5:		%{name}-extensiondir.patch
 Patch6:		no-subshell.patch
 # Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
@@ -154,10 +152,8 @@ funkcjonalność kalendarza.
 %setup -q -T -D -a2
 cd mozilla
 %patch0 -p1
-#%patch1 -p1
 %patch2 -p1
 %patch3 -p1
-#%patch4 -p2
 %patch5 -p2
 %patch6 -p1
 %patch7 -p1
