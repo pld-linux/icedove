@@ -4,8 +4,8 @@
      _USE_SYSTEM_NSS=1 )
  
  if test -n "$_USE_SYSTEM_NSS"; then
--    AM_PATH_NSS(3.16.2.3, [MOZ_NATIVE_NSS=1], [AC_MSG_ERROR([you don't have NSS installed or your version is too old])])
-+    AM_PATH_NSS(3.17.0, [MOZ_NATIVE_NSS=1], [AC_MSG_ERROR([you don't have NSS installed or your version is too old])])
+-    AM_PATH_NSS(3.19.2.1, [MOZ_NATIVE_NSS=1], [AC_MSG_ERROR([you don't have NSS installed or your version is too old])])
++    AM_PATH_NSS(3.20.0, [MOZ_NATIVE_NSS=1], [AC_MSG_ERROR([you don't have NSS installed or your version is too old])])
  fi
  
  if test -n "$MOZ_NATIVE_NSS"; then
@@ -15,8 +15,8 @@
    echo "$ac_t""no" 1>&6
  fi
  
--	min_nss_version=3.16.2.3
-+	min_nss_version=3.17.0
+-	min_nss_version=3.19.2.1
++	min_nss_version=3.20.0
  	echo $ac_n "checking for NSS - version >= $min_nss_version""... $ac_c" 1>&6
  echo "configure:15231: checking for NSS - version >= $min_nss_version" >&5
  

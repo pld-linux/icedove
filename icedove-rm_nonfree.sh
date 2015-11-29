@@ -92,7 +92,6 @@ rm -fv ./suite/themes/modern/communicator/brand/throbber16-anim.png
 rm -fv ./suite/themes/modern/communicator/brand/throbber16-single.png
 rm -fvr ./other-licenses/
 rm -fvr ./mozilla/other-licenses/7zstub
-rm -fvr ./mozilla/other-licenses/atk-1.0
 rm -fvr ./mozilla/other-licenses/branding
 rm -fvr ./mozilla/other-licenses/bsdiff
 rm -fvr ./mozilla/other-licenses/ia2

@@ -1,5 +1,13 @@
 --- mozilla/mozilla/config/system-headers~	2015-05-25 23:28:44.000000000 +0200
 +++ mozilla/mozilla/config/system-headers	2015-06-11 23:07:35.000000000 +0200
+@@ -454,6 +454,7 @@
+ frame/log.h
+ frame/req.h
+ freetype/freetype.h
++freetype/ftfntfmt.h
+ freetype/ftcache.h
+ freetype/ftglyph.h
+ freetype/ftsynth.h
 @@ -471,6 +470,7 @@
  freetype/ftxf86.h
  freetype.h

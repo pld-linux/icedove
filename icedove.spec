@@ -15,7 +15,7 @@
 %endif
 
 %define		nspr_ver	4.10.6
-%define		nss_ver		3.17.0
+%define		nss_ver		3.19.2.1
 
 %define		xulrunner_ver	2:31.3.0
 
@@ -27,15 +27,14 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	31.7.0
+Version:	38.4.0
 Release:	1
 License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
-# Source0-md5:	dcf14a6d4aaba2f695a1ec30c296e356
+# Source0-md5:	483373b1485cf2edea77c75a69602870
 Source2:	%{name}-branding.tar.xz
-# Source2-md5:	85992ebd22e36ba69743b06b4c53fb2a
-Source3:	%{name}-rm_nonfree.sh
+# Source2-md5:	66753bc5c924d7492b6b5c9bdc3e4b5b
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
@@ -49,7 +48,6 @@ Patch6:		no-subshell.patch
 Patch7:		system-virtualenv.patch
 Patch8:		enable-addons.patch
 Patch9:		bump-nss-req.patch
-Patch10:	libvpx2.patch
 Patch11:	freetype-2.6.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
@@ -152,21 +150,19 @@ funkcjonalność kalendarza.
 
 %prep
 %setup -qc
-%{__mv} comm-esr31 mozilla
+%{__mv} comm-esr38 mozilla
 %setup -q -T -D -a2
 cd mozilla
-/bin/sh %{SOURCE3}
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p2
+#%patch4 -p2
 %patch5 -p2
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2
-%patch10 -p1
 %patch11 -p1
 
 %build
@@ -304,7 +300,7 @@ cd %{objdir}
 %{__make} -C icedove/branding install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-cp -a mozilla/dist/icedove/* $RPM_BUILD_ROOT%{_libdir}/%{name}/
+cp -a dist/icedove/* $RPM_BUILD_ROOT%{_libdir}/%{name}/
  
 %if %{with xulrunner}
 # needed to find mozilla runtime
@@ -317,12 +313,8 @@ ln -s ../xulrunner $RPM_BUILD_ROOT%{_libdir}/%{name}/xulrunner
 
 # Add debuginfo for crash-stats.mozilla.com
 install -d $RPM_BUILD_ROOT%{_exec_prefix}/lib/debug%{_libdir}/%{name}
-cp -a mozilla/dist/%{name}-%{version}.en-US.linux-*.crashreporter-symbols.zip $RPM_BUILD_ROOT%{_prefix}/lib/debug%{_libdir}/%{name}
+cp -a dist/%{name}-%{version}.en-US.linux-*.crashreporter-symbols.zip $RPM_BUILD_ROOT%{_prefix}/lib/debug%{_libdir}/%{name}
 %endif
-
-# copy manually lightning files, somewhy they are not installed by make
-cp -a mozilla/dist/bin/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103} \
-	$RPM_BUILD_ROOT%{_libdir}/%{name}/extensions
 
 # move arch independant ones to datadir
 mv $RPM_BUILD_ROOT%{_libdir}/%{name}/searchplugins $RPM_BUILD_ROOT%{_datadir}/%{name}/searchplugins
@@ -419,7 +411,6 @@ exit 0
 %attr(755,root,root) %{_libdir}/%{name}/libmozalloc.so
 %{?with_shared_js:%attr(755,root,root) %{_libdir}/%{name}/libmozjs.so}
 %attr(755,root,root) %{_libdir}/%{name}/libxul.so
-%attr(755,root,root) %{_libdir}/%{name}/mozilla-xremote-client
 %attr(755,root,root) %{_libdir}/%{name}/plugin-container
 %endif
 
@@ -438,6 +429,8 @@ exit 0
 %{_desktopdir}/icedove.desktop
 
 %dir %{_datadir}/%{name}
+%dir %{_libdir}/%{name}/distribution
+%dir %{_libdir}/%{name}/distribution/extensions
 %{_datadir}/%{name}/extensions
 %{_datadir}/%{name}/searchplugins
 
@@ -459,18 +452,19 @@ exit 0
 %if %{with lightning}
 %files addon-lightning
 %defattr(644,root,root,755)
-%dir %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/application.ini
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome.manifest
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/defaults
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/install.rdf
-%dir %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components
-%attr(755,root,root) %{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.so
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.js
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.manifest
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.xpt
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/modules
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/calendar-js
-%{_libdir}/%{name}/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/timezones.sqlite
+%dir %{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/app.ini
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome.jar
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/chrome.manifest
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/defaults
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/install.rdf
+%dir %{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components
+%attr(755,root,root) %{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.so
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.js
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*manifest
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/components/*.xpt
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/modules
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/calendar-js
+%dir %{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/timezones
+%{_libdir}/%{name}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}/timezones/zones.json
 %endif

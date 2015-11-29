@@ -1,30 +1,30 @@
---- icedove-6.0/mozilla/Makefile.in~	2011-08-12 16:52:03.000000000 +0300
-+++ icedove-6.0/mozilla/Makefile.in	2011-08-26 13:00:59.373870016 +0300
-@@ -26,21 +26,7 @@
+--- icedove-6.0/mozilla/mozilla/Makefile.in~	2011-08-12 16:52:03.000000000 +0300
++++ icedove-6.0/mozilla/mozilla/Makefile.in	2011-08-26 13:00:59.373870016 +0300
+@@ -26,22 +26,6 @@
+ 	@exit 1
+ endif
  
- include $(topsrcdir)/config/config.mk
- 
--default alldep all:: $(topsrcdir)/configure config.status
--
 -$(topsrcdir)/configure: $(topsrcdir)/configure.in
+-$(topsrcdir)/js/src/configure: $(topsrcdir)/js/src/configure.in
+-$(topsrcdir)/configure $(topsrcdir)/js/src/configure:
 -	@echo "STOP!  configure.in has changed, and your configure is out of date."
 -	@echo "Please rerun autoconf and configure."
 -	@echo "To ignore this message, touch 'configure' in the source directory."
 -	@exit 1
 -
 -config.status: $(topsrcdir)/configure
+-js/src/config.status: $(topsrcdir)/js/src/configure
+-config.status js/src/config.status:
 -	@echo "STOP!  configure has changed and needs to be run in this build directory."
 -	@echo "Please rerun configure."
 -	@echo "To ignore this message, touch 'config.status' in the build directory."
 -	@exit 1
 -
--default export libs clean realclean distclean alldep \
-+default export libs clean realclean distclean \
- maybe_clobber_profiledbuild uploadsymbols all:: $(SUBMAKEFILES)
- 	$(MAKE) -C mozilla $@
- 
---- icedove-6.0/mozilla/client.mk~	2011-08-26 13:10:08.000000000 +0300
-+++ icedove-6.0/mozilla/client.mk	2011-08-26 13:10:11.365956960 +0300
+ # Regenerate the build backend if it is out of date. We only have this rule in
+ # this main make file because having it in rules.mk and applied to partial tree
+ # builds resulted in a world of hurt. Gory details are in bug 877308.
+--- icedove-6.0/mozilla/mozilla/client.mk~	2011-08-26 13:10:08.000000000 +0300
++++ icedove-6.0/mozilla/mozilla/client.mk	2011-08-26 13:10:11.365956960 +0300
 @@ -278,8 +278,8 @@
  	$(TOPSRCDIR)/mozilla/js/src/aclocal.m4 \
  	$(NULL)

@@ -20,13 +20,13 @@
  extensions.{e2fda1a4-762b-4020-b5ad-a41df1933103}.creator=Mozilla Calendar Project
  
  # Lightning branding
---- mozilla/mail/app/application.ini~	2011-08-12 15:52:04.000000000 +0200
-+++ mozilla/mail/app/application.ini	2011-09-17 15:24:45.833226544 +0200
+--- mozilla/im/app/application.ini~	2011-08-12 15:52:04.000000000 +0200
++++ mozilla/im/app/application.ini	2011-09-17 15:24:45.833226544 +0200
 @@ -37,7 +37,7 @@
  
  #filter substitution
  [App]
--Name=Thunderbird
+-Name=Instantbird
 +Name=Icedove
  Version=@APP_VERSION@
  BuildID=@GRE_BUILDID@
@@ -34,33 +34,33 @@
 --- mozilla/mail/app/profile/all-thunderbird.js.orig	2012-03-13 03:37:11.000000000 +0100
 +++ mozilla/mail/app/profile/all-thunderbird.js	2012-03-24 21:42:35.608437888 +0100
 @@ -84,7 +84,7 @@
- pref("app.update.certs.2.commonName", "aus3.mozilla.org");
+ pref("app.update.certs.2.commonName", "aus4.mozilla.org");
  
  // Whether or not app updates are enabled
--pref("app.update.enabled", true);               
-+pref("app.update.enabled", false);               
+-pref("app.update.enabled", true);
++pref("app.update.enabled", false);
  
  // This preference turns on app.update.mode and allows automatic download and
- // install to take place. We use a separate boolean toggle for this to make     
-@@ -117,7 +117,7 @@
+ // install to take place. We use a separate boolean toggle for this to make
+@@ -120,7 +119,7 @@ pref("app.update.url", "https://aus4.mozilla.org/update/3/%PRODUCT%/%VERSION%/%B
  pref("app.update.url.manual", "http://www.getthunderbird.com");
  // A default value for the "More information about this update" link
- // supplied in the "An update is available" page of the update wizard. 
+ // supplied in the "An update is available" page of the update wizard.
 -pref("app.update.url.details", "http://www.mozilla.org/%LOCALE%/%APP%/releases/");
 +pref("app.update.url.details", "http://www.mozilla.org/%LOCALE%/thunderbird/releases/");
  // User-settable override to app.update.url for testing purposes.
  //pref("app.update.url.override", "");
  
-@@ -139,7 +139,7 @@
- #endif
+@@ -149,7 +148,7 @@ pref("toolkit.crashreporter.infoURL",
+      "http://www.mozilla.org/thunderbird/legal/privacy/#crash-reporter");");
  
  // Base URL for web-based support pages.
 -pref("app.support.baseURL", "http://support.live.mozillamessaging.com/%LOCALE%/%APP%/%APPBUILDID%/");
 +pref("app.support.baseURL", "http://support.live.mozillamessaging.com/%LOCALE%/thunderbird/%APPBUILDID%/");
  
- // Controls enabling of the extension system logging (can reduce performance)
- pref("extensions.logging.enabled", false);
-@@ -161,18 +161,18 @@
+ // Show error messages in error console.
+ pref("javascript.options.showInConsole", true);
+@@ -178,18 +177,18 @@ pref("extensions.autoDisableScopes", 15);
  // Preferences for AMO integration
  pref("extensions.getAddons.cache.enabled", true);
  pref("extensions.getAddons.maxResults", 15);
@@ -78,33 +78,35 @@
  // Blocklist preferences
  pref("extensions.blocklist.enabled", true);
  pref("extensions.blocklist.interval", 86400);
- pref("extensions.blocklist.url", "https://addons.mozilla.org/blocklist/3/%APP_ID%/%APP_VERSION%/%PRODUCT%/%BUILD_ID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/%DISTRIBUTION%/%DISTRIBUTION_VERSION%/%PING_COUNT%/%TOTAL_PING_COUNT%/%DAYS_SINCE_LAST_PING%/");
+ pref("extensions.blocklist.url", "https://blocklist.addons.mozilla.org/blocklist/3/%APP_ID%/%APP_VERSION%/%PRODUCT%/%BUILD_ID%/%BUILD_TARGET%/%LOCALE%/%CHANNEL%/%OS_VERSION%/%DISTRIBUTION%/%DISTRIBUTION_VERSION%/%PING_COUNT%/%TOTAL_PING_COUNT%/%DAYS_SINCE_LAST_PING%/");
 -pref("extensions.blocklist.detailsURL", "https://addons.mozilla.org/%LOCALE%/%APP%/blocked/");
--pref("extensions.blocklist.itemURL", "https://addons.mozilla.org/%LOCALE%/%APP%/blocked/%blockID%");
+-pref("extensions.blocklist.itemURL", "https://blocklist.addons.mozilla.org/%LOCALE%/%APP%/blocked/%blockID%");
 +pref("extensions.blocklist.detailsURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/blocked/");
-+pref("extensions.blocklist.itemURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/blocked/%blockID%");
++pref("extensions.blocklist.itemURL", "https://blocklist.addons.mozilla.org/%LOCALE%/thunderbird/blocked/%blockID%");
  
- // Enables some extra Extension System Logging (can reduce performance) 
- pref("extensions.logging.enabled", false); 
-@@ -208,6 +207,7 @@ pref("extensions.update.url", "https://versioncheck.addons.mozilla.org/update/Ve
+ // Enables some extra Extension System Logging (can reduce performance)
+ pref("extensions.logging.enabled", false);
+@@ -209,7 +208,8 @@ pref("extensions.update.background.url", "https://versioncheck-bg.addons.mozilla
  pref("extensions.update.interval", 86400);  // Check for updates to Extensions and
                                              // Themes every day
  
+-pref("extensions.dss.enabled", false);          // Dynamic Skin Switching
 +pref("extensions.getMoreThemesURL", "https://addons.mozilla.org/%LOCALE%/thunderbird/themes/");
- pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
++pref("extensions.dss.enabled", false);          // Dynamic Skin Switching                                               
  pref("extensions.dss.switchPending", false);    // Non-dynamic switch pending after next
  
-@@ -391,7 +391,7 @@
+ pref("extensions.{972ce4c6-7e08-4474-a285-3208198ce6fd}.name", "chrome://messenger/locale/messenger.properties");
+@@ -424,7 +424,7 @@ pref("browser.helperApps.deleteTempFileOnExit", true);
  
  pref("spellchecker.dictionary", "");
  // Dictionary download preference
 -pref("spellchecker.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/%APP%/dictionaries/");
-+pref("spellchecker.dictionaries.download.url", "https://addons.mozilla.org/%LOCALE%/thunderbird/dictionaries/");
++pref("spellchecker.dictionaries.download.url", "https://addons.mozilla.com/%LOCALE%/thunderbird/dictionaries/");
  
  // profile.force.migration can be used to bypass the migration wizard, forcing migration from a particular
- // mail application without any user intervention. Possible values are: 
-@@ -540,7 +540,7 @@
- pref("mailnews.database.global.logging.console", true);
+ // mail application without any user intervention. Possible values are:
+@@ -559,7 +559,7 @@ pref("mailnews.database.global.logging.console", true);
+ pref("mailnews.database.global.search.msg.limit", 1000);
  
  // page to load to find good header add-ons
 -pref("mailnews.migration.header_addons_url","http://live.mozillamessaging.com/%APP%/addons/search?q=header&locale=%LOCALE%&lver=%VERSION%&hver=%VERSION%&os=%OS%");
@@ -112,15 +114,15 @@
  
  // Serif fonts look dated.  Switching those language families to sans-serif
  // where we think it makes sense.  Worth investigating for other font families
-@@ -764,7 +764,7 @@
+@@ -751,7 +751,7 @@ pref("plugins.hide_infobar_for_carbon_failure_plugin", false);
  
- pref("plugins.update.url", "https://www.mozilla.com/%LOCALE%/plugincheck/");
+ pref("plugins.update.url", "https://www.mozilla.org/%LOCALE%/plugincheck/");
  pref("plugins.update.notifyUser", false);
 -pref("plugins.crash.supportUrl", "https://live.mozillamessaging.com/%APP%/plugin-crashed?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
 +pref("plugins.crash.supportUrl", "https://live.mozillamessaging.com/thunderbird/plugin-crashed?locale=%LOCALE%&version=%VERSION%&os=%OS%&buildid=%APPBUILDID%");
  
- // Windows taskbar support
- #ifdef XP_WIN
+ // Click-to-play has not been ported for TB yet, see bug 814168.
+ // The default plugin state should be changed to "ask to activate" when this
 --- mozilla/mail/locales/en-US/chrome/messenger/accountCreation.dtd~
 +++ mozilla/mail/locales/en-US/chrome/messenger/accountCreation.dtd
 @@ -78,7 +78,7 @@
