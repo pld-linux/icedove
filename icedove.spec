@@ -82,6 +82,7 @@ BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3.8.4.2
 BuildRequires:	startup-notification-devel >= 0.8
 BuildRequires:	libvpx-devel >= 1.3.0
+BuildRequires:	virtualenv
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXt-devel
