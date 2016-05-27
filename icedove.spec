@@ -220,6 +220,7 @@ ac_add_options --enable-crashreporter
 ac_add_options --disable-crashreporter
 %endif
 ac_add_options --disable-elf-dynstr-gc
+ac_add_options --disable-elf-hack
 ac_add_options --disable-gnomeui
 ac_add_options --disable-gnomevfs
 ac_add_options --disable-installer
