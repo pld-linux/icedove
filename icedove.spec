@@ -27,22 +27,25 @@
 Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
-Version:	45.8.0
-Release:	0.1
+Version:	38.5.0
+Release:	5
 License:	MPL v2.0
 Group:		X11/Applications/Mail
-Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.xz
-# Source0-md5:	4e04b1618273f946f00f8ea547578895
+Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
+# Source0-md5:	516ddb66f788ea7db48ed0d76f7a7ebc
 Source2:	%{name}-branding.tar.xz
 # Source2-md5:	66753bc5c924d7492b6b5c9bdc3e4b5b
 Source4:	%{name}.desktop
 Source5:	%{name}.sh
 Patch0:		%{name}-branding.patch
 Patch2:		%{name}-prefs.patch
+Patch3:		system-mozldap.patch
 Patch5:		%{name}-extensiondir.patch
 Patch6:		no-subshell.patch
+# Edit patch below and restore --system-site-packages when system virtualenv gets 1.7 upgrade
+Patch7:		system-virtualenv.patch
 Patch8:		enable-addons.patch
-Patch9:		mozilla-1269171-badalloc.patch
+Patch9:		bump-nss-req.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
@@ -119,7 +122,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_noautoreq		libmozalloc.so libmozjs.so libxul.so
 %endif
 
-%define		topdir		%{_builddir}/thunderbird-%{version}
+%define		topdir		%{_builddir}/%{name}-%{version}
 %define		objdir		%{topdir}/obj-%{_target_cpu}
 
 %description
@@ -144,15 +147,25 @@ Lightning to rozszerzenie do klienta poczty Icedove dodające
 funkcjonalność kalendarza.
 
 %prep
-%setup -q -n thunderbird-%{version} -a2
+%setup -qc
+%{__mv} comm-esr38 mozilla
+%setup -q -T -D -a2
+cd mozilla
 %patch0 -p1
 %patch2 -p1
+%patch3 -p1
 %patch5 -p2
 %patch6 -p1
+%patch7 -p1
 %patch8 -p1
-%patch9 -p1
+%patch9 -p2
 
 %build
+cd mozilla
+cp -f %{_datadir}/automake/config.* mozilla/build/autoconf
+cp -f %{_datadir}/automake/config.* mozilla/nsprpub/build/autoconf
+cp -f %{_datadir}/automake/config.* ldap/sdks/c-sdk/config/autoconf
+
 cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=%{objdir}
 
@@ -255,7 +268,7 @@ ac_add_options --with-system-zlib
 EOF
 
 mkdir -p %{objdir}/config
-ln -sf %{topdir}/mozilla/config/*.mk %{objdir}/config
+ln -s %{topdir}/mozilla/config/*.mk %{objdir}/config
 
 %{__make} -j1 -f client.mk build \
 	STRIP="/bin/true" \
