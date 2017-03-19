@@ -1,5 +1,6 @@
 # TODO:
 # - build with system mozldap
+# - update to current version and debrand, see thunderbird.spec
 #
 # Conditional builds
 %bcond_with	gtk3		# GTK+ 3.x instead of 2.x
@@ -9,6 +10,7 @@
 %bcond_with	crashreporter	# report crashes to crash-stats.mozilla.com
 # - disabled shared_js - https://bugzilla.mozilla.org/show_bug.cgi?id=1039964
 %bcond_with	shared_js	# shared libmozjs library [broken]
+%bcond_with	system_icu	# build with system ICU (disabled due to crashes with system icu 58.2)
 
 %if 0%{?_enable_debug_packages} != 1
 %undefine	crashreporter
@@ -28,7 +30,7 @@ Summary:	Icedove - email client
 Summary(pl.UTF-8):	Icedove - klient poczty
 Name:		icedove
 Version:	38.5.0
-Release:	5
+Release:	6
 License:	MPL v2.0
 Group:		X11/Applications/Mail
 Source0:	http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/%{version}/source/thunderbird-%{version}.source.tar.bz2
@@ -46,6 +48,8 @@ Patch6:		no-subshell.patch
 Patch7:		system-virtualenv.patch
 Patch8:		enable-addons.patch
 Patch9:		bump-nss-req.patch
+Patch10:	gcc6.patch
+Patch11:	sed-syntax.patch
 URL:		http://www.pld-linux.org/Packages/Icedove
 BuildRequires:	GConf2-devel >= 1.2.1
 BuildRequires:	alsa-lib-devel
@@ -62,7 +66,7 @@ BuildRequires:	gstreamer0.10-plugins-base-devel
 BuildRequires:	hunspell-devel
 BuildRequires:	libIDL-devel >= 0.8.0
 BuildRequires:	libevent-devel
-BuildRequires:	libicu-devel >= 50.1
+%{?with_system_icu:BuildRequires:	libicu-devel >= 50.1}
 BuildRequires:	libiw-devel
 # requires libjpeg-turbo implementing at least libjpeg 6b API
 BuildRequires:	libjpeg-devel >= 6b
@@ -159,6 +163,8 @@ cd mozilla
 %patch7 -p1
 %patch8 -p1
 %patch9 -p2
+%patch10 -p1
+%patch11 -p1
 
 %build
 cd mozilla
@@ -169,8 +175,8 @@ cp -f %{_datadir}/automake/config.* ldap/sdks/c-sdk/config/autoconf
 cat << EOF > .mozconfig
 mk_add_options MOZ_OBJDIR=%{objdir}
 
-export CFLAGS="%{rpmcflags}"
-export CXXFLAGS="%{rpmcflags}"
+export CFLAGS="%{rpmcflags} -fno-schedule-insns2 -fno-delete-null-pointer-checks"
+export CXXFLAGS="%{rpmcxxflags} -fno-schedule-insns2 -fno-delete-null-pointer-checks"
 
 %if %{with crashreporter}
 export MOZ_DEBUG_SYMBOLS=1
@@ -200,7 +206,7 @@ ac_add_options --enable-crash-on-assert
 ac_add_options --disable-debug
 ac_add_options --disable-debug-modules
 ac_add_options --disable-logging
-ac_add_options --enable-optimize="%{rpmcflags} -Os"
+ac_add_options --enable-optimize="%{rpmcflags} -Os -fno-schedule-insns2 -fno-delete-null-pointer-checks"
 %endif
 ac_add_options --disable-strip
 ac_add_options --disable-strip-libs
@@ -257,7 +263,7 @@ ac_add_options --with-system-libxul
 ac_add_options --with-pthreads
 ac_add_options --with-system-bz2
 ac_add_options --with-system-ffi
-ac_add_options --with-system-icu
+ac_add_options --with%{!?with_system_icu:out}-system-icu
 ac_add_options --with-system-jpeg
 ac_add_options --with-system-libevent
 ac_add_options --with-system-libvpx
